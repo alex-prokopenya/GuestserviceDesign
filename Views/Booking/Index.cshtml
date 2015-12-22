@@ -190,6 +190,7 @@
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.extime, order.excursion.extime.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.grouptype, order.excursion.grouptype.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.date, order.excursion.date.ToString("s"))
+                        @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.price_id, order.excursion.price_id.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.language, order.excursion.language.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.pax.adult, order.excursion.pax.adult.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.pax.child, order.excursion.pax.child.ToString())

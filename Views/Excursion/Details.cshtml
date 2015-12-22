@@ -865,7 +865,8 @@
                             extime: (price && price.time) ? price.time.id : null,
                             language: (price && price.language) ? price.language.id : null,
                             grouptype: (price && price.group) ? price.group.id : null,
-                            // departure: (price && price.departure) ? price.departure.id : null,
+                            price_id: (price && price.price_id) ? price.price_id : null,
+                            departure: (price && price.departure) ? price.departure.id : null,
                             pickuppoint: (cartinfoPickUpPoint()) ? cartinfoPickUpPoint().id : null,
                             pickuphotel: (cartinfoPickUpHotel() && cartinfoPickUpHotel().id) ? cartinfoPickUpHotel().id : null,
                             pax: { adult: cartinfoAdult(), child: cartinfoChild(), infant: cartinfoInfant() },
@@ -2319,7 +2320,8 @@ $("#ex_cont").ready(function(){
                                 <span style="text-transform: uppercase; color:#cccccc;">@ExcursionStrings.ResourceManager.Get("DetailDescription"):</span>  
                                 <!--ko if:language --><span data-bind="text:language.name"></span>,<!--/ko-->
                                 <!--ko if:time --><span data-bind="text:time.name"></span>,<!--/ko-->                            
-                                <!--ko if:group --><span data-bind="text:group.name"></span><!--/ko-->                                                              
+                                <!--ko if:group --><span data-bind="text:group.name"></span><!--/ko-->     
+                                <!--ko if:price_id --><span data-bind="text:price_id"></span><!--/ko-->                                                         
                             </h4>
                             <h4>
                                 <!--ko if:departures -->
