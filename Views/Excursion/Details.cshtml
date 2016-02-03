@@ -2643,6 +2643,12 @@ height: auto;
                             <td style="padding-bottom:0;">
                                 @ExcursionStrings.Get("OrderInfant")
                             </td>
+                            <td rowspan="3" style="padding-bottom:0; color:black; font-size:30px; padding-left:20px">
+                                @ExcursionStrings.Get("TotalSumm"):
+                                <br>
+                                <span id="total_price"></span>&nbsp;
+                                <span id="total_rate"></span>
+                            </td>
                         </tr>
                         <!--ko ifnot:price.priceType -->
                         <tr>
@@ -2650,13 +2656,13 @@ height: auto;
                                 @ExcursionStrings.Get("OrderPriceForPax")
                             </td>
                             <td style="font-weight:bold;">
-                                <span data-bind="text:price.adult"></span>&nbsp;<span data-bind="text:price.currency"></span>
+                                <span id="ad_price" data-bind="text:price.adult"></span>&nbsp;<span id="price_rate" data-bind="text:price.currency"></span>
                             </td>
                             <td style="font-weight:bold;">
-                                <span data-bind="text:price.child"></span>&nbsp;<span data-bind="text:price.currency"></span>
+                                <span id="ch_price" data-bind="text:price.child"></span>&nbsp;<span data-bind="text:price.currency"></span>
                             </td>
                             <td style="font-weight:bold;">
-                                <span data-bind="text:price.infant"></span>&nbsp;<span data-bind="text:price.currency"></span>
+                                <span id="inf_price" data-bind="text:price.infant"></span>&nbsp;<span data-bind="text:price.currency"></span>
                             </td>
                         </tr>
                         <!--/ko-->
@@ -2666,7 +2672,7 @@ height: auto;
                                 @ExcursionStrings.Get("OrderPriceForService")
                             </td>
                             <td colspan="3">
-                                <span data-bind="text:price.service"></span>&nbsp;<span data-bind="text:price.currency"></span>
+                                <span id="tour_price" data-bind="text:price.service"></span>&nbsp;<span id="price_rate" data-bind="text:price.currency"></span>
                             </td>
                         </tr>
                         <!--/ko-->
@@ -2676,13 +2682,13 @@ height: auto;
                             </td>
                             <td>
                                 <span id="max_cnt" style='display:none' data-bind="text:price.maxGroup"></span>
-                                <select   onchange="checkNmen()" data-bind="options: $root.cartinfoPaxSelectAdult, optionsText: 'name', optionsValue: 'value', value: $root.cartinfoAdult" class="form-control turist_cnt" style="padding: 6px;"></select>
+                                <select onchange="checkNmen()" data-bind="options: $root.cartinfoPaxSelectAdult, optionsText: 'name', optionsValue: 'value', value: $root.cartinfoAdult" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                             <td>
-                                <select  onchange="checkNmen()" data-bind="    options: $root.cartinfoPaxSelectChild, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoChild" class="form-control turist_cnt" style="padding: 6px;"></select>
+                                <select onchange="checkNmen()" data-bind="    options: $root.cartinfoPaxSelectChild, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoChild" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                             <td>
-                                <select   onchange="checkNmen()" data-bind="    options: $root.cartinfoPaxSelectInfant, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoInfant" class="form-control turist_cnt" style="padding: 6px;"></select>
+                                <select onchange="checkNmen()" data-bind="    options: $root.cartinfoPaxSelectInfant, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoInfant" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                         </tr>
 
@@ -2699,7 +2705,7 @@ height: auto;
 
                         <!--ko if: pickuppoints -->
                         <tr>
-                            <td style="vertical-align:middle; color:#cccccc;" colspan="4">
+                            <td style="vertical-align:middle; color:#cccccc;" colspan="5">
                                 <div style="float:left;">@ExcursionStrings.Get("OrderPickUp")</div><div style="float:right;">
                                     <a href="#" data-bind="click: $root.cartinfoShowPickUpPointMapClick">
                                         @ExcursionStrings.Get("ShowMap")
@@ -2710,14 +2716,14 @@ height: auto;
                         </tr>
 
                         <tr>
-                            <td style="vertical-align:middle;" colspan="4">
+                            <td style="vertical-align:middle;" colspan="5">
                                 <span style="font-weight:bold;" data-bind="text: $root.cartinfoPickUpPoint().note"></span>
                             </td>
                         </tr>
                         <!-- /ko -->
                         <!--ko ifnot: pickuppoints -->
                         <tr>
-                            <td style="vertical-align:middle; color:#cccccc; display:none;" colspan="4">
+                            <td style="vertical-align:middle; color:#cccccc; display:none;" colspan="5">
                                 @ExcursionStrings.Get("OrderPickupHotel")<br />
                                 <select data-bind="options: $root.pickuphotels, optionsText: function(d) {
                                                 return d.ishint ? d.name : (site.utils.date.formatTimeDateIf(site.utils.date.parseIso(d.pickuptime), site.utils.date.parseIso(date)) + ' ' + d.name + ' ' + formatHotelStar(d.strstar, d.star) + ', ' + d.town);
@@ -2727,14 +2733,14 @@ height: auto;
                         <!-- /ko -->
 
                         <tr>
-                            <td colspan="4" style="color:#cccccc; display: none;">
+                            <td colspan="5" style="color:#cccccc; display: none;">
                                 @ExcursionStrings.Get("OrderNote")<br />
                                 <input data-bind="value: $root.cartinfoNote" class="form-control" maxlength="250" type="text" style="width: 100%;" />
                             </td>
                         </tr>
 
                         <tr>
-                            <td style="vertical-align:bottom; text-align:right;" colspan="4">
+                            <td style="vertical-align:bottom; text-align:right;" colspan="5">
                                 <span class="error_text" style="color:red; display:none">В заказе должно быть не более <span id="max_cnt_text"></span> человек</span>
                                 <a href="#" class="bk-book-add-to-cart" data-bind="click:$root.excursionBookingCloseClick">@ExcursionStrings.Get("DetailReturnToExcursionDate")</a>
                                 <button id="add_to_cart_btn" type="button" class="btn btn-primary" data-bind="click: $root.excursionAddToCartClick">
@@ -2772,19 +2778,52 @@ height: auto;
                 maxCnt = parseInt( $("#max_cnt").html());
 
             $('.turist_cnt option').each(function(){
-            
+
                 if($(this).attr('value')>maxCnt)
                     $(this).hide();
                 else
                     $(this).show();
             });
+
+            showTotal();
         }
         catch (err)
         {
             	alert(err);
         }
     };
-    
+
+    var showTotal = function()
+    {
+        var arr = $('.turist_cnt').toArray();
+
+        var ad_price  = parseInt($('#ad_price').html());
+        var ch_price  = parseInt($('#ch_price').html());
+        var inf_price = parseInt($('#inf_price').html());
+
+        var total_price = parseInt($('#tour_price').html());
+
+        var rate = $('#price_rate').html();
+
+        var summ = 0;
+
+        if(total_price > 0)
+        {
+            summ = total_price;
+        }
+        else
+        {
+            summ =  ad_price * parseInt($(arr[0]).val()) + 
+                    ch_price * parseInt($(arr[1]).val()) + 
+                    inf_price * parseInt($(arr[2]).val()); 
+
+        }
+
+        //draw
+        $('#total_price').html(summ);
+        $('#total_rate').html(rate);
+    }
+
 
 			var checkNmen = function(){
 
@@ -2817,6 +2856,8 @@ height: auto;
                     $('.turist_cnt').removeClass("error");
                     $("#add_to_cart_btn").removeAttr("disabled");
                 }
+
+                showTotal();
             }
             catch (err)
             {

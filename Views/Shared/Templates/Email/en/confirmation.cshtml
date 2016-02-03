@@ -5,17 +5,17 @@
 
 
 <p>
-Dear Mr(s) @Model.customer.name,
+    Dear Mr(s) @Model.customer.name,
 </p>
 <p>
-Thank you for booking with ExGo!
+    Thank you for booking with ExGo!
 </p>
 <p>
-Your booking reference number: @Model.claimId </br>
-Please click <a href="http://exgo.com/">here</a> to login to your ExGo account in order to print out your voucher, to manage your reservation or to cancel your booking.
+    Your booking reference number: @Model.claimId </br>
+    Please click <a href="http://exgo.com/">here</a> to login to your ExGo account in order to print out your voucher, to manage your reservation or to cancel your booking.
 </p>
 <p>
-Your booking:
+    Your booking:
 </p>
 <div style="border:1px solid black; width:280px; padding: 15px; margin-left:120px">
     <div id='receipt1'>
@@ -38,8 +38,13 @@ Your booking:
                     <br />Status: @Model.status.description
                     <br />Customer name: @Model.customer.name
                     <br />Customer address: @Model.customer.address
-                    <br />Agency: @Model.agent
                 </div>
+                @if (Model.agent != null)
+                {
+                    <div class="form-inline">
+                        Agency: @Model.agent
+                    </div>
+                }
             </font>
 
         </div>
@@ -52,13 +57,16 @@ Your booking:
                     if (order.status != null && order.status.id == 1)
                     {
                         <div class="media" style="margin-bottom: 15px;margin-top: 15px">
-                              <div class="media-body">
+                            <div class="media-body">
                                 <font face="Segoe UI" size="2">
-                                    @ExcursionStrings.Title
-                                    <h4 class="media-heading" style="margin-bottom:0;margin-top:0px; text-transform: uppercase;">@order.excursion.name</h4>
+                                    Excursions
+                                    <h4 class="media-heading" style="margin-bottom:0;margin-top:0px; text-transform: uppercase;">@order.excursion.code @order.excursion.name</h4>
                                     <div>
-                                        <strong> @order.datefrom.ToString("dd.MM.yyyy") @if (order.excursion.grouptype != null)
-                                        {<text>, </text> @order.excursion.grouptype.description } </strong>
+                                        <strong>
+                                            @order.datefrom.ToString("dd.MM.yyyy")
+                                            @if (order.excursion.grouptype != null)
+                                            {<br /> @order.excursion.grouptype.description }
+                                        </strong>
                                         @if (order.excursion.time != null)
                                         {
                                             <br /><span>@SharedStrings.ReservationOrder_ExcursionTime</span> @order.excursion.time.description
@@ -69,17 +77,60 @@ Your booking:
                                         }
                                         <br /><span>@SharedStrings.ReservationOrder_Adult</span> @order.pax.adult@if (@order.pax.child >= 0)
                                         {<text>,</text> <span>@SharedStrings.ReservationOrder_Child</span>@order.pax.child}@if (@order.pax.infant >= 0)
-                                        {<text>,</text> <span>&nbsp;@SharedStrings.ReservationOrder_Infant</span>@order.pax.infant}
+                                        {<<text>,</text> <span>&nbsp;@SharedStrings.ReservationOrder_Infant</span>@order.pax.infant}
                                         @if (!string.IsNullOrEmpty(order.partner.name))
                                         {
-                                            <br /><strong><span>Provider:</span> @order.partner.name </strong>
+                                            <br /><strong><span>Provider:</span> @order.partner.name (tel:  @(order.partner.phone != null ? order.partner.phone : "" ))</strong>
                                         }
 
                                         @if (!string.IsNullOrEmpty(order.note))
                                         {
                                             <br /><span>@SharedStrings.ReservationOrder_Note</span> @order.note
                                         }
+                                        @if (order.excursion.guide > -1)
+                                        {
+                                            <br /><span>Guide:</span>
 
+                                            if (order.excursion.guide == 2)
+                                            {
+                                                <span>guide services included</span>
+                                            }
+                                            else if (order.excursion.guide == 1)
+                                            {
+                                                <span>only escort</span>
+                                            }
+                                            else
+                                            {
+                                                <span>without guide services</span>
+                                            }
+                                        }
+
+                                        @if (order.excursion.food > -1)
+                                        {
+                                            <br /><span>Food:</span>
+
+                                            if (order.excursion.food == 1)
+                                            {
+                                                <span>food included</span>
+                                            }
+                                            else
+                                            {
+                                                <span>without food</span>
+                                            }
+                                        }
+                                        @if (order.excursion.entryfees > -1)
+                                        {
+                                            <br /><span>Entry fees:</span>
+
+                                            if (order.excursion.entryfees == 1)
+                                            {
+                                                <span>entryfees included</span>
+                                            }
+                                            else
+                                            {
+                                                <span>entryfees not included</span>
+                                            }
+                                        }
                                         @if (!string.IsNullOrEmpty(order.excursion.included))
                                         {
                                             <br /><span>Included:</span> @order.excursion.included
@@ -88,6 +139,20 @@ Your booking:
                                         {
                                             <br /><span>Pickup place/time:</span> @order.excursion.pickup
                                         }
+                                        @if (order.excursion.pickuppoint != null)
+                                        {
+                                            <br /><span>Pickup place:</span> @order.excursion.pickuppoint.name
+                                            <br /><span>Pickup time:</span> @order.excursion.pickuppoint.name
+                                        }
+                                        @if (!string.IsNullOrEmpty(order.excursion.stuff))
+                                        {
+                                            <br /><span>Special requirements:</span> @order.excursion.stuff
+                                        }
+                                        @if (!string.IsNullOrEmpty(order.excursion.cancelations))
+                                        {
+                                            <br /><span>Cancellation/return policy:</span> @order.excursion.cancelations
+                                        }
+
                                     </div>
                                 </font>
                             </div>
@@ -100,19 +165,19 @@ Your booking:
 
 
 
-                <div id='receipt2'>
-                    <font face="Segoe UI" size="2">
-                        <div class="col-lg-6">
-                            <strong>Total price @Model.price.total.ToString("### ### ### ##0.00") @Model.price.currency</strong>
-                        </div>
-                    </font>
-                </div>
-                <div class="col-lg-6" id="receipt3">
-                    <font face="Segoe UI" size="2">
-                        Thank you for booking with EXGO.COM
-                        <br /> <font size="1">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</font>
-                        <br />
-                    </font>
-                </div>
+    <div id='receipt2'>
+        <font face="Segoe UI" size="2">
+            <div class="col-lg-6">
+                <strong>Total price @Model.price.total.ToString("### ### ### ##0.00") @Model.price.currency</strong>
+            </div>
+        </font>
+    </div>
+    <div class="col-lg-6" id="receipt3">
+        <font face="Segoe UI" size="2">
+            Thank you for booking with EXGO.COM
+            <br /> <font size="1">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</font>
+            <br />
+        </font>
+    </div>
 
-  </div>
+</div>

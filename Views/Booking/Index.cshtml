@@ -52,6 +52,13 @@
     <div class="row bk-main">
         <div class="col-lg-12">
             <h1 class="page-header">@ViewBag.Title</h1>
+            <div>@Html.ValidationMessageFor(m => m.Form.CustomerName)</div>
+            <div>@Html.ValidationMessageFor(m => m.Form.CustomerName)</div>
+            <div>@Html.ValidationMessageFor(m => m.Form.CustomerEmail)</div>
+            <div>@Html.ValidationMessageFor(m => m.Form.CustomerMobile)</div>
+            <div>@Html.ValidationMessageFor(m => m.Form.CustomerAddress)</div>
+            <div>@Html.ValidationMessageFor(m => m.Form.BookingNote)</div>
+            <div>@Html.ValidationMessageFor(m => m.Form.RulesAccepted)</div>
             @if (GuestService.Settings.IsShowBreadCrumb)
             {
                 <ol class="breadcrumb">
@@ -67,7 +74,7 @@
             <div class="col-lg-12">
                 <h3 style="color:#8c8c8c;">@BookingStrings.Get("EmptyCart_1")&nbsp;<a href="@Url.Action("index", "excursion")">@BookingStrings.Get("EmptyCart_2")</a></h3>
                 <div class="clearfix" style="margin-bottom:10px;"></div>
-                <a href="@Context.Request.ApplicationPath.ToString()" data-bind="click: navigateBackClick">@BookingStrings.Get("GoBack") 123 </a>
+                <a href="@Context.Request.ApplicationPath.ToString()" data-bind="click: navigateBackClick">@BookingStrings.Get("GoBack") </a>
             </div>
         }
         else
@@ -153,31 +160,31 @@
                         </div>
                     </div>
                 </div>
-<!--
-                <div class="modal fade" id="promocodeInputForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="myModalLabel" style="color:#777777;">@BookingStrings.Get("Promo_FormTitle")</h4>
-                            </div>
-                            <div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerMobile)">@BookingStrings.Get("Promo_FormLabel")</label>
-                                        <div class="controls">
-                                            @Html.TextBoxFor(m => m.Form.PromoCode, new { @class = "form-control", placeholder = "" })
+                <!--
+                               <div class="modal fade" id="promocodeInputForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel" style="color:#777777;">@BookingStrings.Get("Promo_FormTitle")</h4>
+                                            </div>
+                                            <div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerMobile)">@BookingStrings.Get("Promo_FormLabel")</label>
+                                                        <div class="controls">
+                                                            @Html.TextBoxFor(m => m.Form.PromoCode, new { @class = "form-control", placeholder = "" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer" id="modal-footer">
+                                                    <button type="button" class="btn btn-primary" id="check-promo-code">@BookingStrings.Get("Promo_FormButton")</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer" id="modal-footer">
-                                    <button type="button" class="btn btn-primary" id="check-promo-code">@BookingStrings.Get("Promo_FormButton")</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    -->
+                 -->
                 for (int index = 0; index < Model.Form.Orders.Count; index++)
                 {
                     var order = Model.Form.Orders[index].BookingOrder;
@@ -189,8 +196,8 @@
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.pickuphotel, order.excursion.pickuphotel.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.extime, order.excursion.extime.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.grouptype, order.excursion.grouptype.ToString())
-                        @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.date, order.excursion.date.ToString("s"))
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.price_id, order.excursion.price_id.ToString())
+                        @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.date, order.excursion.date.ToString("s"))
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.language, order.excursion.language.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.pax.adult, order.excursion.pax.adult.ToString())
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.pax.child, order.excursion.pax.child.ToString())
@@ -226,35 +233,34 @@
                             <input type="text" name="Form.PromoCode" id="Form_PromoCode" class="ex_pay_input" style="width: 100%; padding: 5px;"><br>
 
                             <div style="text-align: right;">
-                                <button type="button" class="ex_pay_button" style="padding: 5px;"  id="check-promo-code">@SharedStrings.Get("ShoppingCart_CheckCoupon")</button>
+                                <button type="button" class="ex_pay_button" style="padding: 5px;" id="check-promo-code">@SharedStrings.Get("ShoppingCart_CheckCoupon")</button>
                             </div>
 
 
                             @if (GuestService.Settings.IsShowPromoCodeSection)
                             {
-                                    var modelStates = ViewData.ModelState.Where(m => m.Key == "PromoCodeError").Select(m => m.Value).ToList();
-                          
-                                    if (Model.Form.PromoCodes != null && Model.Form.PromoCodes.Length > 0)
-                                    {
-                                        foreach (var promo in Model.Form.PromoCodes)
-                                        {
-                                            <div><span style="font-weight: bold;">@promo</span> <img style="vertical-align: baseline;" src="@Url.Content("~/images/smallcheck.png")" alt="" /></div>
-                                        }
-                                    }
-                                    if (modelStates.Count > 0)
-                                    {
-                                        <div class="bs-callout bs-callout-danger">
-                                            @foreach (var state in modelStates)
-                                            {
-                                                if (state.Errors != null && state.Errors.Count > 0)
-                                                {
-                                                    <p>@string.Join(", ", state.Errors.Select(m => m.ErrorMessage).ToList())</p>
-                                                }
-                                            }
-                                        </div>
-                                    }
-                            }
+                                var modelStates = ViewData.ModelState.Where(m => m.Key == "PromoCodeError").Select(m => m.Value).ToList();
 
+                                if (Model.Form.PromoCodes != null && Model.Form.PromoCodes.Length > 0)
+                                {
+                                    foreach (var promo in Model.Form.PromoCodes)
+                                    {
+                                        <div><span style="font-weight: bold;">@promo</span> <img style="vertical-align: baseline;" src="@Url.Content("~/images/smallcheck.png")" alt="" /></div>
+                                    }
+                                }
+                                if (modelStates.Count > 0)
+                                {
+                                    <div class="bs-callout bs-callout-danger">
+                                        @foreach (var state in modelStates)
+                                        {
+                                            if (state.Errors != null && state.Errors.Count > 0)
+                                            {
+                                                <p>@string.Join(", ", state.Errors.Select(m => m.ErrorMessage).ToList())</p>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            }
                         </td>
                         <td style="width: 33%; vertical-align: top;">
                             <!-- <div class="col-md-3 col-md-push-9">   -->
@@ -278,26 +284,37 @@
                     </tr>
                 </table>
 
+
+
+
+
                 <div class="clearfix"></div>
                 <div style="width: 100%; background-color: #083b82; position: absolute;margin-bottom: 20px;left: 0px;color: #fff; padding-top: 20px; padding-bottom: 20px; margin-top: 20px;">
 
                     <div class="container">
 
-                        <div class="form-group col-lg-4">
-                            <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerName)">@BookingStrings.Get("BookingFormName")</label> @Html.ValidationMessageFor(m => m.Form.CustomerName)
+                        <div class="form-group col-lg-3">
+                            <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerName)">@BookingStrings.Get("BookingFormNameOnly")</label> @Html.ValidationMessageFor(m => m.Form.CustomerName)
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.Form.CustomerName, new { @class = "ex_pay_input", placeholder = "" })
 
                             </div>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
+                            <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerName)">@BookingStrings.Get("BookingFormSurnameOnly")</label> @Html.ValidationMessageFor(m => m.Form.CustomerName)
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.Form.CustomerName, new { @class = "ex_pay_input", placeholder = "" })
+
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3">
                             <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerEmail)">@BookingStrings.Get("BookingFormMail")</label> @Html.ValidationMessageFor(m => m.Form.CustomerEmail)
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.Form.CustomerEmail, new { @class = "ex_pay_input", placeholder = "" })
 
                             </div>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerMobile)">@BookingStrings.Get("BookingFormPhone")</label> @Html.ValidationMessageFor(m => m.Form.CustomerMobile)
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.Form.CustomerMobile, new { @class = "ex_pay_input", placeholder = "" })
@@ -321,6 +338,10 @@
                                 @Html.TextBoxFor(m => m.Form.BookingNote, new { @class = "ex_pay_input", placeholder = "" })
                                 @Html.ValidationMessageFor(m => m.Form.BookingNote)
                             </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-lg-12">
+                            <label class="control-label">@BookingStrings.Get("BookingFormNotification1")</label>
                         </div>
 
                     </div>
@@ -351,18 +372,17 @@
                                             <div class="media" style="margin-bottom: 15px;">
                                                 <br>
                                                 <div class="media-body" style="display: inline-table;">
-                                                    <input type="radio" name="Form.PaymentMethod" id="@paymentMode.id" value="@paymentMode.id" class="ex_pay_checkbox" required>
+                                                    <input type="radio" name="Form.paymentMethod" id="@paymentMode.id" value="@paymentMode.id" class="ex_pay_checkbox" required>
                                                     <label for="@paymentMode.id" class="css-label radGroup2">@paymentMode.name</label>
                                                 </div>
                                             </div>
-                                        </div>           
-                                    }
+                                        </div>           }
                                 }
 
                             </td>
                             <td style="text-align: right; width: 34%; ">
 
-                                @Html.CheckBoxFor(m => m.Form.RulesAccepted, new { @style = "margin-right:5px;", @class = "ex_pay_checkbox" })<label class="css-label radGroup2" style="font-size: 16px;" for="Form_RulesAccepted"></label>@BookingStrings.ResourceManager.Get("BookingAgreementConfirmMessage_1")&nbsp;<a href="#" id="confirmRules">@BookingStrings.ResourceManager.Get("BookingAgreementConfirmMessage_2")</a>
+                                @Html.CheckBoxFor(m => m.Form.RulesAccepted, new { @style = "margin-right:5px;", @class = "ex_pay_checkbox" })<label class="css-label radGroup2" style="font-size: 16px;" for="Form_RulesAccepted"></label>@BookingStrings.ResourceManager.Get("BookingAgreementConfirmMessage_1")&nbsp;<a href="@Context.Request.ApplicationPath.ToString()/@Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage/info/terms-and-conditions">@BookingStrings.ResourceManager.Get("BookingAgreementConfirmMessage_2")</a>
                                 <br />
                                 @Html.ValidationMessageFor(m => m.Form.RulesAccepted)
 
