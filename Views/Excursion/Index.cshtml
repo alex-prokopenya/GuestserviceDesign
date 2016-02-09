@@ -1412,14 +1412,40 @@ display: none;
   padding-right: 20px;
 }
 
+    #menu_opt_cat2 div[item-id='1'], 
+    #menu_opt_cat2 div[item-id='2'], 
+    #menu_opt_cat2 div[item-id='5']
+    {
+        display:none;
+    }
+
+    #menu_opt_cat div[item-id='3'], 
+    #menu_opt_cat div[item-id='4']
+    {
+        display:none;
+    }
 </style>
+
+<script id="excursion-filter-categorygroup2" type="text/o">
+    <div data-bind="if: filterCategorygroups().length > 0" class="bk-filter-categorygroup">
+        <span style="color: #fff; cursor: pointer;" OnClick="open_menu_opt('cat2')">@ExcursionStrings.ResourceManager.Get("ExtraFiltersCategory") (type)</span><br>
+        <div data-bind="foreach: filterCategorygroups">
+            <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
+            <div data-bind="foreach: items" id="menu_opt_cat2" class="menu_list">
+                <div class="checkbox" data-bind="attr: {'item-id': id}">
+                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>)
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 <script id="excursion-filter-categorygroup" type="text/o">
     <div data-bind="if: filterCategorygroups().length > 0" class="bk-filter-categorygroup">
         <span style="color: #fff; cursor: pointer;" OnClick="open_menu_opt('cat')">@ExcursionStrings.ResourceManager.Get("ExtraFiltersCategory")</span><br>
         <div data-bind="foreach: filterCategorygroups" >
             <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
             <div data-bind="foreach: items"  id="menu_opt_cat" class="menu_list" >
-                <div class="checkbox">                                
+                <div class="checkbox" data-bind="attr: {'item-id': id}">                                
                     <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
                 </div>                                                       
             </div>
@@ -1946,6 +1972,7 @@ background-size: 100% 100%;
          
                 <div style="top: 0px;left: 0px;width: 100%;position: absolute;text-align: center; background-image: url(@Url.Content("~/images/new/bg_option.png")); background-size: 100%; background-position: top center; background-repeat: no-repeat; height: 97px;" id="menu_option" class="menu_option">
 				<center>
+                    <div class="col-lg-1212" data-bind="template: 'excursion-filter-categorygroup2'"></div>
                     <div class="col-lg-1212" data-bind="template: 'excursion-filter-categorygroup'"></div>
                     <div class="col-lg-1212" data-bind="template: 'excursion-filter-destination'"></div>
                     <div class="col-lg-1212" data-bind="template: 'excursion-filter-departure'"></div>      
