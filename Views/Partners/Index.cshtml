@@ -1,0 +1,76 @@
+﻿@model GuestService.Models.Countries.CountriesCatalog
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.Keywords = Model.Keywords;
+}
+
+@using (Html.BeginForm("Index", "partners", FormMethod.Post, new { id = "search-form" }))
+    {
+        @*@Html.TextBox("name")*@
+        <input id="name" name="name" type="text" value="" placeholder="Enter partner name" />
+        <input type="submit" value="Search" />
+    }
+
+<div class="content-wrapper">
+    
+@*    <input type="text" placeholder="Введите имя партнера" class="form-control" style="
+                                      border: 2px;
+                                      box-shadow: 0 4px 4px rgba(0,0,0,0.5);
+                                      width: 30%;
+                                      margin-right: 30%;">
+    *@
+    
+
+    <hgroup class="title">
+        <h1>@ViewBag.Title</h1>
+    </hgroup>
+              
+    <div id="result">  
+        @if (Model.Countries.Length > 0 && ViewBag.Title != "Найденные партнеры")
+        {
+            <ul>
+                @foreach(var country in Model.Countries)
+                {
+                    <li><a href="@Url.Action(@country.Key.ToLower(), "partners")">@country.Value</a></li>
+                }
+            </ul>
+        }
+        else if (Model.Countries.Length > 0 && ViewBag.Title == "Найденные партнеры")
+        {
+            <ul>
+                @foreach (var country in Model.Countries)
+                {
+                    <li>@country.Value</li>
+                }
+            </ul>
+        }
+        else if (ViewBag.Title == "Найденные партнеры")
+        {
+            <a href="http://www.exgo.com/guestservice_design/en/info/partnership">Not found your country in the list? Be the first in your region</a>
+        }
+        
+        <h2>@(ViewBag.Title + " Seotext")</h2>
+            <p>
+                @Model.SeoText
+            </p>
+     </div>
+</div>
+
+@*<script type="text/javascript">
+    $(function() {
+        $("#search-form").on("submit", function (e) {
+            e.preventDefault();
+            
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (data) {
+                    $("#result").html(data);
+                }
+            });
+        });
+    });
+</script>*@
