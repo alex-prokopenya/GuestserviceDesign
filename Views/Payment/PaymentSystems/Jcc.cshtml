@@ -1,0 +1,88 @@
+﻿@model GuestService.Models.Payment.ProcessingContext
+
+@{
+    ViewBag.Title = PaymentStrings.Get("PaymentTitle");
+}
+
+@section scripts {
+<script type="text/javascript">
+        $(document).ready(function () { setTimeout(function () { $("form[name='payment_form']").submit(); }, 100); });
+</script>
+}
+
+<div class="container">
+    <br><br><br><br>
+    <div class="row">
+
+        @if (Model.PaymentMode != null && Model.BeforePaymentResult != null && Model.PaymentMode.payrest != null)
+        {
+            var summ = Model.PaymentMode.payrest.total.ToString("#0.00", System.Globalization.NumberFormatInfo.InvariantInfo);
+
+            summ = summ.Replace(".","");
+            summ = "000000000000".Substring(0, 12 - summ.Length) + summ;
+
+            string secretKey = System.Configuration.ConfigurationManager.AppSettings["jccPassword"];
+            //$toEncrypt = $password.$merchantID.$acquirerID.$orderID.$formattedPurchaseAmt.$currency;
+
+            #region addParams
+            var paramsList = new Dictionary<string, string>();
+
+            paramsList.Add("Version", "1.0.0");
+            paramsList.Add("MerID", System.Configuration.ConfigurationManager.AppSettings["jccMerID"]);
+            paramsList.Add("AcqID", System.Configuration.ConfigurationManager.AppSettings["jccAcqID"]);
+
+            paramsList.Add("OrderID", Model.Reservation.claimId + "/" + Model.BeforePaymentResult.invoiceNumber);
+
+            paramsList.Add("PurchaseAmt", summ);
+            paramsList.Add("PurchaseCurrency", "" + 978);
+            paramsList.Add("PurchaseCurrencyExponent", "" + 2);
+
+            paramsList.Add("CaptureFlag", System.Configuration.ConfigurationManager.AppSettings["jccCaptureFlag"]);
+
+            #endregion
+
+            #region generateBaseString
+            string[] keys = new string[] {"MerID","AcqID","OrderID", "PurchaseAmt", "PurchaseCurrency"};
+
+            string base_str = secretKey;
+
+            foreach (string key in keys)
+            {
+                base_str += paramsList[key];
+            }
+
+            #endregion
+
+            byte[] payloadInBytes = System.Text.UTF8Encoding.UTF8.GetBytes(base_str);
+
+            System.Security.Cryptography.SHA1Managed sha1 = new System.Security.Cryptography.SHA1Managed();
+            var result = Convert.ToBase64String(sha1.ComputeHash(payloadInBytes));
+
+            paramsList.Add("Signature", result);
+            paramsList.Add("SignatureMethod", "SHA1");
+
+            var result_url = new Uri(Request.BaseServerAddress(), Url.Action("processingresult", new { acc = "jcc", order = Model.Reservation.claimId.ToString(), invoice = Model.BeforePaymentResult.invoiceNumber })).ToString();
+            result_url = result_url.Replace("http:","https:");
+
+
+                <div class="col-lg-12">
+                    <h1 class="page-header">Going to JCC...</h1>
+                </div>
+
+                <form id="payment_form" name="payment_form" action="https://tjccpg.jccsecure.com/EcomPayment/RedirectAuthLink" method="POST">
+
+                    @foreach (string key in paramsList.Keys)
+                    {
+                        <input type="hidden" name="@key" value="@paramsList[key]">
+                    }
+
+                    <input name="MerRespURL" type="hidden" value="@result_url">
+
+                </form>
+            }
+            else
+            {
+                <h2>@PaymentStrings.Get("PaymentCannotPayOrder")</h2>
+            }
+    </div>
+</div>
