@@ -102,19 +102,20 @@
   </head>
   <body>  
 
-    @{ Html.RenderAction("PageSuperHeader", "customization"); }
-    @{ Html.RenderPartial(@"Controls\NavLanguageLogout"); }
-    @{ Html.RenderAction("PageSubHeader", "customization"); }
+    @{ 
+        Html.RenderAction("PageSuperHeader", "customization");
+        Html.RenderPartial(@"Controls\NavLanguageLogout");
+        Html.RenderAction("PageSubHeader", "customization");
 
-      if (content.Header == "")
-      {
+        if (content.Header == "")
+        {
 
-      }
-      else
-      {
-        WriteLiteral(content.Header);
-      }
-
+        }
+        else
+        {
+            WriteLiteral(content.Header);
+        }
+    }
     <div class="bk-container">
         @RenderBody()        
     </div>
