@@ -13,6 +13,8 @@
 
 <script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
 @Scripts.Render("~/js/markerwithlabel.js")
+@Styles.Render("~/css/select2.min.css")
+@Scripts.Render("~/js/select2.min.js")
 
 
 @section scripts {
@@ -24,6 +26,8 @@
     }
 
     var departurePoint = @departurePoint;
+
+    $("#departure_point").select2();
 
     defaults.format = '@ExcursionStrings.ResourceManager.Get("DateTimeFormat")';
     defaults.language =  '@ExcursionStrings.ResourceManager.Get("DateTimeLanguage")';
@@ -484,7 +488,7 @@
                         function (result) {
 
 
-                            var departures = [{ id: 0, name: '@ExcursionStrings.ResourceManager.Get("SearchDeparture_AnyPoint")' }];
+                                var departures = [{ id: 0, name: '@ExcursionStrings.ResourceManager.Get("SearchDeparture_AnyPoint")', state: "All states"}];
                             var needIndex = 0;
 
                             departureSlugs = [];
@@ -498,23 +502,30 @@
                                         needIndex = departures.length;
 
                                     if(d.name==null) d.name = '';
+                                        if (d.state == null) d.state = 'All states';
 
                                     departureSlugs[d.id] = d.name.toLowerCase();
 
                                     departures.push(d);
+                                    });
+
+                                }
+
+                                //список регионов
+                                //поиск по региону
+                                console.log('need index is ' + needIndex);
+                                
+                                searchDeparturePoints(departures);
+                                searchDeparturePoint(departures[needIndex]);
+
+                                var list = ko.utils.arrayMap(searchDeparturePoints(), function(item) {
+                                    return item.state;
                                 });
 
+                                states(ko.utils.arrayGetDistinctValues(list));
                             }
-
-                            //список регионов
-                            //поиск по региону
-                            console.log('need index is ' + needIndex);
-
-                            searchDeparturePoints(departures);
-                            searchDeparturePoint(departures[needIndex]);
-                        }
-                    );
-                }
+                        );
+                    }
             },
             doSearchDeparturePointReset = function() {
                 console.log(491);
@@ -1047,6 +1058,8 @@
                 searchTextInput: searchTextInput,
                 searchDeparturePoints: searchDeparturePoints,
                 searchDeparturePoint: searchDeparturePoint,
+                states: states,
+                
                 searchDeparturePointChanged: searchDeparturePointChanged,
                 searchDeparturePointForceUse: searchDeparturePointForceUse,
 
@@ -1912,11 +1925,15 @@ background-size: 100% 100%;
 			
             @if (!GuestService.Settings.IsHideDeparturePoints)
             {
-            <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;" >					
-                <select id="departure_point" data-bind="options: searchDeparturePoints, optionsText: 'name', value: $root.searchDeparturePoint, event: { change: searchDeparturePointChanged }" class="form-control" style="padding: 6px; width:100%; border: none;
-    box-shadow: none;">
-                </select>                                                                             
-			</div>									
+            <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;" >	
+                <select id="departure_point" data-bind="foreach: states" class="form-control" style="padding: 6px; width:100%; border: none; box-shadow: none;">
+                    <optgroup data-bind="attr: {label: $data}, foreach: $parent.searchDeparturePoints">
+                        <!-- ko if: state == $parent -->
+                        <option data-bind="text: name"></option>
+                    <!-- /ko -->
+                    </optgroup>
+                </select>                                                                         
+            </div>									
             }
 			<button class="btn btn-primary" type="button" value="" data-bind="click: $root.categoryButtonClick" style="display:none;">@ExcursionStrings.ResourceManager.Get("NavigateCategory")</button>				
             			                            
