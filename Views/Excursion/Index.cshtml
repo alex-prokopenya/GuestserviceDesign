@@ -16,6 +16,8 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
 @Scripts.Render("~/js/markerwithlabel.js")
+@Styles.Render("~/css/select2.min.css")
+@Scripts.Render("~/js/select2.min.js")
 
 <video autoplay loop poster="/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg" id="bgvid" muted >
     <source src="/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]video/lambo_360.mp4" type="video/mp4">
@@ -23,6 +25,10 @@
 
 @section scripts {
 <script type="text/javascript">
+
+    var destinationsClicked = false;
+
+
     function slugify(text)
     {
         return text.toString().toLowerCase()
@@ -42,6 +48,12 @@
 
     defaults.format = '@ExcursionStrings.Get("DateTimeFormat")';
     defaults.language =  '@ExcursionStrings.Get("DateTimeLanguage")';
+
+    $(document).ready(function(){
+        $("#departure_point_visible").select2()
+    });
+
+
     var site = site || {};
     site.vm = site.vm || {};
     var map;
@@ -88,6 +100,9 @@
     }
     var def_title =  document.title;
     $(function () {
+
+        $('.select2-container').click(function(){destinationsClicked = true;});
+
         "use strict";
         site.vm.excursion = function () {
             var
@@ -119,7 +134,7 @@
             searchDeparturePointsInitialized = ko.observable(false),
             searchDeparturePoint = ko.observable(),
             searchDeparturePointForceUse = ko.observable(false),
-
+            states = ko.observableArray(),
             destinationstates = ko.observableArray(),
             categorygroups = ko.observableArray(),
             //ranking = ko.observable(),
@@ -489,7 +504,9 @@
                     searchDeparturePointsInitialized(true);
                     site.service.ajax.get('@Url.ApiActionLink("departures", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias(), ds: filterDestinationState() ? filterDestinationState().id : null },
                         function (result) {
-                            var departures = [{ id: 0, name: '@ExcursionStrings.Get("SearchDeparture_AnyPoint")' }];
+
+                            var departures = [{ id: 0, name: '@ExcursionStrings.Get("SearchDeparture_AnyPoint")', state: "All states" }];
+
                             var needIndex = 0;
 
                             departureSlugs = [];
@@ -503,22 +520,27 @@
                                         needIndex = departures.length;
 
                                     if(d.name==null) d.name = '';
+
                                     departureSlugs[d.id] = slugify(d.name.toLowerCase());
 
+                                    if (d.state == null) d.state = 'All states';
 
                                     departures.push(d);
                                 });
 
                             }
 
-                            //список регионов
-                            //поиск по региону
-                            console.log('need index is ' + needIndex);
-
                             searchDeparturePoints(departures);
                             searchDeparturePoint(departures[needIndex]);
+
+                            $(".select2-selection__rendered").html(departures[needIndex].name);
+
+                            var list = ko.utils.arrayMap(searchDeparturePoints(), function(item) {
+                                return item.state;
+                            });
+                            states(ko.utils.arrayGetDistinctValues(list));
                         }
-                    );
+                        );
                 }
             },
             doSearchDeparturePointReset = function() {
@@ -1000,12 +1022,19 @@
                 }
             },
 
+            
+         
+
             searchDeparturePointChanged = function(data, event) {
-                if (event.originalEvent) { // user changed
+                
+
+                if ((event.originalEvent) || (destinationsClicked)) { // user changed
                     searchDeparturePointForceUse((searchDeparturePoint() && searchDeparturePoint().id != 0) ? true : false);
                     doSearchHistory(buildSearchParams());
                 }
+                
             };
+          
 
             for(var i = 0; i <= @GuestService.Settings.CartinfoPaxSelectMaxAdult; i++) {
                 cartinfoPaxSelectAdult.push({value: i, name: i.toString()});
@@ -1086,7 +1115,10 @@
                 searchTextInput: searchTextInput,
                 searchDeparturePoints: searchDeparturePoints,
                 searchDeparturePoint: searchDeparturePoint,
+                states: states,
+                
                 searchDeparturePointChanged: searchDeparturePointChanged,
+                
                 searchDeparturePointForceUse: searchDeparturePointForceUse,
 
                 filterDestinationState: filterDestinationState,
@@ -2056,11 +2088,37 @@ overflow: hidden;
 			
             @if (!GuestService.Settings.IsHideDeparturePoints)
             {
-            <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;" >					
-                <select  id="departure_point" data-bind="options: searchDeparturePoints, optionsText: 'name', value: $root.searchDeparturePoint, event: { change: searchDeparturePointChanged }" class="form-control" style="padding: 6px; width:100%; border: none;
-    box-shadow: none;" >
-                </select>                                                                             
-			</div>									
+
+/*
+                <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;display:none">
+                    <select id="departure_point" data-bind="options: searchDeparturePoints, optionsText: 'name', value: $root.searchDeparturePoint, event: { change: searchDeparturePointChanged }" class="form-control" style="padding: 6px; width:100%; border: none;
+    box-shadow: none;"></select>
+                </div>
+                */
+
+            <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;" >	
+                <select id="departure_point_visible" 
+                        data-bind="value: $root.searchDeparturePoint, event: { change: searchDeparturePointChanged }" class="form-control" 
+                        style="padding: 6px; width:100%; border: none; box-shadow: none;">
+
+                    <!-- ko foreach: searchDeparturePoints -->
+                        <!-- ko if: (state == 'All states') && (name != '')  -->
+                        <option data-bind="text: name, value: $data"></option>
+                        <!-- /ko -->
+                    <!-- /ko -->
+
+                    <!-- ko foreach: states -->
+                        <!-- ko if: ($data != 'All states')  -->
+                        <optgroup data-bind="attr: {label: $data}, foreach: $parent.searchDeparturePoints">
+                            <!-- ko if: state == $parent -->
+                                <option data-bind="text: name, value: $data"></option>
+                            <!-- /ko -->
+                        </optgroup>
+                        <!-- /ko -->
+                    <!-- /ko -->
+                </select>                                                                         
+            </div>									
+
             }
 			<button class="btn btn-primary" type="button" value="" data-bind="click: $root.categoryButtonClick" style="display:none;">@ExcursionStrings.Get("NavigateCategory")</button>	
 			
