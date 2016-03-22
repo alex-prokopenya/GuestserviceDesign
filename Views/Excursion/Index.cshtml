@@ -650,7 +650,8 @@
 
                 doDepartureInitialize(false);
 
-                if (!filterInitialized()) {
+                if (!filterInitialized()) 
+                {
                     filterInitialized(true);
 
                     site.service.ajax.get('@Url.ApiActionLink("filters", "excursion")', {
@@ -716,6 +717,14 @@
                     function (result) {
                         excursions([]);
                         excursionsData([]);
+
+                        //проверять какая из категорий имеется ввиду
+                        ///console.log(result.categorygroups[0].items);
+                        if (result && result.categorygroups && result.categorygroups.length && result.categorygroups[0].items.length > 0 ) {
+                            console.log(result.categorygroups[0].items);
+                           
+                            setTimeout(function(){updateCount(result.categorygroups[0].items);}, 500);
+                        }
 
                         if( o.version == paramsVersion ) {
                             if (result.excursions) {
@@ -1526,6 +1535,34 @@ $('#menu_opt_'+name_menu).slideToggle();
 }
 
 
+function updateCount(data) {
+    console.log(data);
+    console.log($('#menu_opt_cat').html());
+
+    $("#menu_opt_cat .dop_menu_block").each(function(){
+                                
+        var id = $(this).attr("item-id");
+
+        console.log(id);
+
+        var cnt = 0;
+
+        data.forEach(
+            function(info){
+
+                if(info.id == id)
+                    cnt = info.count;
+
+                                        
+            });
+
+        console.log('cnt ' + cnt);
+        $("span", this).eq(1).html(cnt);
+    });
+}
+
+
+
 </script>
 
 <script id="excursion-filter-categorygroup2" type="text/o">
@@ -1537,7 +1574,7 @@ $('#menu_opt_'+name_menu).slideToggle();
             <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
             <div data-bind="foreach: items"  id="menu_opt_cat2" class="menu_list" style='padding-top:15px' >
                 <div class="checkbox dop_menu_block" data-bind="attr: {'item-id': id}">                                
-                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px; "></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
+                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px; "></label></a><span data-bind="text: name"></span> 
                 </div>                                                       
             </div>
         </div>
@@ -1567,7 +1604,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 			<i class="fa fa-caret-down arrow_dop_menu"> </i>
         <div data-bind="foreach: filterDestinations" id="menu_opt_des" class="menu_list">
             <div class="checkbox dop_menu_block">                       
-                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDestinationItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
+                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDestinationItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> 
                 </div>
         </div>
     </div>
@@ -1579,7 +1616,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 				<i class="fa fa-caret-down arrow_dop_menu"> </i>
             <div data-bind="foreach: filterDepartures" id="menu_opt_dep" class="menu_list">
                 <div class="checkbox dop_menu_block">                       
-                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDeparturesItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
+                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDeparturesItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span>
                     </div>
             </div>
         </div>
@@ -1591,7 +1628,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 		<i class="fa fa-caret-down arrow_dop_menu" OnClick="open_menu_opt('lang')"  style="cursor:pointer"> </i>
         <div data-bind="foreach: filterLanguages" id="menu_opt_lang" class="menu_list">                                                                        
             <div class="checkbox dop_menu_block">                                 
-                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterLanguageItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
+                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterLanguageItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span>
             </div>                           
         </div>
     </div>
