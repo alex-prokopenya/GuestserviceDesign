@@ -1,0 +1,14 @@
+﻿@model GuestService.Models.CancellationMessageTemplate
+
+<p>
+    Request for cancellation of the order:
+</p>
+<p>
+    Order: @Model.NumberOrder<br/>
+    Reason: @Model.ReasonCancellation<br/>
+    <br/>
+    Informtion on client:
+    Name: @Model.Name<br/>
+    Phone: @Model.Phone<br/>
+    E-mail: @Model.Email<br/>
+</p>
