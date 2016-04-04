@@ -152,6 +152,8 @@
             searchDeparturePoint = ko.observable(),
             searchDeparturePointForceUse = ko.observable(false),
 
+            showExcursionNumber = ko.observable(0),
+
             destinationstates = ko.observableArray(),
             categorygroups = ko.observableArray(),
             //ranking = ko.observable(),
@@ -592,83 +594,7 @@
 
 
             doSearch = function (o, checkstate) {
-                var doSearchView = 0;
-                navigateView(operation.loading);
-                if (o && o.text && o.text != "") {
-                    geographies([]);
-
-                    doSearchView = operation.search;
-
-                    site.service.ajax.get('@Url.ApiActionLink("search", "excursion")', { s: o.text, spa: startPointAlias() },
-                        function (result) {
-                            if (result.geography) {
-                                geographies([]);
-                                ko.utils.arrayForEach(result.geography, function (d) {
-                                    geographies.push(d);
-                                });
-
-                            }
-                        }
-                    );
-                }
-                else {
-                    doSearchView = operation.catalog;
-                }
-
-                if( (filterDestinationState() ? filterDestinationState().id : 0) != (o.destinationstate ? o.destinationstate.id : 0)) {
-                    filterDestinationState(o.destinationstate);
-                    filterInitialized(false);
-                    doDepartureInitialize(true);
-                }
-
-                doDepartureInitialize(false);
-
-                if (!filterInitialized()) {
-                    filterInitialized(true);
-
-                    site.service.ajax.get('@Url.ApiActionLink("filters", "excursion")', {
-                            pa: partnerAlias(),
-                            psid: partnerSessionID(),
-                            spa: startPointAlias(),
-                            ds: filterDestinationState() ? filterDestinationState().id : null
-                        },
-                        function (d) {
-                            if (d && d.categorygroups) {
-                                var _categorygroups = ko.mapping.fromJS(d.categorygroups);
-                                applyFilterCategories(_categorygroups(), (o && o.categories) ? o.categories : undefined);
-                                filterCategorygroups(_categorygroups());
-                            } else {
-                                filterCategorygroups([]);
-                            }
-
-                            if (d && d.departures) {
-                                var _departures = ko.mapping.fromJS(d.departures);
-                                applyFilter(_departures(), (o && o.departures) ? o.departures : undefined);
-                                filterDepartures(_departures());
-                            } else {
-                                filterDepartures([]);
-                            }
-
-                            if (d && d.destinations) {
-                                var _destinations = ko.mapping.fromJS(d.destinations);
-                                applyFilter(_destinations(), (o && o.destinations) ? o.destinations : undefined);
-                                filterDestinations(_destinations());
-                            } else {
-                                filterDestinations([]);
-                            }
-
-                            if (d && d.languages) {
-                                var _languages = ko.mapping.fromJS(d.languages);
-                                applyFilter(_languages(), (o && o.languages) ? o.languages : undefined);
-                                filterLanguages(_languages());
-                            } else {
-                                filterLanguages([]);
-                            }
-                            filterDate();
-                        }
-                    );
-                }
-
+                
                 excursions([]);
                 excursionsData([]);
                 searchFlag(true);
@@ -694,23 +620,43 @@
                             if (result.excursions) {
                                 applySearchParams(o, checkstate);
                                 excursionsData(result.excursions);
-                                for (var i = 0, j = excursionsData().length; i < j && i <= 10 ; i++) {
+                                var myExc = description().excursion.id;
+                                for (var i = 0, j = excursionsData().length, m = 2; i < j && i <= m ; i++) {
+                                    if (myExc == excursionsData()[i].excursion.id)
+                                    {
+                                        m++;
+                                        continue;
+                                    }
                                       excursions.push(prepareExcursion(excursionsData()[i]));
                                 }
                             }
                             else
                                 applySearchParams(o, checkstate);
-                            searchFlag(false);
 
-                            navigateView(doSearchView);
                         }
                     }
                 );
             },
-            doScrollExcursionList = function () {
+            doNextExcursionList = function (sh) {
+                excursions([]);
                 if(excursions() && excursionsData() ) {
-                    for (var i = excursions().length, j = excursionsData().length, m = i + 10; i < j && i < m; i++) {
-                        excursions.push(prepareExcursion(excursionsData()[i]));
+
+                    var number = showExcursionNumber() + sh;
+
+                    if (number < 0)
+                        number = excursionsData().length + number;
+
+                    showExcursionNumber(number);
+
+                    var myExc = description().excursion.id;
+                    for (var i = number, j = excursionsData().length, m = i + 2; j > 0 && i <= m; i++) {
+                        var modI = i % excursionsData().length;
+                        if (excursionsData()[modI].excursion != null && myExc == excursionsData()[modI].excursion.id)
+                        {
+                            m++;
+                            continue;
+                        }
+                        excursions.push(prepareExcursion(excursionsData()[modI]));
                     }
                 }
             },
@@ -1085,6 +1031,8 @@
                 searchDeparturePointChanged: searchDeparturePointChanged,
                 searchDeparturePointForceUse: searchDeparturePointForceUse,
 
+                showExcursionNumber: showExcursionNumber,
+
                 filterDestinationState: filterDestinationState,
                 filterCategorygroups: filterCategorygroups,
                 filterDepartures: filterDepartures,
@@ -1181,6 +1129,10 @@
                 excursionItemClick: function (data) {
                     if (data && data.excursion) {
                         doDescriptionHistory({ excursion: data.excursion.id });
+                        @if ((Request["action"] == "search") && (Request["filter"] != "null"))
+                        {
+                            <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
+                        }
 						 $('#ex_cont').css('background-image','url(http://exgo.com/guestservice_design/images/new/bg_option2.png)');
 						 $('#search_box').hide();
 						 $('#ex_cont').animate({top: '300px'});
@@ -1197,7 +1149,13 @@
                     }
                 },
                 scrollExcursionList: function() {
-                    doScrollExcursionList();
+                    //doScrollExcursionList();
+                },
+                leftExcursionList: function() {
+                    doNextExcursionList(-3);
+                },
+                rightExcursionList: function() {
+                    doNextExcursionList(3);
                 },
                 filterCategoryItemClick: function (data) {
                     if (data) {
@@ -1360,7 +1318,13 @@
             });
         }
 
-        @if (Model.NavigateState != null)
+        @if ((Request["action"] == "search") && (Request["filter"] != "null") && Model.NavigateState != null)
+        {
+            
+            <text>site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));</text>
+            <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
+        }
+        else if (Model.NavigateState != null)
         {
             <text>site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));</text>
         }
@@ -2749,21 +2713,46 @@ height: auto;
                             </td>
                         </tr>
                     </table>
+                    </div>
                 </div>
-            </div>
-            <!--/ko-->
-            <div class="col-lg-8 col-xs-12" style="padding-right:0;">
-                <!--
-                                <hr>
-                <span class="ex_pay_title"> Похожие экскурсии </span><br>
-                -->
-
-                <hr>
-                <div data-bind="template: 'excursion-survey'"></div>
-            </div>
-        </div> <!-- row -->
+                <!--/ko-->
+            
+             <div data-bind="template: 'excursion-survey'"></div>
+            
+            </div> <!-- row -->
+        </div>
     </div>
-</div>
+    
+    <div class="col-lg-8 col-xs-12" style="padding-right:0; z-index: 4;">
+                <hr />
+                <div class="col-lg-9 col-lg-pull-3" data-bind="visible: excursions().length > 0">  
+                    <div class="container">
+                        <center>
+                            <div class="left carousel-control" data-bind="click: $root.leftExcursionList" data-slide="prev" style="top: -90px; left: -100px;">
+                                <span class="icon-prev" style="position: absolute; left: 100%; color: #ffbc23;font-size: 70px;"></span>
+                        </div>
+                        
+                            <div class="row bk-excursion-list" data-bind="foreach: excursions">
+                                
+                                <div data-bind="template: 'excursion-description'" class="box_ex"></div>
+                                 
+                            </div>  <!-- /each excursions   -->         
+                            
+                              <a class="right carousel-control" data-bind="click: $root.rightExcursionList" data-slide="next" style="left: 1080px; top: -90px;">
+                            <span class="icon-next" style="position: absolute; right: 100%; color: #ffbc23;font-size: 70px;"></span>
+                        </a>          
+                            <div id="exlistbottompanel" name="exlistbottompanel">&nbsp;</div> 
+                        </center>			
+                    </div>
+                </div>
+
+        <!--
+            <hr>
+            <span class="ex_pay_title"> Похожие экскурсии </span><br>
+            -->
+
+               
+            </div>
 <!--
 
 -->
