@@ -14,7 +14,7 @@
         padding-bottom: 0px !important;
     }
 </style>
-<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
 @Scripts.Render("~/js/markerwithlabel.js")
 
 
@@ -22,7 +22,7 @@
     <script type="text/javascript">
 
  $(document).ready(function(){
-        $('#ex_cont').css('background-image','url(http://exgo.com/guestservice_design/images/new/bg_option2.png)');
+        $('#ex_cont').css('background-image','url(https://exgo.com@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
 		$('#ex_cont').css('height','64px');
         $('#search_box').hide();
         $('#ex_cont').animate({top: '300px'});
@@ -151,8 +151,7 @@
             searchDeparturePointsInitialized = ko.observable(false),
             searchDeparturePoint = ko.observable(),
             searchDeparturePointForceUse = ko.observable(false),
-
-            showExcursionNumber = ko.observable(0),
+			showExcursionNumber = ko.observable(0),
 
             destinationstates = ko.observableArray(),
             categorygroups = ko.observableArray(),
@@ -239,13 +238,13 @@
                 var map = new google.maps.Map(document.getElementById("map"),mapOptions);
 
                 var depImage = new google.maps.MarkerImage(
-                    "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFD800",
+                    "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFD800",
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0,0),
                     new google.maps.Point(10, 34));
 
                 var destImage = new google.maps.MarkerImage(
-                    "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00",
+                    "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00",
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0,0),
                     new google.maps.Point(10, 34));
@@ -594,7 +593,8 @@
 
 
             doSearch = function (o, checkstate) {
-                
+               
+
                 excursions([]);
                 excursionsData([]);
                 searchFlag(true);
@@ -620,8 +620,9 @@
                             if (result.excursions) {
                                 applySearchParams(o, checkstate);
                                 excursionsData(result.excursions);
+								
                                 var myExc = description().excursion.id;
-                                for (var i = 0, j = excursionsData().length, m = 2; i < j && i <= m ; i++) {
+								for (var i = 0, j = excursionsData().length, m = 2; i < j && i <= m ; i++) {
                                     if (myExc == excursionsData()[i].excursion.id)
                                     {
                                         m++;
@@ -632,16 +633,17 @@
                             }
                             else
                                 applySearchParams(o, checkstate);
-
+                           
                         }
                     }
                 );
             },
-            doNextExcursionList = function (sh) {
+             doNextExcursionList = function (sh) {
                 excursions([]);
+				
                 if(excursions() && excursionsData() ) {
-
-                    var number = showExcursionNumber() + sh;
+                    
+					var number = showExcursionNumber() + sh;
 
                     if (number < 0)
                         number = excursionsData().length + number;
@@ -1030,8 +1032,7 @@
                 searchDeparturePoint: searchDeparturePoint,
                 searchDeparturePointChanged: searchDeparturePointChanged,
                 searchDeparturePointForceUse: searchDeparturePointForceUse,
-
-                showExcursionNumber: showExcursionNumber,
+				showExcursionNumber: showExcursionNumber,
 
                 filterDestinationState: filterDestinationState,
                 filterCategorygroups: filterCategorygroups,
@@ -1129,11 +1130,13 @@
                 excursionItemClick: function (data) {
                     if (data && data.excursion) {
                         doDescriptionHistory({ excursion: data.excursion.id });
-                        @if ((Request["action"] == "search") && (Request["filter"] != "null"))
+						
+						@if ((Request["cmd"] == "search") && (Request["filter"] != "null"))
                         {
                             <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
                         }
-						 $('#ex_cont').css('background-image','url(http://exgo.com/guestservice_design/images/new/bg_option2.png)');
+						
+						 $('#ex_cont').css('background-image','url(https://exgo.com@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
 						 $('#search_box').hide();
 						 $('#ex_cont').animate({top: '300px'});
 						 $('.bk-container').css('background-color','#ffffff');
@@ -1225,12 +1228,12 @@
                     };
                     map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
                     var selImage = new google.maps.MarkerImage(
-                        "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000",
+                        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000",
                         new google.maps.Size(21, 34),
                         new google.maps.Point(0,0),
                         new google.maps.Point(10, 34));
                     var othImage = new google.maps.MarkerImage(
-                        "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00",
+                        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00",
                         new google.maps.Size(21, 34),
                         new google.maps.Point(0,0),
                         new google.maps.Point(10, 34));
@@ -1318,7 +1321,7 @@
             });
         }
 
-        @if ((Request["action"] == "search") && (Request["filter"] != "null") && Model.NavigateState != null)
+        @if ((Request["cmd"] == "search") && (Request["filter"] != "null") && Model.NavigateState != null)
         {
             
             <text>site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));</text>
@@ -1650,20 +1653,20 @@ $('#menu_opt_'+name_menu).slideToggle();
         <div class="col-md-10" style="text-align:justify;">
             <div class="media">
                 <span class="pull-left" href="#">
-                    <img class="media-object" src="@Url.Content("~/images/finger_up.png")" alt="@ExcursionStrings.Get("ReviewHintPositive")" style="width:24px;height:24px;">
+                    <img class="media-object" src="@Url.Content("~/images/bullet.png")" alt="@ExcursionStrings.Get("ReviewHintPositive")" style="width:24px;height:24px;">
                 </span>
                 <div data-bind="text: positivenote" class="media-body"></div>
             </div>
             <div class="media">
                 <span class="pull-left" href="#">
-                    <img class="media-object" src="@Url.Content("~/images/finger_down.png")" alt="@ExcursionStrings.Get("ReviewHintNegative")" style="width:24px;height:24px;">
+                    <img class="media-object" src="@Url.Content("~/images/finger_down.png")" alt="@ExcursionStrings.Get("ReviewHintNegative")" style="width:24px;height:24px;display:none;">
                 </span>
                 <div data-bind="text: negativenote" class="media-body"></div>
             </div>
         </div>
         <div class="clearfix"></div>
         <div class="col-lg-12">
-            <hr style="border-style: dashed none none; border-width: 1px 0 0; margin-bottom: 35px;  margin-top: 15px;" />
+            <hr style="border-style: dashed none none; border-width: 1px 0 0; margin-bottom: 15px;  margin-top: 15px;" />
         </div>
         <!-- /ko -->
 
@@ -1882,7 +1885,7 @@ $(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-backgro
 
 <style>
     body {
-        background: url(/guestservice_design/images/new/bg2.jpg);
+        background: url(@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg);
         background-size: cover;
         o-background-size: cover;
         -webkit-background-size: cover;
@@ -2244,7 +2247,7 @@ height: auto;
                 <div data-bind="template: 'excursion-ranking'"></div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <a href="#" data-bind="click: $root.excursionAddRatingClick">Add review</a>
+                        <a href="#" data-bind="click: $root.excursionAddRatingClick">@ExcursionStrings.Get("AddReviewLink")</a>
                     </div>
                 </div>
             </div>
@@ -2558,9 +2561,9 @@ height: auto;
                 <div id="map" style="height:100px; width:100%;">
                 </div>
                 <div class="pull-right">
-                    <img width="10" height="16" src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFD800" />
+                    <img width="10" height="16" src="https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFD800" />
                     <span>@ExcursionStrings.Get("ExcursionMapMarkerDeparture")&nbsp;&nbsp;</span>
-                    <img width="10" height="16" src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00" />
+                    <img width="10" height="16" src="https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00" />
                     <span> @ExcursionStrings.Get("ExcursionMapMarkerLocation")</span>
                 </div>
                 <div class="clearfix" style="margin-bottom:15px;"></div>
@@ -2595,7 +2598,7 @@ height: auto;
                             <li><small style="color: #8c8c8c;">@ExcursionStrings.Get("OrderFormHelp")</small></li>
                         </ul>
                     </div>
-                    <table class="samo_table" style="" margin-top:0;>
+                                    <table class="samo_table" style="" margin-top:0;>
                         <tr style="color:#cccccc;">
                             <td style="padding-bottom:0;"></td>
                             <td style="padding-bottom:0;">
@@ -2713,7 +2716,8 @@ height: auto;
                             </td>
                         </tr>
                     </table>
-                    </div>
+					
+					                    </div>
                 </div>
                 <!--/ko-->
             
@@ -2744,43 +2748,19 @@ height: auto;
                             <div id="exlistbottompanel" name="exlistbottompanel">&nbsp;</div> 
                         </center>			
                     </div>
+					
                 </div>
-
-        <!--
+				
+            <!--
             <hr>
             <span class="ex_pay_title"> Похожие экскурсии </span><br>
             -->
-
-               
             </div>
+       
 <!--
 
 -->
 <script>
-    var hideNmen = function(el){
-
-        try
-        {
-            var maxCnt = 0;
-
-            if($("#max_cnt") != null)
-                maxCnt = parseInt( $("#max_cnt").html());
-
-            $('.turist_cnt option').each(function(){
-
-                if($(this).attr('value')>maxCnt)
-                    $(this).hide();
-                else
-                    $(this).show();
-            });
-
-            showTotal();
-        }
-        catch (err)
-        {
-            	alert(err);
-        }
-    };
 
     var showTotal = function()
     {
@@ -2814,6 +2794,32 @@ height: auto;
     }
 
 
+
+    var hideNmen = function(el){
+
+        try
+        {
+            var maxCnt = 0;
+
+            if($("#max_cnt") != null)
+                maxCnt = parseInt( $("#max_cnt").html());
+
+            $('.turist_cnt option').each(function(){
+            
+                if($(this).attr('value')>maxCnt)
+                    $(this).hide();
+                else
+                    $(this).show();
+            });
+			showTotal();
+        }
+        catch (err)
+        {
+            	alert(err);
+        }
+    };
+    
+
 			var checkNmen = function(){
 
             try
@@ -2845,8 +2851,7 @@ height: auto;
                     $('.turist_cnt').removeClass("error");
                     $("#add_to_cart_btn").removeAttr("disabled");
                 }
-
-                showTotal();
+				showTotal();
             }
             catch (err)
             {

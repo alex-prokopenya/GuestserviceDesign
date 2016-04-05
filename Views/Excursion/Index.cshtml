@@ -802,7 +802,7 @@
 
 
             doDescription = function (o) {
-                location.href = "@Url.Action("details", "excursion")/"+ o.excursion;
+                location.href = "@Url.Action("details", "excursion")/"+ o.excursion +"?cmd=search&filter="+ JSON.stringify(buildSearchParams());
                 return;
                 description(null);
                 prices(null);
