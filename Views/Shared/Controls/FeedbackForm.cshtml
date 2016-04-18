@@ -1,0 +1,43 @@
+﻿@model GuestService.Models.FeedbackFormContext
+
+<div>
+
+    @using (Html.BeginForm("Index", "feedbackform"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            @Html.LabelFor(model => model.Name)<br />
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Email)<br />
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Phone)<br />
+            @Html.EditorFor(model => model.Phone)
+            @Html.ValidationMessageFor(model => model.Phone)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Subject)<br />
+            @Html.EditorFor(model => model.Subject)
+            @Html.ValidationMessageFor(model => model.Subject)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Message)<br />
+            @Html.TextAreaFor(model => model.Message, new { cols = 50, rows = 5 })
+            @Html.ValidationMessageFor(model => model.Message)
+        </div>
+
+        <br/>
+        <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">Отправить сообщение</button>
+    }
+    
+</div>
