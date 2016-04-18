@@ -19,8 +19,7 @@
         string secretKey = System.Configuration.ConfigurationManager.AppSettings["payuPassword"];
 
         #region addParams
-        var paramsList = new Dictionary<string, string>
-            ();
+            var paramsList = new Dictionary<string, string>();
             paramsList.Add("MERCHANT", System.Configuration.ConfigurationManager.AppSettings["payuShopId"]);
             paramsList.Add("ORDER_REF", Model.BeforePaymentResult.invoiceNumber);
             paramsList.Add("ORDER_DATE", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
