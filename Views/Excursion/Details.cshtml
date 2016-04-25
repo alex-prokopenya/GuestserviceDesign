@@ -812,7 +812,7 @@
 
             doExcursionConfirmAddToCart = function(data) {
                 cartinfoPrice(data);
-                cartinfoAdult(1);
+                //cartinfoAdult(1);
                 cartinfoChild(0);
                 cartinfoInfant(0);
                 cartinfoNote('');
@@ -854,6 +854,11 @@
                 //}
 
                 cartinfoBookingView(true);
+
+                var minCount =parseInt( $("#min_cnt").html());
+                cartinfoAdult(minCount > 0 ? minCount : 1);
+
+                checkNmen();
                 hideNmen();
                //console.log(cartinfoPrice());
                // $('#confirmpricemodal div#confirmPriceResult').hide();
@@ -2669,13 +2674,14 @@ height: auto;
                             </td>
                             <td>
                                 <span id="max_cnt" style='display:none' data-bind="text:price.maxGroup"></span>
+                                <span id="min_cnt" style='display:none' data-bind="text:price.minGroup"></span>
                                 <select onchange="checkNmen()" data-bind="options: $root.cartinfoPaxSelectAdult, optionsText: 'name', optionsValue: 'value', value: $root.cartinfoAdult" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                             <td>
-                                <select onchange="checkNmen()" data-bind="    options: $root.cartinfoPaxSelectChild, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoChild" class="form-control turist_cnt" style="padding: 6px;"></select>
+                                <select onchange="checkNmen()" data-bind="options: $root.cartinfoPaxSelectChild, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoChild" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                             <td>
-                                <select onchange="checkNmen()" data-bind="    options: $root.cartinfoPaxSelectInfant, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoInfant" class="form-control turist_cnt" style="padding: 6px;"></select>
+                                <select onchange="checkNmen()" data-bind="options: $root.cartinfoPaxSelectInfant, optionsText: 'name', optionsValue: 'value', value:$root.cartinfoInfant" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                         </tr>
 
@@ -2728,7 +2734,8 @@ height: auto;
 
                         <tr>
                             <td style="vertical-align:bottom; text-align:right;" colspan="5">
-                                <span class="error_text" style="color:red; display:none">В заказе должно быть не более <span id="max_cnt_text"></span> человек</span>
+                                <span class="error_text" id="error_text_min" style="color:red; display:none">В заказе должно быть не менее <span id="min_cnt_text"></span> человек</span>
+                                <span class="error_text" id="error_text_max" style="color:red; display:none">В заказе должно быть не более <span id="max_cnt_text"></span> человек</span>
                                 <a href="#" class="bk-book-add-to-cart" data-bind="click:$root.excursionBookingCloseClick">@ExcursionStrings.Get("DetailReturnToExcursionDate")</a>
                                 <button id="add_to_cart_btn" type="button" class="btn btn-primary" data-bind="click: $root.excursionAddToCartClick">
                                     @ExcursionStrings.Get("OrderAddShopCartButton")
@@ -2845,10 +2852,13 @@ height: auto;
             try
             {
                 var maxCnt = 0;
+                var minCnt = 0;
 
                 if($("#max_cnt") != null)
                     maxCnt = parseInt( $("#max_cnt").html());
 
+                if($("#min_cnt") != null)
+                    minCnt = parseInt( $("#min_cnt").html());
 
                 var arr = $('.turist_cnt').toArray();
 
@@ -2860,14 +2870,22 @@ height: auto;
 			//	alert(maxCnt);alert(totalCnt);
                 if(totalCnt > maxCnt)
                 {
-                    $('.error_text').show();
+                    $('#error_text_max').show();
                     $('.turist_cnt').addClass("error");
                     $("#max_cnt_text").html($("#max_cnt").html());
                     $("#add_to_cart_btn").attr("disabled","true");
                 }
+                else if(totalCnt < minCnt)
+                {
+                    $('#error_text_min').show();
+                    $('.turist_cnt').addClass("error");
+                    $("#min_cnt_text").html($("#min_cnt").html());
+                    $("#add_to_cart_btn").attr("disabled","true");
+                }
                 else
                 {
-                    $('.error_text').hide();
+                    $('#error_text_max').hide();
+                    $('#error_text_min').hide();
                     $('.turist_cnt').removeClass("error");
                     $("#add_to_cart_btn").removeAttr("disabled");
                 }
