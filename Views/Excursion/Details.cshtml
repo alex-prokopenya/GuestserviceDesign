@@ -715,7 +715,7 @@
             doDescription = function (o) {
 
 				//location.href +="/details/"+o.excursion;
-
+                console.log(o);
                 description(null);
                 prices(null);
                 cartinfoBookingView(false);
@@ -745,6 +745,8 @@
                 );
             },
             doExcursionPrice = function (id, o) {
+                console.log(o);
+                console.log(o.date);
                 var priceUrl = excursionPriceBaseUrl.replace('.id.', id)
                 if (!(o && o.date)) o.date = site.utils.date.formatIso(new Date());
                 pricesNotFound(false);
