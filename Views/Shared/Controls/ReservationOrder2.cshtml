@@ -66,6 +66,10 @@
                 {
                     <br /><span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("ReservationOrder_PickupHotel")</span> @Model.excursion.pickuphotel.name
                 }
+                @if (Model.excursion.pickuptime != null)
+                {
+                    <br /><span style="color:#b7b7b7;">@SharedStrings.Get("ReservationOrder_PickupTime")</span> @Model.excursion.pickuptime
+                }
                 @if (!string.IsNullOrEmpty(Model.note))
                 {
                     <br /><span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("ReservationOrder_Note")</span> @Model.note

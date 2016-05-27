@@ -19,24 +19,30 @@
 @Styles.Render("~/css/select2.min.css")
 @Scripts.Render("~/js/select2.min.js")
 
-<video autoplay loop poster="/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg" id="bgvid" muted >
-    <source src="/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]video/lambo_360.mp4" type="video/mp4">
+
+<video autoplay loop poster="@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg" id="bgvid" muted >
+    <source src="@System.Configuration.ConfigurationManager.AppSettings["AppPath"]video/lambo_360.mp4" type="video/mp4">
 </video>
 
 @section scripts {
 <script type="text/javascript">
 
-    var destinationsClicked = false;
+    var current_short_key="";
 
+    var destinationsClicked = false;
+    $(document).ready(function(){
+        $("#departure_point_visible").select2();
+
+    });
 
     function slugify(text)
     {
         return text.toString().toLowerCase()
-        .replace(/\s+/g, '-') // Replace spaces with -
-        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-        .replace(/\-\-+/g, '-') // Replace multiple - with single -
-        .replace(/^-+/, '') // Trim - from start of text
-        .replace(/-+$/, ''); // Trim - from end of text
+		.replace(/\s+/g, '-') // Replace spaces with -
+		.replace(/[^\w\-]+/g, '') // Remove all non-word chars
+		.replace(/\-\-+/g, '-') // Replace multiple - with single -
+		.replace(/^-+/, '') // Trim - from start of text
+		.replace(/-+$/, ''); // Trim - from end of text
     }
 
     @if (Model.NavigateState !=null && Model.NavigateState.Options != null && Model.NavigateState.Options.departures != null && Model.NavigateState.Options.departures.Length > 0)
@@ -45,15 +51,10 @@
     }
 
     var departurePoint = @departurePoint;
+    var first = true;
 
     defaults.format = '@ExcursionStrings.Get("DateTimeFormat")';
     defaults.language =  '@ExcursionStrings.Get("DateTimeLanguage")';
-
-    $(document).ready(function(){
-        $("#departure_point_visible").select2()
-    });
-
-
     var site = site || {};
     site.vm = site.vm || {};
     var map;
@@ -71,7 +72,16 @@
         };
 
         map = new google.maps.Map(document.getElementById("map"),mapOptions);
+
+        /*var mapOptions = {
+          zoom: 8,
+          center: new google.maps.LatLng(-34.397, 150.644)
+        };
+        map = new google.maps.Map(document.getElementById('map'),
+            mapOptions); */
     }
+
+    //google.maps.event.addDomListener(window, 'load', initialize);
 
     function formatHotelStar(strstar, star) {
         return star;
@@ -134,7 +144,8 @@
             searchDeparturePointsInitialized = ko.observable(false),
             searchDeparturePoint = ko.observable(),
             searchDeparturePointForceUse = ko.observable(false),
-            states = ko.observableArray(),
+			states = ko.observableArray(),
+
             destinationstates = ko.observableArray(),
             categorygroups = ko.observableArray(),
             //ranking = ko.observable(),
@@ -435,6 +446,8 @@
             },
             applySearchParams = function (o) {
 
+
+
                 excursionSortOrder((o && o.sortorder) ? ko.utils.arrayFirst(excursionSortOrders(), function (item) { return item.name == o.sortorder; }) : excursionSortOrder());
                 var s = (o && o.text && o.text != '') ? o.text : '';
                 if( searchTextInput() != s ) {
@@ -498,51 +511,51 @@
                     excId:  d.excursion.id
                 }, d || {});
             },
-            doDepartureInitialize = function(force) {
-                // !!!!!!!!!!!!!!!!
-                if( force === true || searchDeparturePointsInitialized() === false ) {
-                    searchDeparturePointsInitialized(true);
-                    site.service.ajax.get('@Url.ApiActionLink("departures", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias(), ds: filterDestinationState() ? filterDestinationState().id : null },
-                        function (result) {
+             doDepartureInitialize = function(force) {
+                 // !!!!!!!!!!!!!!!!
+                 if( force === true || searchDeparturePointsInitialized() === false ) {
+                     searchDeparturePointsInitialized(true);
+                     site.service.ajax.get('@Url.ApiActionLink("departures", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias(), ds: filterDestinationState() ? filterDestinationState().id : null },
+                         function (result) {
 
-                            var departures = [{ id: 0, name: '@ExcursionStrings.Get("SearchDeparture_AnyPoint")', state: "All states" }];
+                             var departures = [{ id: 0, name: '@ExcursionStrings.Get("SearchDeparture_AnyPoint")', state: "All states" }];
 
-                            var needIndex = 0;
+                             var needIndex = 0;
 
-                            departureSlugs = [];
+                             departureSlugs = [];
 
-                            if( result && result.departures ) {
+                             if( result && result.departures ) {
 
-                                ko.utils.arrayForEach(result.departures, function (d) {
+                                 ko.utils.arrayForEach(result.departures, function (d) {
 
-                                    console.log(d.id + ' ' + departurePoint);
-                                    if(d.id == departurePoint)
-                                        needIndex = departures.length;
+                                     console.log(d.id + ' ' + departurePoint);
+                                     if(d.id == departurePoint)
+                                         needIndex = departures.length;
 
-                                    if(d.name==null) d.name = '';
+                                     if(d.name==null) d.name = '';
 
-                                    departureSlugs[d.id] = slugify(d.name.toLowerCase());
+                                     departureSlugs[d.id] = slugify(d.name.toLowerCase());
 
-                                    if (d.state == null) d.state = 'All states';
+                                     if (d.state == null) d.state = 'All states';
 
-                                    departures.push(d);
-                                });
+                                     departures.push(d);
+                                 });
 
-                            }
+                             }
 
-                            searchDeparturePoints(departures);
-                            searchDeparturePoint(departures[needIndex]);
+                             searchDeparturePoints(departures);
+                             searchDeparturePoint(departures[needIndex]);
 
-                            $(".select2-selection__rendered").html(departures[needIndex].name);
+                             $(".select2-selection__rendered").html(departures[needIndex].name);
 
-                            var list = ko.utils.arrayMap(searchDeparturePoints(), function(item) {
-                                return item.state;
-                            });
-                            states(ko.utils.arrayGetDistinctValues(list));
-                        }
-                        );
-                }
-            },
+                             var list = ko.utils.arrayMap(searchDeparturePoints(), function(item) {
+                                 return item.state;
+                             });
+                             states(ko.utils.arrayGetDistinctValues(list));
+                         }
+                         );
+                 }
+             },
             doSearchDeparturePointReset = function() {
                 searchDeparturePointForceUse(false);
                 searchDeparturePoint((searchDeparturePoint() && searchDeparturePoint().length > 0) ? searchDeparturePoint()[0] : undefined);
@@ -609,9 +622,13 @@
             doSearchHistory = function (o, checkstate) {
                 if (history && history.state && history.state.cmd === 'search' &&
                     o && o.text && history.state.o && history.state.o.text && history.state.o.text.length > 0 && o.text.indexOf(history.state.o.text) === 0) {
-                    history.replaceState({ cmd: 'search', o: o }, document.title,  "?action=search&filter="+JSON.stringify(o));
+
+
+                    history.replaceState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+makeShort(JSON.stringify(o)));
+                    //history.replaceState({ cmd: 'search', o: o }, document.title,  "?cmd=search&filter="+JSON.stringify(o));
                 } else {
-                    history.pushState({ cmd: 'search', o: o }, document.title,  "?action=search&filter="+JSON.stringify(o));
+                    //history.pushState({ cmd: 'search', o: o }, document.title,  "?cmd=search&filter="+JSON.stringify(o));
+                    history.pushState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+makeShort(JSON.stringify(o)));
                 }
                 doSearch(o, checkstate);
             },
@@ -650,8 +667,7 @@
 
                 doDepartureInitialize(false);
 
-                if (!filterInitialized()) 
-                {
+                if (!filterInitialized()) {
                     filterInitialized(true);
 
                     site.service.ajax.get('@Url.ApiActionLink("filters", "excursion")', {
@@ -722,9 +738,10 @@
                         ///console.log(result.categorygroups[0].items);
                         if (result && result.categorygroups && result.categorygroups.length && result.categorygroups[0].items.length > 0 ) {
                             console.log(result.categorygroups[0].items);
-                           
+
                             setTimeout(function(){updateCount(result.categorygroups[0].items);}, 500);
                         }
+
 
                         if( o.version == paramsVersion ) {
                             if (result.excursions) {
@@ -794,7 +811,7 @@
 			 },
 
 			doDescriptiOffText = function (excursionId) {
-			    $('#ex_title_block_'+excursionId).css({'background-color':' transparent', 'color': '#000'});
+			    $( '#ex_title_block_'+excursionId).css({'background-color':' transparent', 'color': '#000'});
 			    $( '#avatar_ex_'+excursionId).show();
 			    $( '#ex_discript_'+excursionId).hide();
 			    $( '#ex_discript_shadow'+excursionId).css('box-shadow','none');
@@ -802,7 +819,7 @@
 
 
             doDescription = function (o) {
-                location.href = "@Url.Action("details", "excursion")/"+ o.excursion +"?cmd=search&filter="+ JSON.stringify(buildSearchParams());
+                location.href = "@Url.Action("details", "excursion")/"+ o.excursion +"?cmd=sl&fl=" + current_short_key;//+ JSON.stringify(buildSearchParams());
                 return;
                 description(null);
                 prices(null);
@@ -1031,19 +1048,15 @@
                 }
             },
 
-            
-         
+           searchDeparturePointChanged = function(data, event) {
 
-            searchDeparturePointChanged = function(data, event) {
-                
 
-                if ((event.originalEvent) || (destinationsClicked)) { // user changed
-                    searchDeparturePointForceUse((searchDeparturePoint() && searchDeparturePoint().id != 0) ? true : false);
-                    doSearchHistory(buildSearchParams());
-                }
-                
-            };
-          
+               if ((event.originalEvent) || (destinationsClicked)) { // user changed
+                   searchDeparturePointForceUse((searchDeparturePoint() && searchDeparturePoint().id != 0) ? true : false);
+                   doSearchHistory(buildSearchParams());
+               }
+
+           };
 
             for(var i = 0; i <= @GuestService.Settings.CartinfoPaxSelectMaxAdult; i++) {
                 cartinfoPaxSelectAdult.push({value: i, name: i.toString()});
@@ -1057,7 +1070,7 @@
 
             searchText.subscribe(function (value) {
 
-                if((value != '')||($("#departure_point").val()!="0"))
+                //if((value != '')||(departurePoint!=-10))
                 {
 
                     $('#ex_cont').show();
@@ -1124,12 +1137,9 @@
                 searchTextInput: searchTextInput,
                 searchDeparturePoints: searchDeparturePoints,
                 searchDeparturePoint: searchDeparturePoint,
-                states: states,
-                
                 searchDeparturePointChanged: searchDeparturePointChanged,
-                
                 searchDeparturePointForceUse: searchDeparturePointForceUse,
-
+                states:states,
                 filterDestinationState: filterDestinationState,
                 filterCategorygroups: filterCategorygroups,
                 filterDepartures: filterDepartures,
@@ -1228,12 +1238,12 @@
                     if (data && data.excursion) {
                         doDescriptionHistory({ excursion: data.excursion.id });
                         /*
-					 	 $('#ex_cont').css('background-image','url(https://exgo.com/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
-                        $('#search_box').hide();
-                        $('#ex_cont').animate({top: '300px'});
-                        $('.bk-container').css('background-color','#ffffff');
-                        $('.bk-container').css('margin-bottom','-120px');
-                        */
+					 	 $('#ex_cont').css('background-image','url(https://exgo.com@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
+						 $('#search_box').hide();
+						 $('#ex_cont').animate({top: '300px'});
+						 $('.bk-container').css('background-color','#ffffff');
+						 $('.bk-container').css('margin-bottom','-120px');
+						 */
                         /* $("#excursion_container").animate({top: '-300px'}); */
 
                         /* alert ('ok'); */
@@ -1407,6 +1417,13 @@
 
         $(window).on('popstate', function (e) {
 
+            /*
+
+            $('#search_box').show();
+            $('.bk-container').css('background-color','transparent');
+            $('#ex_cont').animate({top: '184px'}, 800);
+            */
+
             $('#search_box').show();
             $('.bk-container').css('background-color','transparent');
 
@@ -1451,9 +1468,13 @@
             });
         }
 
-        @if ((Request["action"]=="search")&&(Request["filter"] !="null"))
+        @if ((Request["cmd"]=="search")&&(Request["filter"] !="null"))
         {
             <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
+        }
+        else if ((Request["cmd"]=="sl")&&(Request["fl"] !="null"))
+        {
+            <text>site.vm.excursion.navigateCommand('search', jQuery.parseJSON(makeLong('@Html.Raw(Request["fl"])')));</text>
         }
         else if (Model.NavigateState != null)
         {
@@ -1494,6 +1515,38 @@
         }
         return result;
     }
+
+    function makeShort(long_filter)
+    {
+        var const_url = "http://exgo.com?filter=";
+
+        var resp = $.ajax({
+            type: "GET",
+            url: "https://exgo.com/short_links/api.asmx/CreateUrl?real_url="+const_url+long_filter,
+            async: false
+        }).responseText;
+
+        var test = resp.match(/exgo.com\/(.*)<\/string>/);
+
+        current_short_key = test[1];
+
+        return test[1];
+    }
+
+    function makeLong(short_id)
+    {
+        var resp = $.ajax({
+            type: "GET",
+            url: "https://exgo.com/short_links/api.asmx/GetUrl?short_url=http://exgo.com/"+short_id,
+            async: false
+        }).responseText;
+
+        var test = resp.match(/filter=(.*)<\/string>/);
+
+        return test[1];
+    }
+
+
 </script>
 }
 @Scripts.Render("~/js/datepaginator.js")
@@ -1525,25 +1578,16 @@
 </script>
 
 <script>
-function open_menu_opt (name_menu) {
-if (name_menu != 'cat') { $('#menu_opt_cat').slideUp(); }
-if (name_menu != 'cat2') { $('#menu_opt_cat2').slideUp(); }
-if (name_menu != 'des') {$('#menu_opt_des').slideUp(); }
-if (name_menu != 'dep') {$('#menu_opt_dep').slideUp();}
-if (name_menu != 'lang') {$('#menu_opt_lang').slideUp();}
-$('#menu_opt_'+name_menu).slideToggle();
-}
-
 
 function updateCount(data) {
-    console.log(data);
-    console.log($('#menu_opt_cat').html());
+   // console.log(data);
+   // console.log($('#menu_opt_cat').html());
 
     $("#menu_opt_cat .dop_menu_block").each(function(){
                                 
         var id = $(this).attr("item-id");
 
-        console.log(id);
+     //   console.log(id);
 
         var cnt = 0;
 
@@ -1556,11 +1600,19 @@ function updateCount(data) {
                                         
             });
 
-        console.log('cnt ' + cnt);
+       // console.log('cnt ' + cnt);
         $("span", this).eq(1).html(cnt);
     });
 }
 
+function open_menu_opt (name_menu) {
+if (name_menu != 'cat') { $('#menu_opt_cat').slideUp(); }
+if (name_menu != 'cat2') { $('#menu_opt_cat2').slideUp(); }
+if (name_menu != 'des') {$('#menu_opt_des').slideUp(); }
+if (name_menu != 'dep') {$('#menu_opt_dep').slideUp();}
+if (name_menu != 'lang') {$('#menu_opt_lang').slideUp();}
+$('#menu_opt_'+name_menu).slideToggle();
+}
 
 
 </script>
@@ -1604,7 +1656,7 @@ function updateCount(data) {
 			<i class="fa fa-caret-down arrow_dop_menu"> </i>
         <div data-bind="foreach: filterDestinations" id="menu_opt_des" class="menu_list">
             <div class="checkbox dop_menu_block">                       
-                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDestinationItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> 
+                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDestinationItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span>
                 </div>
         </div>
     </div>
@@ -1616,7 +1668,7 @@ function updateCount(data) {
 				<i class="fa fa-caret-down arrow_dop_menu"> </i>
             <div data-bind="foreach: filterDepartures" id="menu_opt_dep" class="menu_list">
                 <div class="checkbox dop_menu_block">                       
-                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDeparturesItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span>
+                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDeparturesItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> 
                     </div>
             </div>
         </div>
@@ -1628,7 +1680,7 @@ function updateCount(data) {
 		<i class="fa fa-caret-down arrow_dop_menu" OnClick="open_menu_opt('lang')"  style="cursor:pointer"> </i>
         <div data-bind="foreach: filterLanguages" id="menu_opt_lang" class="menu_list">                                                                        
             <div class="checkbox dop_menu_block">                                 
-                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterLanguageItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span>
+                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterLanguageItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> 
             </div>                           
         </div>
     </div>
@@ -2050,7 +2102,7 @@ $(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-backgro
 
 <style>
 body {
-background: url(/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg);
+background: url(@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg);
   background-size: cover;
   o-background-size: cover;
     -webkit-background-size: cover; 
@@ -2125,15 +2177,7 @@ overflow: hidden;
 			
             @if (!GuestService.Settings.IsHideDeparturePoints)
             {
-
-/*
-                <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;display:none">
-                    <select id="departure_point" data-bind="options: searchDeparturePoints, optionsText: 'name', value: $root.searchDeparturePoint, event: { change: searchDeparturePointChanged }" class="form-control" style="padding: 6px; width:100%; border: none;
-    box-shadow: none;"></select>
-                </div>
-                */
-
-            <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;" >	
+                     <div class="form-group  col-md-2 col-sm-3" style="padding-left:0px; padding-right:5px; float: right;" >	
                 <select id="departure_point_visible" 
                         data-bind="value: $root.searchDeparturePoint, event: { change: searchDeparturePointChanged }" class="form-control" 
                         style="padding: 6px; width:100%; border: none; box-shadow: none;">
@@ -2154,8 +2198,7 @@ overflow: hidden;
                         <!-- /ko -->
                     <!-- /ko -->
                 </select>                                                                         
-            </div>									
-
+            </div>										
             }
 			<button class="btn btn-primary" type="button" value="" data-bind="click: $root.categoryButtonClick" style="display:none;">@ExcursionStrings.Get("NavigateCategory")</button>	
 			
