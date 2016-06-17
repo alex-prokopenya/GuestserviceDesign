@@ -580,6 +580,7 @@
                 }
             },
             doSearchHistory = function (o, checkstate) {
+
                 if (history && history.state && history.state.cmd === 'search' &&
                     o && o.text && history.state.o && history.state.o.text && history.state.o.text.length > 0 && o.text.indexOf(history.state.o.text) === 0) {
                     history.replaceState({ cmd: 'search', o: o }, document.title, null);
@@ -971,7 +972,7 @@
 			$('#ex_cont').show();
 
 			if (document.body.clientWidth > 767 ) {
-			$('#ex_cont').animate({top: '184px'}, 800);
+			//$('#ex_cont').animate({top: '184px'}, 800);
 			$(".bk-footer").animate({bottom: '-90px'});
 			$("#search_box").animate({top: '-18px'}, 800);
 			} else {
@@ -1299,7 +1300,7 @@
         $(window).on('popstate', function (e) {
 		$('#search_box').show();
 		$('.bk-container').css('background-color','transparent');
-		$('#ex_cont').animate({top: '184px'}, 800);
+		//$('#ex_cont').animate({top: '184px'}, 800);
 		/* $("#excursion_container").animate({top: 'none'}); */
             if (history && history.state && history.state.cmd) {
                 site.vm.excursion.navigateCommand(history.state.cmd, history.state.o);
