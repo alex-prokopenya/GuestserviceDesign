@@ -621,7 +621,6 @@
             },
             doSearchHistory = function (o, checkstate) {
 
-                console.log(o);
 
                 if((o.fd != null) && (o.fd.length > 10))
                     current_date = o.fd.substring(0,10); 
@@ -720,7 +719,7 @@
 
                 excursions([]);
                 excursionsData([]);
-                searchFlag(true);
+               
                 site.service.ajax.get('@Url.ApiActionLink("catalog", "excursion")', {
                     pa: partnerAlias(),
                     psid: partnerSessionID(),
@@ -739,14 +738,11 @@
                         excursions([]);
                         excursionsData([]);
 
-                        //проверять какая из категорий имеется ввиду
-                        ///console.log(result.categorygroups[0].items);
                         if (result && result.categorygroups && result.categorygroups.length && result.categorygroups[0].items.length > 0 ) {
                             console.log(result.categorygroups[0].items);
 
                             setTimeout(function(){updateCount(result.categorygroups[0].items);}, 500);
                         }
-
 
                         if( o.version == paramsVersion ) {
                             if (result.excursions) {
@@ -758,6 +754,7 @@
                             }
                             else
                                 applySearchParams(o, checkstate);
+
                             searchFlag(false);
 
                             navigateView(doSearchView);
@@ -1299,7 +1296,7 @@
                         data.filterDateChecked(!data.filterDateChecked());
                         if( !data.filterDateChecked() )
                         {
-                            doSearchHistory(buildSearchParams());
+                          //  doSearchHistory(buildSearchParams());
                         }
                         else
                         {
