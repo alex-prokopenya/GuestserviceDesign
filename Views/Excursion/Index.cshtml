@@ -27,7 +27,8 @@
 @section scripts {
 <script type="text/javascript">
 
-    var current_short_key="";
+    var current_short_key = "";
+    var current_date = "";
 
     var destinationsClicked = false;
     $(document).ready(function(){
@@ -320,7 +321,6 @@
                     ko.utils.arrayForEach(d.ranking.ranks, function (g) {
                         g.rankPct = g.rank*10+'%';
                     });
-                    // console.log(d.ranking.ranks);
                 }
 
                 if( d.surveynotes && d.surveynotes.length > 0 ) {
@@ -620,16 +620,21 @@
                 }
             },
             doSearchHistory = function (o, checkstate) {
+
+                console.log(o);
+
+                if((o.fd != null) && (o.fd.length > 10))
+                    current_date = o.fd.substring(0,10); 
+                else
+                    current_date = "";
+
                 if (history && history.state && history.state.cmd === 'search' &&
                     o && o.text && history.state.o && history.state.o.text && history.state.o.text.length > 0 && o.text.indexOf(history.state.o.text) === 0) {
-
-
                     history.replaceState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+makeShort(JSON.stringify(o)));
-                    //history.replaceState({ cmd: 'search', o: o }, document.title,  "?cmd=search&filter="+JSON.stringify(o));
                 } else {
-                    //history.pushState({ cmd: 'search', o: o }, document.title,  "?cmd=search&filter="+JSON.stringify(o));
                     history.pushState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+makeShort(JSON.stringify(o)));
                 }
+
                 doSearch(o, checkstate);
             },
 
@@ -770,8 +775,6 @@
             doDescriptionHistory = function (o) {
                 //history.pushState({ cmd: 'description', o: o }, document.title, null);
                 doDescription(o);
-
-
             },
 
 			 doDescriptionText = function (excursionId) {
@@ -801,8 +804,6 @@
                          if (result && result.length > 0 && result[0] && result[0].excursion && result[0].excursion.id == excursionId) {
                              var text = result[0].description[0].paragraphs[0];
                              $('#ex_discript_' + excursionId).html(text);
-                             /* alert(result[0].description[0].paragraphs[0]); */
-                             /* alert(text);  */
                          }
                          else
                              alert('null');
@@ -819,7 +820,11 @@
 
 
             doDescription = function (o) {
-                location.href = "@Url.Action("details", "excursion")/"+ o.excursion +"?cmd=sl&fl=" + current_short_key;//+ JSON.stringify(buildSearchParams());
+
+                location.href = "@Url.Action("details", "excursion")/"+ o.excursion 
+                                    + "?cmd=sl&fl=" + current_short_key 
+                                    + (current_date !=''? '&dt=' + current_date :'' );
+
                 return;
                 description(null);
                 prices(null);
