@@ -591,8 +591,6 @@
             },
 
 
-
-
             doSearch = function (o, checkstate) {
 
                 excursions([]);
@@ -611,6 +609,7 @@
                         so: (o && o.sortorder) ? o.sortorder : '',
                         fd: (o && o.fd) ? o.fd : '',
                         ld: (o && o.ld) ? o.ld : '',
+                        rate:currentCurrency
                     },
                     function (result) {
                         excursions([]);
@@ -757,7 +756,8 @@
                         pa: partnerAlias(),
                         psid: partnerSessionID(),
                         spa: startPointAlias(),
-                        dt: o.date
+                        dt: o.date,
+                        rate:currentCurrency
                     },
                     function (result) {
                         if (description() && description().excursion.id == id) {

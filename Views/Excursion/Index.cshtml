@@ -1,16 +1,17 @@
 ﻿@model GuestService.Models.Excursion.ExcursionIndexContext
 
 @{
+    
     ViewBag.Title = ExcursionStrings.Get("Title");
-	
-	if (!string.IsNullOrEmpty(Model.Title))
+
+    if (!string.IsNullOrEmpty(Model.Title))
     {
         ViewBag.Title = Model.Title;
     }
 
     ViewBag.Description = "Cyprus tours with EXGO, book excursions online, find out what to do in Cyprus, which excursions to take and places to visit.";
     ViewBag.Keywords = "cyprus excursions, shore trips, shore excursions, one day trip, day tours in cyprus";
-	
+
     var departurePoint = -10;
 }
 
@@ -733,6 +734,7 @@
                     so: (o && o.sortorder) ? o.sortorder : '',
                     fd: (o && o.fd) ? o.fd : '',
                     ld: (o && o.ld) ? o.ld : '',
+                    rate: currentCurrency
                 },
                     function (result) {
                         excursions([]);
