@@ -1,0 +1,28 @@
+﻿@model GuestService.Models.Countries.CountriesCatalog
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.Keywords = Model.Keywords;
+}
+<div class="static_text">
+<article style="padding: 70px 10px 10px 10px;">
+    <hgroup class="ex_pay_title">
+      <p>@ExcursionStrings.Get("Countries_List")</p>
+    </hgroup>
+                
+                @if (Model.Countries.Length > 0)
+                {
+                    <ul>
+                        @foreach(var country in Model.Countries)
+                        {
+                            <li><a href="@Url.Action(@country.Key.ToLower(), "countries")">@country.Value</a></li>
+                        }
+                    </ul>
+                }
+    <p><strong>@(ViewBag.Title + " Seotext")</strong></p>
+    <p>
+       @Model.SeoText
+    </p>
+</article>
+</div>

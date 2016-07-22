@@ -118,117 +118,144 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BookingAgreementConfirm" xml:space="preserve">
-    <value>Συμφωνώ</value>
+    <value>Согласен</value>
   </data>
   <data name="BookingAgreementConfirmMessage_1" xml:space="preserve">
-    <value>Συμφωνώ</value>
+    <value>Я согласен</value>
   </data>
   <data name="BookingAgreementConfirmMessage_2" xml:space="preserve">
-    <value>όροι κράτησης</value>
+    <value>с условиями бронирования</value>
   </data>
   <data name="BookingErrorTitle" xml:space="preserve">
-    <value>Δυστυχώς, είναι αδύνατο να τελειώσει το βιβλίο εξαιτίας ενός σφάλματος</value>
+    <value>К сожалению, невозможно завершить бронирование из-за возникшей ошибки</value>
   </data>
   <data name="GoBack" xml:space="preserve">
-    <value>Απόδοση</value>
+    <value>Вернуться</value>
   </data>
   <data name="RulesAccepted" xml:space="preserve">
-    <value>Πρέπει να διαβάσετε και να συμφωνήσετε με τους όρους και τις προϋποθέσεις κράτησης</value>
+    <value>Необходимо прочитать и подтвердить согласие с условиями бронирования</value>
   </data>
   <data name="BookingResultTitle" xml:space="preserve">
-    <value>Αποτέλεσμα προκειμένου κράτησης</value>
+    <value>Результат бронирования заказа</value>
   </data>
   <data name="BookingProcessing_Title" xml:space="preserve">
-    <value>Για Κράτησης</value>
+    <value>Бронирование заказа</value>
   </data>
   <data name="BookingModel_R_CustomerName" xml:space="preserve">
-    <value>Πρέπει να ορίσετε ένα όνομα</value>
+    <value>Необходимо указать имя</value>
+  </data>
+  <data name="BookingModel_R_CustomerSecondName" xml:space="preserve">
+    <value>Необходимо указать фамилию</value>
   </data>
   <data name="BookingModel_R_UserEmail" xml:space="preserve">
-    <value>Πρέπει να καθορίσετε το e-mail σας</value>
+    <value>Необходимо указать e-mail</value>
   </data>
   <data name="BookingProcessing_OrderTitle_1" xml:space="preserve">
-    <value>Η παραγγελία σας</value>
+    <value>Ваш заказ</value>
   </data>
   <data name="BookingProcessing_OrderTitle_2" xml:space="preserve">
-    <value>επιτυχώς κράτηση.</value>
+    <value>успешно забронирован.</value>
   </data>
   <data name="BookingFormName" xml:space="preserve">
-    <value>Όνομα</value>
+    <value>Имя, Фамилия</value>
   </data>
   <data name="BookingFormNote" xml:space="preserve">
-    <value>Σχόλιο για την τάξη</value>
+    <value>Комментарий к заказу</value>
   </data>
   <data name="BookingFormMail" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="BookingMenuTitle" xml:space="preserve">
-    <value>Κρατήσεις για περιηγήσεις</value>
+    <value>Бронирование экскурсий</value>
   </data>
   <data name="BookingReturnToOrder" xml:space="preserve">
-    <value>Επιστροφή στην τάξη</value>
+    <value>Вернуться к заказу</value>
   </data>
   <data name="RemoveOrderConfirmText" xml:space="preserve">
-    <value>Είστε σίγουροι ότι θέλετε να διαγράψετε μια περιοδεία της τάξης;</value>
+    <value>Вы действительно хотите удалить экскурсию из заказа?</value>
   </data>
   <data name="BookingAgreementTitle" xml:space="preserve">
-    <value>Συμφωνία χρήστη</value>
+    <value>Пользовательское соглашение</value>
   </data>
   <data name="RemoveOrderConfirmTitle" xml:space="preserve">
-    <value>Επιβεβαίωση κατάργησης</value>
+    <value>Подтверждение удаления</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Παραγγελίες</value>
+    <value>Заказы в корзине</value>
   </data>
   <data name="ErrorMessageTitle" xml:space="preserve">
-    <value>Προσοχή</value>
+    <value>Внимание</value>
   </data>
   <data name="BookingInProcess" xml:space="preserve">
-    <value>Παρακαλώ περιμένετε, το βιβλίο παραγγελιών ...</value>
+    <value>Пожалуйста подождите, идет бронирование заказа...</value>
   </data>
   <data name="BookingPayButton" xml:space="preserve">
-    <value>Αποχώρηση</value>
+    <value>Оплатить</value>
   </data>
   <data name="RemoveOrderLink" xml:space="preserve">
-    <value>Ακύρωση</value>
+    <value>Удалить заказ из корзины</value>
   </data>
   <data name="BookingResultText_2" xml:space="preserve">
-    <value>επιτυχώς κράτηση. Για να προχωρήσει στην καταβολή, κάντε κλικ στο "Πληρωμή".</value>
+    <value>успешно забронирован. Для перехода к оплате нажмите кнопку "Оплатить".</value>
   </data>
   <data name="BookingResultText_1" xml:space="preserve">
-    <value>Η παραγγελία σας</value>
+    <value>Ваш заказ</value>
   </data>
   <data name="EmptyCart_2" xml:space="preserve">
-    <value>αναζήτηση</value>
+    <value>поиска</value>
   </data>
   <data name="EmptyCart_1" xml:space="preserve">
-    <value>Η λίστα της σειράς είναι άδειο. Για να κλείσετε μια περιήγηση, πηγαίνετε στο</value>
+    <value>Список заказов пуст. Для бронирования экскурсии перейдите в раздел</value>
   </data>
   <data name="BookNowButton" xml:space="preserve">
-    <value>Κράτηση</value>
+    <value>Забронировать</value>
   </data>
   <data name="GuestServiceTitle" xml:space="preserve">
-    <value>Personal Area</value>
+    <value>Личный кабинет</value>
   </data>
   <data name="RemoveOrderCancelButton" xml:space="preserve">
-    <value>Όχι, πάμε πίσω στην τάξη</value>
+    <value>Нет, вернуться к заказу</value>
   </data>
   <data name="OrderTotalLabel" xml:space="preserve">
-    <value>Σύνολο:</value>
+    <value>Итого:</value>
   </data>
   <data name="BookingFormPhone" xml:space="preserve">
-    <value>Αριθμός επαφής</value>
+    <value>Контактный телефон (с кодом страны)</value>
   </data>
   <data name="RemoveOrderConfirmButton" xml:space="preserve">
-    <value>Ναι, επιβεβαιώνω αφαίρεση</value>
+    <value>Да, подтверждаю удаление</value>
   </data>
   <data name="BookingAgreementCancel" xml:space="preserve">
-    <value>Διαφωνώ</value>
+    <value>Не согласен</value>
   </data>
   <data name="BookingFormAddress" xml:space="preserve">
-    <value>Διεύθυνση</value>
+    <value>Отель, номер комнаты / Адрес</value>
   </data>
   <data name="BookingModel_R_CustomerMobile" xml:space="preserve">
-    <value>Πρέπει να καθορίσετε το τηλέφωνο</value>
+    <value>Необходимо указать телефон</value>
+  </data>
+   <data name="BookingFormNameOnly" xml:space="preserve">
+    <value>Имя</value>
+  </data>  
+   <data name="BookingFormSurnameOnly" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>  
+   <data name="BookingFormNotification1" xml:space="preserve">
+    <value>* Имя и фамилия заказчика должны совпадать с именем и фамилией плательщика</value>
+  </data>  
+   <data name="OrderVATnotification" xml:space="preserve">
+    <value>Все цены включают НДС</value>
+  </data>  
+  <data name="ShoppingCart_Total" xml:space="preserve">
+    <value>Сумма к оплате</value>
+  </data>
+  <data name="BookingModel_R_CustomerNameReg" xml:space="preserve">
+    <value>Имя нужно указать латиницей</value>
+  </data>
+  <data name="BookingModel_R_CustomerSecondNameReg" xml:space="preserve">
+    <value>Фамилию нужно указать латиницей</value>
+  </data>
+  <data name="ExgoComission" xml:space="preserve">
+    <value>Комиссия сервиса:</value>
   </data>
 </root>

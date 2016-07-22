@@ -1,0 +1,310 @@
+﻿<div style="width: 100px; height: 100px; border: solid 1px red; position: fixed; top: 10px; left: 10px; z-index: 10000; display: none;"></div>
+
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()      
+    }
+}
+
+  
+ <div class="modal fade" id="searchclaim" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				@{  var langg = Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage;
+
+					switch (langg)
+					{
+						case "en":
+							<h4 class="modal-title" id="myModalLabel" style="color:#777777;">Order status check</h4>
+							break;
+						case "ru":
+							<h4 class="modal-title" id="myModalLabel" style="color:#777777;">Проверка статуса заказа</h4>
+							break;
+						case "de":
+							<h4 class="modal-title" id="myModalLabel" style="color:#777777;">Statusüberprüfung</h4>
+							break;
+						case "el":
+							<h4 class="modal-title" id="myModalLabel" style="color:#777777;">Ελεγχος κατάστασης</h4>
+							break;
+					}
+				}
+            </div>
+            <div class='notification-warnings' data-bind="visible: cartinfoErrors().length > 0">
+                <div class="bs-callout bs-callout-danger" style="margin: 15px;">
+                    <h4 style="margin-bottom:5px;">@SharedStrings.Get("CheckStatus_FillFields")</h4>
+                    <ul style="list-style-type: none; padding-left: 0px;" data-bind="foreach: cartinfoErrors">
+                        <li><small style="color: #8c8c8c;" data-bind="text: $data"></small></li>
+                    </ul>
+                </div>
+            </div>
+            <div  style="padding-left:30px">
+                
+					  <form method="get" action="@Url.Action("index", "payment")">
+						@{  
+
+                            switch (langg)
+                            {
+                                case "en":
+									<label >Order number:</label>
+									<input id='claim-id'  class="form-control" name="claim" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+									<label >Phone number:</label>
+									<input id='phone'  class="form-control" name="phone" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+                                    break;
+                                case "ru":
+									<label >Номер заказа:</label>
+									<input id='claim-id'  class="form-control" name="claim" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+									<label >Номер телефона:</label>
+									<input id='phone'  class="form-control" name="phone" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+                                    break;
+                                case "de":
+									<label >Bestellnummer:</label>
+									<input id='claim-id'  class="form-control" name="claim" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+									<label >Telefonnummer:</label>
+									<input id='phone'  class="form-control" name="phone" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+                                     break;
+                                case "el":
+									<label >Αριθμός παραγγελίας:</label>
+									<input id='claim-id'  class="form-control" name="claim" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+									<label >Τηλεφωνικό νούμερο:</label>
+									<input id='phone'  class="form-control" name="phone" maxlength="250" style="width: 400px; display:block" type="text">
+									<br>
+                                     break;
+                            }
+						}
+                     <div class="modal-footer" data-bind="visible: cartinfoErrors().length == 0" style="margin-top:0px;">
+						@{  
+
+                            switch (langg)
+                            {
+                                case "en":
+                                    <button type="submit" style="display:inline" class="btn btn-primary">
+                                        check status
+                                    </button>
+                                    break;
+                                case "ru":
+                                    <button type="submit" style="display:inline" class="btn btn-primary">
+                                        проверить статус
+                                    </button>
+                                    break;
+                                case "de":
+                                    <button type="submit" style="display:inline" class="btn btn-primary">
+                                        status überprüfen
+                                    </button>
+                                    break;
+                                case "el":
+                                    <button type="submit" style="display:inline" class="btn btn-primary">
+                                        ελέγξετε την κατάσταση
+                                    </button>
+                                    break;
+                            }
+						}
+						
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            @ExcursionStrings.ResourceManager.Get("OrderCloseButton")
+                        </button>
+                    </div>
+                 </form>
+
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+	
+<nav role="navigation" class="navbar navbar-inverse" style="z-index:8;">
+    <div class="container123">
+	
+	
+	            @{
+                var languages = Sm.System.Mvc.Language.UrlLanguage.SupportedLanguages;
+                var language = Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage;
+                var values = Sm.System.Mvc.HttpRequestBaseExtensions.QueryStringAsRouteValues(Request);  
+				
+                var languagesDict = new System.Collections.Generic.Dictionary<string, string>();
+                languagesDict.Add("ru", "Русский");
+                languagesDict.Add("en", "English");
+                languagesDict.Add("el", "Elenika");
+                languagesDict.Add("de", "Deutsch");
+				languagesDict.Add("es", "Spain");
+                languagesDict.Add("fr", "France");
+                if (languages != null && languages.Length > 1)
+                {
+						<div style="
+position: absolute;
+  display: inline-table;
+  width: 100%;
+  background-color: #fff;
+  left: 0px;
+  top: 50px;
+  padding-right: 10px;
+  padding-left: 2px;
+display: none;
+  "
+class="dropdown-menu"
+>
+
+<style>
+.a123 {
+width: 100%;
+  padding: 10px;
+  background-color: grey;
+  margin: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+
+</style>
+						@foreach (var lang in languages.Where(m => m != language))
+                            {
+                                values["language"] = lang;
+                                <div class="a123">
+                                    <a href="@Url.RouteUrl(values)">
+                                        @languagesDict[lang]
+                                    </a>
+                                </div>
+
+                            }
+						
+						</div>				
+	<script>
+function open_mobile_menu() {
+	if (document.body.clientWidth < 767 ) {
+		$('#ex_lang_menu').hide();
+		$('#lang_mobile_menu').slideToggle();
+	}
+}
+
+	</script>
+				
+				<i class="fa fa-globe nav-globe" ></i>
+                    <li class="dropdown bk-navbar-language open_sans_c_bold">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" OnClick="open_mobile_menu()">@languagesDict[language] &nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="min-width:0;" id="ex_lang_menu">
+                            @foreach (var lang in languages.Where(m => m != language))
+                            {
+                                values["language"] = lang;
+                                <li>
+                                    <a href="@Url.RouteUrl(values)">
+                                        @languagesDict[lang]
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                    </li>
+                }        
+            }
+			<div class="open_sans_c_bold" style="display: none;" id="lang_mobile_menu">
+<ul class="" style="min-width:0;" id="ex_lang_menu">
+                            @foreach (var lang in languages.Where(m => m != language))
+                            {
+                                values["language"] = lang;
+                                <li>
+                                    <a href="@Url.RouteUrl(values)">
+                                        @languagesDict[lang]
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+	
+</div>
+	
+	
+        <div class="navbar-header bk-navbar-header"
+		style="
+		
+    left: 50%;
+    position: absolute;
+    margin-left: -69px;
+    margin-top: -15px
+
+	
+
+">
+            <!-- @{ Html.RenderAction("PageLogo", "customization"); } -->
+			<a href="/guestservice_design/"> <img id="img_logo" src="@Url.Content("~/images/new/logo.png")" style="height: 49px;"></a>
+            <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button" style="
+
+    position: relative;
+    left: 55%;
+    margin-top: -54px;
+    right: 0px;
+    display: block;
+    margin-left: -55px;
+    float: none;
+	border-radius: 5px;
+
+">
+                <span class="sr-only">@SharedStrings.ResourceManager.Get("NavigatorTitle")</span>
+				
+                <img src="@Url.Content("~/images/menu.png")" />
+				
+            </button> 
+        </div>  
+        <div class="collapse navbar-collapse navbar-ex1-collapse" id="mobile_menu"> 
+        
+            <ul class="nav navbar-nav navbar-right open_sans_c_bold" style="
+    margin-top: -26px;
+">
+            @{ Html.RenderAction("PageNavigation", "customization"); }
+			
+			
+            @if (User.Identity.IsAuthenticated)
+            {        
+            <li class="dropdown bk-navbar-user">
+                <a data-toggle="dropdown" class="dropdown-toggle"  href="#">@User.Identity.Name <b class="caret"></b></a>                                                         
+                <ul class="dropdown-menu" style="min-width:0;">
+                    <li><a href="@Url.Action("order", "guest")">@SharedStrings.ResourceManager.Get("ToolbarGuestOrderLink")</a></li>
+                    <li class="divider" />
+                    <li><a href="javascript: $('#logoutForm').submit();">@SharedStrings.ResourceManager.Get("NavigatorLogout")</a></li>
+                </ul>
+            </li>
+            }
+            else
+            {
+                <li>
+                    <a  href="@Url.Action("login", "account", new { returnUrl = Url.Action("index") })">@SharedStrings.ResourceManager.Get("ToolbarSignIn")</a>
+                </li>
+            }
+              
+            <script type="text/javascript">
+                @{ 
+                    var cart = GuestService.Models.Booking.ShoppingCart.CreateFromSession(Session);  
+                }
+                $(function () {
+                    if(site && site.vm && site.vm.shoppingcart) {
+                        site.vm.shoppingcart.setOrderCount(@cart.Orders.Count);
+                    }
+                });  
+		
+			
+            </script>
+    
+
+
+	
+            <li id="shoppingcart_container" class="bk-navbar-shopping-cart" style="background-color: #ffbc23; ">
+                <a href="@Url.Action("index", "booking")" style="color: #000;">@SharedStrings.ResourceManager.Get("NavigatorMyOrders") <span data-bind="if: showOrderCount"><span class="badge" data-bind="text: orderCount"></span></span></a>
+            </li>            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+    

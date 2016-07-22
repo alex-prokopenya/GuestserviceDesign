@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,220 +118,219 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Register_ToMyAccount" xml:space="preserve">
-    <value>Πηγαίνετε στην προσωπική σας υπουργικό συμβούλιο</value>
+    <value>Перейти в личный кабинет</value>
   </data>
   <data name="Register_RegisterButton" xml:space="preserve">
-    <value>Εγγραφή</value>
+    <value>Зарегистрироваться</value>
   </data>
   <data name="Login_Ph_Email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="LocalPasswordModel_L_Password" xml:space="preserve">
-    <value>Ο κωδικός πρόσβασης πρέπει να είναι τουλάχιστον {2} χαρακτήρες &quot;</value>
+    <value>Пароль должен быть длиной не менее  {2} символов"</value>
   </data>
   <data name="ErrorDuplicateEmail" xml:space="preserve">
-    <value>Ποια η ταχυδρομική διεύθυνση είναι ήδη σε χρήση. Χρησιμοποιήστε μια διαφορετική διεύθυνση ηλεκτρονικού ταχυδρομείου.</value>
+    <value>акой почтовый адрес уже используется. Используйте другой почтовый адрес.</value>
   </data>
   <data name="Restore_Ph_Password" xml:space="preserve">
-    <value>Κωδικός</value>
+    <value>Пароль</value>
   </data>
   <data name="Register_ErrorSocial" xml:space="preserve">
-    <value>Σφάλμα ελέγχου</value>
+    <value>Ошибка авторизации</value>
   </data>
   <data name="LoginTitle" xml:space="preserve">
-    <value>Εξουσιοδότηση</value>
+    <value>Авторизация</value>
   </data>
   <data name="Restore_MaimFormLink" xml:space="preserve">
-    <value>Προχωρήστε</value>
+    <value>Продолжить</value>
   </data>
   <data name="LocalPasswordModel_C_ConfirmPassword" xml:space="preserve">
-    <value>Νέος κωδικός πρόσβασης και το συνθηματικό επιβεβαίωση δεν ταιριάζουν</value>
+    <value>Новый пароль и подтверждение пароля не совпадают</value>
   </data>
   <data name="AccountLogin_EmailNotConfirmed" xml:space="preserve">
-    <value>e-mail, που προσδιορίζονται κατά τη διάρκεια της εγγραφής δεν έχει ακόμη επιβεβαιωθεί</value>
+    <value>е-mail, указанный при регистрации, еще не подтвержден</value>
   </data>
   <data name="RestorePasswordChangedError" xml:space="preserve">
-    <value>Ανίκανος να αλλάξετε τον κωδικό πρόσβασης για το λογαριασμό</value>
+    <value>Не удалось изменить пароль для учетной записи</value>
   </data>
   <data name="RegisterText" xml:space="preserve">
-    <value>Παρακαλώ συμπληρώστε τη φόρμα εγγραφής</value>
+    <value>Пожалуйста заполните форму регистрации</value>
   </data>
   <data name="Register_MainFormLink" xml:space="preserve">
-    <value>Προχωρήστε</value>
+    <value>Продолжить</value>
   </data>
   <data name="Register_ConfirmPassword" xml:space="preserve">
-    <value>Επανάληψη κωδικού πρόσβασης</value>
+    <value>Повторение пароля</value>
   </data>
   <data name="Register_ErrorSocialS" xml:space="preserve">
-    <value>Σφάλμα άδεια χρησιμοποιώντας μια υπηρεσία τρίτου μέρους.</value>
+    <value>Ошибка авторизации при помощи стороннего сервиса.</value>
   </data>
   <data name="Login_RememberMe" xml:space="preserve">
-    <value>Να με θυμάσαι</value>
+    <value>Запомнить меня</value>
   </data>
   <data name="Restore_SetPasswordButton" xml:space="preserve">
-    <value>Ορισμός κωδικού πρόσβασης</value>
+    <value>Установить пароль</value>
   </data>
   <data name="ErrorProviderError" xml:space="preserve">
-    <value>Υπήρξε ένα πρόβλημα με την ανάκτηση των δεδομένων της βάσης δεδομένων.</value>
+    <value>Возникла проблема базы данных при извлечении данных.</value>
   </data>
   <data name="RegisterEmailNotConfirmed" xml:space="preserve">
-    <value>Η διεύθυνση ηλεκτρονικού ταχυδρομείου που δώσατε κατά τη διαδικασία εγγραφής δεν έχει ακόμα επιβεβαιωθεί.</value>
+    <value>Адрес электронной почты, который вы ввели в процессе регистрации, еще не подтвержден.</value>
   </data>
   <data name="LoginModel_R_Mail" xml:space="preserve">
-    <value>Μη έγκυρη διεύθυνση e-mail</value>
+    <value>Некорректный адрес электронной почты</value>
   </data>
   <data name="Restore_Btn" xml:space="preserve">
-    <value>Αποκαταστήστε</value>
+    <value>Восстановить</value>
   </data>
   <data name="RestoreText" xml:space="preserve">
-    <value>Πληκτρολογήστε το νέο κωδικό πρόσβασης που θα χρησιμοποιείτε για να συνδεθείτε</value>
+    <value>Укажите новый пароль, который Вы будете использовать для входа</value>
   </data>
   <data name="Register_Ph_Password" xml:space="preserve">
-    <value>Κωδικός</value>
+    <value>Пароль</value>
   </data>
   <data name="Register_ConfirmEmail" xml:space="preserve">
-    <value>Επιβεβαιώστε την διεύθυνση του e-mail σας</value>
+    <value>Подтверждение адреса электронной почты</value>
   </data>
   <data name="Login_Password" xml:space="preserve">
-    <value>Κωδικός</value>
+    <value>Пароль</value>
   </data>
   <data name="Login_Ph_Password" xml:space="preserve">
-    <value>Κωδικός</value>
+    <value>Пароль</value>
   </data>
   <data name="RegisterEmailNote" xml:space="preserve">
-    <value>Στείλαμε μια επιβεβαίωση στο e-mail σας. Ανοίξτε το μήνυμα και κάντε κλικ στο σύνδεσμο που καθορίζονται σε αυτό.</value>
+    <value>Мы отправили запрос подтверждения на указанный Вами e-mail. Откройте почтовое сообщение и кликните на указанной в нем ссылке.</value>
   </data>
   <data name="ResetPassword_CannotReset" xml:space="preserve">
-    <value>Δεν μπορείτε να αλλάξετε τον κωδικό πρόσβασής σας</value>
+    <value>Невозможно изменить пароль</value>
   </data>
   <data name="Login_Social" xml:space="preserve">
-    <value>Σύνδεση με άδεια στο κοινωνικό δίκτυο</value>
+    <value>Войти через авторизацию в социальной сети</value>
   </data>
   <data name="LoginText_1" xml:space="preserve">
-    <value>Δεν έχετε λογαριασμό;</value>
+    <value>Нет аккаунта?</value>
   </data>
   <data name="LoginText_2" xml:space="preserve">
-    <value>Εγγραφή</value>
+    <value>Зарегистрируйтесь</value>
   </data>
   <data name="RestoreTitle" xml:space="preserve">
-    <value>Ανάκτησης κωδικού πρόσβασης</value>
+    <value>Восстановление пароля</value>
   </data>
   <data name="Login_Forget_2" xml:space="preserve">
-    <value>ανάκτησης κωδικού πρόσβασης</value>
+    <value>восстановлением пароля</value>
   </data>
   <data name="Login_Forget_1" xml:space="preserve">
-    <value>Εάν έχετε ξεχάσει τον κωδικό σας, χρησιμοποιήστε το</value>
+    <value>Если Вы забыли пароль, воспользуйтесь</value>
   </data>
   <data name="Restore_Email_Register" xml:space="preserve">
-    <value>Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου που χρησιμοποιήσατε για την εγγραφή</value>
+    <value>Укажите e-mail адрес, используемый при регистрации</value>
   </data>
   <data name="Login_Email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="AccountLogin_InvalidCredentails" xml:space="preserve">
-    <value>E-mail ή κωδικός πρόσβασης είναι λανθασμένος</value>
+    <value>E-mail или пароль указаны неверно</value>
   </data>
   <data name="ErrorUserRejected" xml:space="preserve">
-    <value>Η δημιουργία ενός χρήστη είναι αδύνατη.</value>
+    <value>Создание пользователя невозможно.</value>
   </data>
   <data name="ErrorInvalidAnswer" xml:space="preserve">
-    <value>Η απάντηση που δώσατε είναι εσφαλμένη.</value>
+    <value>Ответ, предоставленный Вами, неверен.</value>
   </data>
   <data name="Login_AlreadyUser" xml:space="preserve">
-    <value>Έχετε ήδη συνδεθεί ως</value>
+    <value>Вы уже авторизованы как</value>
   </data>
   <data name="Register_Ph_ConfirmPassword" xml:space="preserve">
-    <value>Επανάληψη κωδικού πρόσβασης</value>
+    <value>Повторение пароля</value>
   </data>
   <data name="LoginModel_R_UserName" xml:space="preserve">
-    <value>Πρέπει να καθορίσετε το e-mail σας</value>
+    <value>Необходимо указать e-mail</value>
   </data>
   <data name="Restore_ConfirmPassword" xml:space="preserve">
-    <value>Επανάληψη κωδικού πρόσβασης</value>
+    <value>Повторение пароля</value>
   </data>
   <data name="ErrorInvalidPassword" xml:space="preserve">
-    <value>Λάθος κωδικός.</value>
+    <value>Неверный пароль.</value>
   </data>
   <data name="ErrorUnknownError" xml:space="preserve">
-    <value>Προέκυψε ένα άγνωστο σφάλμα.</value>
+    <value>Произошла неизвестная ошибка. </value>
   </data>
   <data name="RegisterEmailNotConfirmedNote" xml:space="preserve">
-    <value>Εμείς θα στείλουμε εκ νέου την επιβεβαίωση στο e-mail σας. Ανοίξτε το μήνυμα και κάντε κλικ στο σύνδεσμο που καθορίζονται σε αυτό.</value>
+    <value>Мы повторно отправили запрос подтверждения на указанный Вами e-mail. Откройте почтовое сообщение и кликните на указанной в нем ссылке.</value>
   </data>
   <data name="RestoreChangedOK" xml:space="preserve">
-    <value>Ο κωδικός πρόσβασης άλλαξε με επιτυχία</value>
+    <value>Пароль успешно изменен</value>
   </data>
   <data name="Register_Email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="ErrorDuplicateUserName" xml:space="preserve">
-    <value>Αυτή η διεύθυνση ηλεκτρονικού ταχυδρομείου είναι ήδη σε χρήση. Χρησιμοποιήστε μια διαφορετική διεύθυνση ηλεκτρονικού ταχυδρομείου.</value>
+    <value>Такой почтовый адрес уже используется. Используйте другой почтовый адрес.</value>
   </data>
   <data name="Restore_Password" xml:space="preserve">
-    <value>Κωδικός</value>
+    <value>Пароль</value>
   </data>
   <data name="Register_Password" xml:space="preserve">
-    <value>Κωδικός</value>
+    <value>Пароль</value>
   </data>
   <data name="Restore_Ph_ConfirmPassword" xml:space="preserve">
-    <value>Επανάληψη κωδικού πρόσβασης</value>
+    <value>Повторение пароля</value>
   </data>
   <data name="AccountResetPassword_CannotReset" xml:space="preserve">
-    <value>Δεν μπορείτε να αλλάξετε τον κωδικό πρόσβασής σας</value>
+    <value>Невозможно изменить пароль</value>
   </data>
   <data name="LoginModel_L_Password" xml:space="preserve">
-    <value>Ο κωδικός πρόσβασης πρέπει να είναι τουλάχιστον {2} χαρακτήρες &quot;</value>
+    <value>Пароль должен быть длиной не менее  {2} символов"</value>
   </data>
   <data name="Register_ChangePassword" xml:space="preserve">
-    <value>Σε επιστολή που απέστειλε στη διεύθυνση που αναφέρεται με Links για να επιβεβαιώσετε την αλλαγή του κωδικού πρόσβασης.</value>
+    <value>На указанный адрес отправлено письмо с сcылкой для подтверждения смены пароля.</value>
   </data>
   <data name="LoginModel_C_ConfirmPassword" xml:space="preserve">
-    <value>Κωδικός πρόσβασης και Επιβεβαίωση κωδικού πρόσβασης δεν ταιριάζουν</value>
+    <value>Пароль и подтверждение пароля не совпадают</value>
   </data>
   <data name="AccountRecovery_CannotRecovery" xml:space="preserve">
-    <value>Δεν είναι δυνατό να ανακτήσει τον κωδικό πρόσβασης. Δεν μπορούσε να βρει την καθορισμένη διεύθυνση.</value>
+    <value>Не удалось восстановить пароль. Не найден указанный адрес.</value>
   </data>
   <data name="Register_Ph_Email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="Register_EmailSuccess" xml:space="preserve">
-    <value>Το E-mail σας επιβεβαιώθηκε με επιτυχία</value>
+    <value>Ваш E-mail успешно подтвержден</value>
   </data>
   <data name="Login_LoginButton" xml:space="preserve">
-    <value>Σύνδεση</value>
+    <value>Войти</value>
   </data>
   <data name="Register_EmailUnsuccess" xml:space="preserve">
-    <value>Είναι αδύνατο να επιβεβαιώσετε την e-mail</value>
+    <value>Невозможно подтвердить указанный Вами E-mail</value>
   </data>
   <data name="ErrorInvalidEmail" xml:space="preserve">
-    <value>Μη έγκυρη διεύθυνση e-mail.</value>
+    <value>Неверный почтовый адрес.</value>
   </data>
   <data name="RecoveryModel_R_UserName" xml:space="preserve">
-    <value>Πρέπει να καθορίσετε το e-mail σας</value>
+    <value>Необходимо указать e-mail</value>
   </data>
   <data name="Login_LogoutButton" xml:space="preserve">
-    <value>Αποσύνδεση</value>
+    <value>Выйти</value>
   </data>
   <data name="Register_As_2" xml:space="preserve">
-    <value>Παρακαλώ εισάγετε την e-mail και πατήστε &quot;Συνέχεια&quot; για να ολοκληρώσει την εξουσιοδότηση</value>
+    <value>Пожалуйста введите e-mail и нажмите кнопку "Продолжить" для завершения авторизации</value>
   </data>
   <data name="Register_As_1" xml:space="preserve">
-    <value>Έχετε περάσει με επιτυχία την έγκριση δυνάμει του</value>
+    <value>Вы успешно прошли авторизацию под</value>
   </data>
   <data name="Register_Back" xml:space="preserve">
-    <value>Απόδοση</value>
+    <value>Вернуться</value>
   </data>
   <data name="RegisterTitle" xml:space="preserve">
-    <value>Εγγραφή</value>
+    <value>Регистрация</value>
   </data>
   <data name="LoginModel_R_Password" xml:space="preserve">
-    <value>Πρέπει να ορίσετε έναν κωδικό πρόσβασης</value>
+    <value>Необходимо указать пароль</value>
   </data>
   <data name="ErrorInvalidUserName" xml:space="preserve">
-    <value>Μη έγκυρο όνομα χρήστη.</value>
+    <value>Неверное имя пользователя.</value>
   </data>
   <data name="ErrorInvalidQuestion" xml:space="preserve">
-    <value>Λάθος ερώτηση για να αλλάξετε τον κωδικό πρόσβασης.</value>
+    <value>Неверный вопрос для изменения пароля.</value>
   </data>
-
 </root>

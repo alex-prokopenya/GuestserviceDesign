@@ -6,7 +6,8 @@
     ViewBag.Keywords = Model.Keywords;
 }
 
-<div class="content-wrapper">
+<div class="static_text">
+<article style="padding: 70px 10px 10px 10px;">
     <hgroup class="title">
         <h1>@ViewBag.Title</h1>
     </hgroup>
@@ -14,14 +15,14 @@
     @if (Model.Providers.Length > 0 || Model.Agents.Length > 0)
     {
         <div>
-            <ul style="float:left; width: 50%">
+            <ul style="float:left; width: 50%; margin-left: -35px;">
                 <h2>Providers:</h2>
                 @foreach (var region in Model.Providers)
                 {
                     <li>@region.Value</li>
                 }
                 <br/>
-                <a href="http://www.exgo.com/guestservice_design/en/info/partnership">How to become our partner?</a>
+                <a href="http://www.exgo.com/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]en/info/partnership">How to become our partner?</a>
             </ul>
 
             <ul style="float:right; width: 50%">
@@ -31,14 +32,16 @@
                     <li>@region.Value</li>
                 }
                 <br/>
-                <a href="http://www.exgo.com/guestservice_design/en/info/partnership">How to become our partner?</a>
+                <a href="http://www.exgo.com/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]en/info/partnership">How to become our partner?</a>
             </ul>
         </div>
     }
 
     <div style="clear: both" > </div>
-    <h2>@(ViewBag.Title + " Seotext")</h2>
+    <h3>@(ViewBag.Title + " How to become our partner")</h3>
     <p>
         @Model.SeoText
+		It is so easy, just folow the link "Become a Partner" in the bottom menu.
     </p>
+</article>
 </div>

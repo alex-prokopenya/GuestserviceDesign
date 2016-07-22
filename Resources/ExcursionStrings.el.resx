@@ -139,7 +139,7 @@
     <value>ημέρα.</value>
   </data>
   <data name="OrderFormHelp" xml:space="preserve">
-    <value>Επιλέξτε τον αριθμό των ενηλίκων και των παιδιών. Εάν είναι απαραίτητο, πληκτρολογήστε το όνομα και τον αριθμό τηλεφώνου.</value>
+    <value>Επιλέξτε τον αριθμό των ενηλίκων και των παιδιών. </value>
   </data>
   <data name="SortOrderByPrice" xml:space="preserve">
     <value>ανά τιμή</value>
@@ -316,7 +316,7 @@
     <value>Κατηγορία</value>
   </data>
   <data name="DateTimeFormat" xml:space="preserve">
-    <value>mm/dd/yyyy</value>
+    <value>dd.mm.yyyy</value>
   </data>
   <data name="DetailSelectedDateTitle" xml:space="preserve">
     <value>Έχετε επιλέξει την ημερομηνία:</value>
@@ -334,13 +334,16 @@
     <value>Όλες οι ημερομηνίες</value>
   </data>
   <data name="BookButton" xml:space="preserve">
-    <value>Κράτηση</value>
+    <value>Συνεχίσετε</value>
+  </data>
+  <data name="Description_SelectButton" xml:space="preserve">
+    <value>Select</value>
   </data>
   <data name="ExcursionMapMarkerDeparture" xml:space="preserve">
     <value>ο τόπος αναχώρησης,</value>
   </data>
   <data name="BookNowButton" xml:space="preserve">
-    <value>Κράτηση</value>
+    <value>Συνεχίσετε</value>
   </data>
   <data name="GuestServiceTitle" xml:space="preserve">
     <value>Personal Area</value>
@@ -371,5 +374,41 @@
   </data>
   <data name="ExtraFiltersDepartures" xml:space="preserve">
     <value>Αναχώρηση από</value>
+  </data>
+  <data name="Information_Title" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Countries_List" xml:space="preserve">
+    <value>χώρες</value>
+  </data>
+  <data name="AddReviewLink" xml:space="preserve">
+    <value>Add review</value>
+  </data>
+  <data name="ExtraFiltersType" xml:space="preserve">
+    <value>Group type</value>
+  </data>
+   <data name="TotalSumm" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="CountriesCatalogTitle" xml:space="preserve">
+    <value>Countries catalogue - EXGO</value>
+  </data>
+  <data name="CountriesCatalogDescription" xml:space="preserve">
+    <value>Countries catalogue to discover excursions with EXGO</value>
+  </data>
+  <data name="CountriesCatalogKeywords" xml:space="preserve">
+    <value>Countries catalogue EXGO</value>
+  </data>
+  <data name="CountryTitle" xml:space="preserve">
+    <value>- excursions by region with EXGO</value>
+  </data>
+  <data name="CountryDescription" xml:space="preserve">
+    <value>- check EXGO excursions by regions</value>
+  </data>
+  <data name="CountryKeywords" xml:space="preserve">
+    <value>excursions by region</value>
+  </data>
+  <data name="Video_Title" xml:space="preserve">
+    <value>Video</value>
   </data>
 </root>

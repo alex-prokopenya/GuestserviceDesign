@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,277 +118,276 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="String1" xml:space="preserve">
-    <value>Πληροφορίες Κρατήσεις</value>
+    <value>Информация о бронировании</value>
   </data>
   <data name="MenuDepartureTitle" xml:space="preserve">
-    <value>Πληροφορίες για το check-out</value>
+    <value>Информация о выезде из гостиницы</value>
   </data>
   <data name="FindOrderModel_N_Passport" xml:space="preserve">
-    <value>Αριθμός διαβατηρίου</value>
+    <value>Номер паспорта</value>
   </data>
   <data name="PrintOrderNotFound" xml:space="preserve">
-    <value>Μια εφαρμογή με τέτοιες παραμέτρους δεν βρέθηκε</value>
+    <value>Заявка с указанными параметрами не найдена</value>
   </data>
   <data name="FindOrderNotFound" xml:space="preserve">
-    <value>Ανίκανος να βρει εφαρμογή με τις παραμέτρους</value>
+    <value>Не удалось найти заявку с указаннами параметрами</value>
   </data>
   <data name="FindOrderOrderTitle" xml:space="preserve">
-    <value>ΠΑΡΑΓΓΕΛΙΑ</value>
+    <value>ЗАКАЗ</value>
   </data>
   <data name="OrderDoPaymentButton" xml:space="preserve">
-    <value>Αποχώρηση</value>
+    <value>Оплатить</value>
   </data>
   <data name="MoreOrdersFindButton" xml:space="preserve">
-    <value>Snap παραγγελίες</value>
+    <value>Привязать заказы</value>
   </data>
   <data name="SummaryNameLabel_1" xml:space="preserve">
-    <value>(Όπως είναι γραμμένο στο κουπόνι)</value>
+    <value>(как написано в ваучере)</value>
   </data>
   <data name="MenuDepartureAlt" xml:space="preserve">
-    <value>Check Out</value>
+    <value>Выезд из гостиницы</value>
   </data>
   <data name="PrintOrderModel_Name_2" xml:space="preserve">
-    <value>(Όπως αναφέρεται κατά την κράτηση)</value>
+    <value>(как указано при бронировании)</value>
   </data>
   <data name="PrintOrderModel_Name_1" xml:space="preserve">
-    <value>Όνομα του τουριστικού</value>
+    <value>Имя и фамилия туриста</value>
   </data>
   <data name="GuestServicesFindOrder_3" xml:space="preserve">
-    <value>για να αποκτήσετε πρόσβαση στη λίστα των εφαρμογών τους.</value>
+    <value>для доступа к списку своих заявок.</value>
   </data>
   <data name="GuestServicesFindOrder_2" xml:space="preserve">
-    <value>κούτσουρο</value>
+    <value>авторизуйтесь</value>
   </data>
   <data name="GuestServicesFindOrder_1" xml:space="preserve">
-    <value>Βρείτε μια εφαρμογή από τον αριθμό, το όνομα και το επώνυμο, ή</value>
+    <value>Найдите заявку по номеру, имени и фамилии или</value>
   </data>
   <data name="FindOrderFindButton" xml:space="preserve">
-    <value>Βρίσκω</value>
+    <value>Найти</value>
   </data>
   <data name="PrintOrderModel_N_Name" xml:space="preserve">
-    <value>ΟΝΟΜΑ ΚΑΙ ΕΠΙΘΕΤΟ</value>
+    <value>Имя и фамилия</value>
   </data>
   <data name="MenuDepartureText" xml:space="preserve">
-    <value>Αυτή η ενότητα παρέχει πληροφορίες σχετικά με το check-out ημερομηνία και ώρα για τη μεταφορά, καθώς και τον αριθμό της πτήσης.</value>
+    <value>В разделе представлена информация о вашем выезде из гостиницы: дата и время подачи трансфера, а также номер рейса.</value>
   </data>
   <data name="MenuOrdersText" xml:space="preserve">
-    <value>Στην ενότητα αυτή, μπορείτε να ορίσετε το παρελθόν διατηρούσε το αίτησης, πληρώνουν την αίτηση ή να εκτυπώσετε το τιμολόγιο να πληρώσουν για αυτό.</value>
+    <value>В этом разделе вы можете привязать ранее забронированные заявки, оплатить заявку или распечатать счет на ее оплату.</value>
   </data>
   <data name="MenuOrdersTitle" xml:space="preserve">
-    <value>Πληροφορίες σχετικά με τις παραγγελίες</value>
+    <value>Информация о заказах</value>
   </data>
   <data name="FindOrderDeleteButton" xml:space="preserve">
-    <value>Εξαίρεση από τον κατάλογο των παραγγελιών μου</value>
+    <value>Исключить из списка моих заказов</value>
   </data>
   <data name="FindOrderChoose_1" xml:space="preserve">
-    <value>... Ή να προσπαθήσουμε να βρούμε τις παραγγελίες σας</value>
+    <value>...или попробуйте найти свои заказы</value>
   </data>
   <data name="FindOrderChoose_2" xml:space="preserve">
-    <value>όνομα και ο αριθμός διαβατηρίου</value>
+    <value>по имени и номеру паспорта</value>
   </data>
   <data name="PrintOrderTitle" xml:space="preserve">
-    <value>Σχηματισμός κουπόνι</value>
+    <value>Формирование ваучера</value>
   </data>
   <data name="GuestServicesExcursionDepartureTitle" xml:space="preserve">
-    <value>Εκδρομή</value>
+    <value>Выезд на экскурсию</value>
   </data>
   <data name="MenuInformationAlt" xml:space="preserve">
-    <value>Πληροφορίες</value>
+    <value>Информация</value>
   </data>
   <data name="SummaryReservationLabel" xml:space="preserve">
-    <value>Αριθμός Αίτησης</value>
+    <value>Номер заявки</value>
   </data>
   <data name="MoreOrdersListOrderAlt" xml:space="preserve">
-    <value>Παραγγελία</value>
+    <value>Заказ</value>
   </data>
   <data name="MenuBookingTitle" xml:space="preserve">
-    <value>Κρατήσεις για περιηγήσεις</value>
+    <value>Бронирование экскурсий</value>
   </data>
   <data name="HotelTitle" xml:space="preserve">
-    <value>Οδηγοί σε αυτό το ξενοδοχείο</value>
+    <value>Гид в отеле</value>
   </data>
   <data name="FindOrderLinkOrderButton" xml:space="preserve">
-    <value>Bind εφαρμογή</value>
+    <value>Привязать заявку</value>
   </data>
   <data name="MenuExcursionAlt" xml:space="preserve">
-    <value>Κράτηση</value>
+    <value>Бронирование</value>
   </data>
   <data name="PrintOrderModel_R_Name" xml:space="preserve">
-    <value>Όνομα υποχρεωτικό</value>
+    <value>Имя и фамилия обязательны для заполнения</value>
   </data>
   <data name="FindOrderModel_R_Passport" xml:space="preserve">
-    <value>Αριθμός διαβατηρίου πρέπει να συμπληρώσουν</value>
+    <value>Номер паспорта обязателен для заполнения</value>
   </data>
   <data name="SummaryCheckAnother" xml:space="preserve">
-    <value>Ελέγξτε για άλλες εφαρμογές</value>
+    <value>Проверить другую заявку</value>
   </data>
   <data name="MenuExcursionText" xml:space="preserve">
-    <value>Εδώ θα βρείτε αναλυτικές περιγραφές, φωτογραφίες, τιμές και περιηγήσεις μπορούν επίσης να δώσετε την παραγγελία σας.</value>
+    <value>Здесь вы найдете подробное описание, фотографии, цены экскурсий и также сможете оформить заказ.</value>
   </data>
   <data name="FindOrderPassSer" xml:space="preserve">
-    <value>(Χωρίς σειρά)</value>
+    <value>(без серии)</value>
   </data>
   <data name="DepartureNotFound" xml:space="preserve">
-    <value>Πληροφορίες για την αναχώρησή σας από το ξενοδοχείο βρέθηκε.</value>
+    <value>Информация о Вашем выезде из гостиницы не найдена.</value>
   </data>
   <data name="FindOrderModel_N_ClaimName" xml:space="preserve">
-    <value>ΟΝΟΜΑ ΚΑΙ ΕΠΙΘΕΤΟ</value>
+    <value>Имя и фамилия</value>
   </data>
   <data name="SummaryNotFound" xml:space="preserve">
-    <value>Ανίκανος να βρει εφαρμογή με τις παραμέτρους</value>
+    <value>Не удалось найти заявку с указаннами параметрами</value>
   </data>
   <data name="FindOrderName" xml:space="preserve">
-    <value>ΟΝΟΜΑ ΚΑΙ ΕΠΙΘΕΤΟ</value>
+    <value>Имя и фамилия</value>
   </data>
   <data name="FindOrderModel_R_ClaimName" xml:space="preserve">
-    <value>Όνομα υποχρεωτικό</value>
+    <value>Имя и фамилия обязательны для заполнения</value>
   </data>
   <data name="MenuBookingText" xml:space="preserve">
-    <value>Εδώ θα βρείτε αναλυτικές περιγραφές, φωτογραφίες, τιμές και περιηγήσεις μπορούν επίσης να δώσετε την παραγγελία σας.</value>
+    <value>Здесь вы найдете подробное описание, фотографии, цены экскурсий и также сможете оформить заказ.</value>
   </data>
   <data name="PrintOrderModel_R_Claim" xml:space="preserve">
-    <value>Αριθμός αναφοράς που απαιτούνται για την πλήρωση</value>
+    <value>Номер заявки обязателен для заполнения</value>
   </data>
   <data name="PrintOrderModel_D_Claim" xml:space="preserve">
-    <value>Η τιμή πρέπει να είναι ένα ψηφιακό αριθμό της αίτησης</value>
+    <value>Значение должно быть цифровым номером заявки</value>
   </data>
   <data name="HotelAlt" xml:space="preserve">
-    <value>Οδηγοί σε αυτό το ξενοδοχείο</value>
+    <value>Гид в отеле</value>
   </data>
   <data name="PrintOrderModel_Claim" xml:space="preserve">
-    <value>Αριθμός Αίτησης</value>
+    <value>Номер заявки</value>
   </data>
   <data name="HotelDepartureTitle" xml:space="preserve">
-    <value>Πληροφορίες για το check-out</value>
+    <value>Информация о выезде из гостиницы</value>
   </data>
   <data name="HotelNotFound_Link" xml:space="preserve">
-    <value>Έρευνα</value>
+    <value>Связать сейчас</value>
   </data>
   <data name="FindOrderFound" xml:space="preserve">
-    <value>Σημείο εφαρμογής</value>
+    <value>Найденные заявки</value>
   </data>
   <data name="FindOrderClaim" xml:space="preserve">
-    <value>Αριθμός Αίτησης</value>
+    <value>Номер заявки</value>
   </data>
   <data name="FindOrderTitle" xml:space="preserve">
-    <value>Έρευνα</value>
+    <value>Поиск</value>
   </data>
   <data name="FindOrderNameSmall" xml:space="preserve">
-    <value>(Όπως είναι γραμμένο στο κουπόνι)</value>
+    <value>(как написано в ваучере)</value>
   </data>
   <data name="DepartureNotFoundNote_1" xml:space="preserve">
-    <value>Ίσως η αίτηση δεν έχει ακόμα συνδεθεί με το λογαριασμό σας, προσπαθήστε να το βρείτε</value>
+    <value>Возможно, заявка еще не связана с Вашим аккаунтом, попробуйте найти ее</value>
   </data>
   <data name="DepartureNotFoundNote_2" xml:space="preserve">
-    <value>εδώ</value>
+    <value>здесь</value>
   </data>
   <data name="FindOrderKnow_1" xml:space="preserve">
-    <value>Γνωρίζετε τον αριθμό της αίτησης;</value>
+    <value>Знаете номер заявки?</value>
   </data>
   <data name="FindOrderKnow_2" xml:space="preserve">
-    <value>Εισάγετε εδώ.</value>
+    <value>Укажите его здесь.</value>
   </data>
   <data name="DepartureBack" xml:space="preserve">
-    <value>Απόδοση</value>
+    <value>Вернуться</value>
   </data>
   <data name="MenuInformationText" xml:space="preserve">
-    <value>Στην ενότητα αυτή μπορείτε να βρείτε το μέρος των πληροφοριών της παραγγελίας και να κάνετε check out.</value>
+    <value>В этом разделе вы можете узнать информацию составе заказа и вашем выезде из отеля.</value>
   </data>
   <data name="MoreOrdersInstruction" xml:space="preserve">
-    <value>Μπορείτε να δέσετε άλλες εντολές σας που δεν έχουν ακόμη προστεθεί στον κατάλογο</value>
+    <value>Вы можете привязать другие Ваши заказы, которые еще не добавлены в список</value>
   </data>
   <data name="SummaryFindButton" xml:space="preserve">
-    <value>Βρίσκω</value>
+    <value>Найти</value>
   </data>
   <data name="GuestServicesTitle" xml:space="preserve">
-    <value>Πληροφορίες σχετικά με τις παραγγελίες</value>
+    <value>Информация о заказах</value>
   </data>
   <data name="OrderTotal" xml:space="preserve">
-    <value>Μόνο</value>
+    <value>Всего</value>
   </data>
   <data name="OrderToPay" xml:space="preserve">
-    <value>Για την πληρωμή</value>
+    <value>К оплате</value>
   </data>
   <data name="MenuInformationTitle" xml:space="preserve">
-    <value>Πληροφορίες παραγγελίας</value>
+    <value>Информация о заказе</value>
   </data>
   <data name="SummaryFindReservationTitle" xml:space="preserve">
-    <value>Καθορίστε τον αριθμό αίτημά σας</value>
+    <value>Укажите номер Вашей заявки</value>
   </data>
   <data name="FindOrderModel_D_Claim" xml:space="preserve">
-    <value>Η τιμή πρέπει να είναι ένα ψηφιακό αριθμό της αίτησης</value>
+    <value>Значение должно быть цифровым номером заявки</value>
   </data>
   <data name="MoreOrderTitle" xml:space="preserve">
-    <value>Άλλες εντολές</value>
+    <value>Другие заказы</value>
   </data>
   <data name="DepartureTitle" xml:space="preserve">
-    <value>Πληροφορίες για το check-out</value>
+    <value>Информация о выезде из гостиницы</value>
   </data>
   <data name="HotelNotFound" xml:space="preserve">
-    <value>Εμείς δεν θα μπορούσε να βρει το ξενοδοχείο όπου μένετε αυτή τη στιγμή.</value>
+    <value>Мы не смогли найти гостиницу, в которой Вы остановились в данный момент.</value>
   </data>
   <data name="MenuExcursionTitle" xml:space="preserve">
-    <value>БЛЯБЛЯБЛЯ!!!!!</value>
+    <value>Бронирование экскурсий</value>
   </data>
   <data name="PrintVoucherButton" xml:space="preserve">
-    <value>Δημιουργήστε ένα κουπόνι</value>
+    <value>Сформировать ваучер</value>
   </data>
   <data name="OrderInfoTitle" xml:space="preserve">
-    <value>Πληροφορίες παραγγελίας</value>
+    <value>Информация о заказе</value>
   </data>
   <data name="Authenticate_3" xml:space="preserve">
-    <value>μπορούμε να σας παρέχουμε περισσότερες πληροφορίες</value>
+    <value>мы сможем предоставить Вам дополнительную информацию</value>
   </data>
   <data name="Authenticate_2" xml:space="preserve">
-    <value>Εξουσιοδότηση</value>
+    <value>авторизации</value>
   </data>
   <data name="Authenticate_1" xml:space="preserve">
-    <value>Μετά</value>
+    <value>После</value>
   </data>
   <data name="FindOrderNoLinkedOrders" xml:space="preserve">
-    <value>Δεν έχετε κανένα σχετίζονται τάξης.</value>
+    <value>У вас нет ни одного связанного заказа.</value>
   </data>
   <data name="HotelNotFound_1" xml:space="preserve">
-    <value>Ίσως κανένας από τους παραγγελίες δεν έχουν ακόμη συνδεθεί με το λογαριασμό σας.</value>
+    <value>Возможно, ни один из заказов еще не связан с Вашим аккаунтом.</value>
   </data>
   <data name="PrintOrderModel_N_Claim" xml:space="preserve">
-    <value>Αριθμός Αίτησης</value>
+    <value>Номер заявки</value>
   </data>
   <data name="PrintOrderConfirmCaption" xml:space="preserve">
-    <value>Για την προστασία της ιδιωτικής ζωής σας, πληκτρολογήστε το όνομα και το επώνυμό σας από έναν από τους τουρίστες κατά τη στιγμή της κράτησης</value>
+    <value>В целях обеспечения конфиденциальности, введите имя и фамилию одного из туристов, указанные при бронировании</value>
   </data>
   <data name="MenuBookingAlt" xml:space="preserve">
-    <value>Κράτηση</value>
+    <value>Бронирование</value>
   </data>
   <data name="MoreOrderAlt" xml:space="preserve">
-    <value>Άλλες εντολές</value>
+    <value>Другие заказы</value>
   </data>
   <data name="FindOrderModel_R_Claim" xml:space="preserve">
-    <value>Αριθμός αναφοράς που απαιτούνται για την πλήρωση</value>
+    <value>Номер заявки обязателен для заполнения</value>
   </data>
   <data name="GuestServiceTitle" xml:space="preserve">
-    <value>Personal Area</value>
+    <value>Личный кабинет</value>
   </data>
   <data name="GuestServicesLink" xml:space="preserve">
-    <value>Personal Area</value>
+    <value>Личный кабинет</value>
   </data>
   <data name="DepartureNoTransferFound" xml:space="preserve">
-    <value>Σήμερα δεν υπάρχει καμία αναχώρηση από το ξενοδοχείο</value>
+    <value>На сегодня нет выездов из отеля</value>
   </data>
   <data name="PrintOrderBuildVoucherButton" xml:space="preserve">
-    <value>Δημιουργήστε ένα κουπόνι</value>
+    <value>Сформировать ваучер</value>
   </data>
   <data name="MenuOrdersAlt" xml:space="preserve">
-    <value>БЛЯБЛЯБЛЯ</value>
+    <value>Информация</value>
   </data>
   <data name="HotelDepartureNoInformation" xml:space="preserve">
-    <value>Προς το παρόν δεν υπάρχουν πληροφορίες σχετικά με την αναχώρηση.</value>
+    <value>В настоящее время информации о выезде отсутствует.</value>
   </data>
   <data name="SummaryNameLabel" xml:space="preserve">
-    <value>ΟΝΟΜΑ ΚΑΙ ΕΠΙΘΕΤΟ</value>
+    <value>Имя и фамилия</value>
   </data>
   <data name="FindOrderModel_N_Claim" xml:space="preserve">
-    <value>Αριθμός Αίτησης</value>
+    <value>Номер заявки</value>
   </data>
-
 </root>

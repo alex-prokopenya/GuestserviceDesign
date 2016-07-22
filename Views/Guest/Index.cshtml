@@ -1,6 +1,6 @@
 ﻿@model GuestService.Models.Guest.GuestContext
 @{
-    ViewBag.Title = GuestStrings.ResourceManager.Get("GuestServiceTitle");
+    ViewBag.Title = GuestStrings.Get("GuestServiceTitle");
 
 }
 @section head_scripts {
@@ -14,29 +14,29 @@
         <div class="col-sm-7">
             <div class="media" style="margin-bottom: 15px;">
                 <a class="pull-left" href="@Url.Action("order", "guest")" >
-                    <img class="media-object" src="@Url.Content("~/images/info.png")" alt="@GuestStrings.ResourceManager.Get("MenuOrdersAlt")">
+                    <img class="media-object" src="@Url.Content("~/images/info.png")" alt="@GuestStrings.Get("MenuOrdersAlt")">
                 </a>
                 <div class="media-body">
-                    <h3 class="media-heading"> <a href="@Url.Action("order", "guest")">@GuestStrings.ResourceManager.Get("MenuOrdersTitle")</a></h3>                     
-                    @GuestStrings.ResourceManager.Get("MenuOrdersText")
+                    <h3 class="media-heading"> <a href="@Url.Action("order", "guest")">@GuestStrings.Get("MenuOrdersTitle")</a></h3>                     
+                    @GuestStrings.Get("MenuOrdersText")
                 </div>
             </div>
             <div class="media" style="margin-bottom: 15px;">
                 <a class="pull-left" href="@Url.Action("index", "excursion")" >
-                    <img class="media-object" src="@Url.Content("~/images/excursion.png")" alt="@GuestStrings.ResourceManager.Get("MenuExcursionAlt")">
+                    <img class="media-object" src="@Url.Content("~/images/excursion.png")" alt="@GuestStrings.Get("MenuExcursionAlt")">
                 </a>
                 <div class="media-body">
-                   <h3 class="media-heading"><a href="@Url.Action("index", "excursion")">@GuestStrings.ResourceManager.Get("MenuExcursionTitle")</a></h3>                     
-                   @GuestStrings.ResourceManager.Get("MenuExcursionText")
+                   <h3 class="media-heading"><a href="@Url.Action("index", "excursion")">@GuestStrings.Get("MenuExcursionTitle")</a></h3>                     
+                   @GuestStrings.Get("MenuExcursionText")
                 </div>
             </div>
             <div class="media" style="margin-bottom: 15px;">
                 <a class="pull-left" href="@Url.Action("departure", "guest")">
-                    <img class="media-object" src="@Url.Content("~/images/air.png")" alt="@GuestStrings.ResourceManager.Get("MenuDepartureAlt")">
+                    <img class="media-object" src="@Url.Content("~/images/air.png")" alt="@GuestStrings.Get("MenuDepartureAlt")">
                 </a>
                 <div class="media-body">
-                    <h3 class="media-heading"><a href="@Url.Action("departure", "guest")">@GuestStrings.ResourceManager.Get("MenuDepartureTitle")</a></h3>                     
-                    @GuestStrings.ResourceManager.Get("MenuDepartureText")
+                    <h3 class="media-heading"><a href="@Url.Action("departure", "guest")">@GuestStrings.Get("MenuDepartureTitle")</a></h3>                     
+                    @GuestStrings.Get("MenuDepartureText")
                 </div>
             </div>    
         </div>       
@@ -45,16 +45,16 @@
             {
             <div class="media">
                 <div class="pull-left visible-xs">
-                    <img class="media-object" src="@Url.Content("~/images/hotel.png")" alt="@GuestStrings.ResourceManager.Get("HotelAlt")">
+                    <img class="media-object" src="@Url.Content("~/images/hotel.png")" alt="@GuestStrings.Get("HotelAlt")">
                 </div>
                 <div class="media-body">
                     @if (Model.ShowAuthenticationMessage)
                     {                        
-                        <span>@GuestStrings.ResourceManager.Get("Authenticate_1")&nbsp;<a  href="@Url.Action("login", "account", new { returnUrl = Url.Action("index") })">@GuestStrings.ResourceManager.Get("Authenticate_2")</a>&nbsp;@GuestStrings.ResourceManager.Get("Authenticate_3")</span>
+                        <span>@GuestStrings.Get("Authenticate_1")&nbsp;<a  href="@Url.Action("login", "account", new { returnUrl = Url.Action("index") })">@GuestStrings.Get("Authenticate_2")</a>&nbsp;@GuestStrings.Get("Authenticate_3")</span>
                     }
                     else
                     {
-                        <h3 class="media-heading" >@GuestStrings.ResourceManager.Get("HotelTitle")</h3> 
+                        <h3 class="media-heading" >@GuestStrings.Get("HotelTitle")</h3> 
                         
                         if (Model.GuideDurties != null && Model.GuideDurties.Count > 0)
                         {
@@ -62,8 +62,8 @@
                         }
                         else
                         {
-                            <h4>@GuestStrings.ResourceManager.Get("HotelNotFound")</h4>      
-                            <div>@GuestStrings.ResourceManager.Get("HotelNotFound_1")&nbsp;<a href="@Url.Action("findorder")">@GuestStrings.ResourceManager.Get("HotelNotFound_Link")</a></div>
+                            <h4>@GuestStrings.Get("HotelNotFound")</h4>      
+                            <div>@GuestStrings.Get("HotelNotFound_1")&nbsp;<a href="@Url.Action("findorder")">@GuestStrings.Get("HotelNotFound_Link")</a></div>
                         }
                     }
                 </div>

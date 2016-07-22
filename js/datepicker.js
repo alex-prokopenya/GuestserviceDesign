@@ -570,6 +570,14 @@
 				$.inArray(date.getUTCDay(), this.o.daysOfWeekDisabled) !== -1) {
                 cls.push('disabled');
             }
+			//2016-01-23 SO
+			            
+			if (date.getUTCFullYear() == today.getFullYear() &&
+				date.getUTCMonth() == today.getMonth() &&
+				date.getUTCDate() <= today.getDate()) {
+                cls.push('disabled');
+            }
+			//2016-01-23 end
             if (this.range) {
                 if (date > this.range[0] && date < this.range[this.range.length - 1]) {
                     cls.push('range');

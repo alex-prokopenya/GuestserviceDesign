@@ -1,14 +1,15 @@
 ﻿@model GuestService.Models.Countries.CountryRegions
 
 @{
-    ViewBag.Title = Model.Title;
-    ViewBag.Description = Model.Description;
-    ViewBag.Keywords = Model.Keywords;
+    ViewBag.Title = Model.Title+" "+ExcursionStrings.Get("CountryTitle");
+    ViewBag.Description = Model.Title+" "+ExcursionStrings.Get("CountryDescription");
+    ViewBag.Keywords = Model.Title+" "+ExcursionStrings.Get("CountryKeywords");
 }
 
-<div class="content-wrapper">
-    <hgroup class="title">
-        <h1>@ViewBag.Title</h1>
+<div class="static_text">
+<article style="padding: 70px 10px 10px 10px;">
+    <hgroup class="ex_pay_title">
+        <p>@ViewBag.Title</p>
     </hgroup>
 
     @if (Model.Regions.Length > 0)
@@ -20,8 +21,8 @@
             }
         </ul>
     }
-    <h2>@(ViewBag.Title + " Seotext")</h2>
     <p>
         @Model.SeoText
     </p>
+</article>
 </div>

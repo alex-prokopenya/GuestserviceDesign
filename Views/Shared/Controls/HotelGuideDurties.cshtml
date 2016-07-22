@@ -21,7 +21,7 @@
                     <h4 class="media-heading">@guide.name</h4>    
                     @if (guide.mobile != null)
                     {
-                        <span>@SharedStrings.ResourceManager.Get("HotelGuide_Phone")Тел:&nbsp;@guide.mobile</span>    
+                        <span>@SharedStrings.Get("HotelGuide_Phone")Тел:&nbsp;@guide.mobile</span>    
                     }
                
                     @if (guide.durties.Count > 0)
@@ -29,7 +29,7 @@
                 <table class="table table-striped" style="padding:2px; margin-bottom:0; color: #8c8c8c;">
                     <thead>
                         <tr>
-                            <th colspan="2" style="padding-left:0; color: #8c8c8c;">@SharedStrings.ResourceManager.Get("HotelGuide_HotelDuty")</th>                            
+                            <th colspan="2" style="padding-left:0; color: #8c8c8c;">@SharedStrings.Get("HotelGuide_HotelDuty")</th>                            
                         </tr>
                     </thead>
                     <tbody>

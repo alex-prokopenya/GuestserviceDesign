@@ -1,10 +1,13 @@
 ﻿@model GuestService.Models.Countries.CountriesCatalog
 
 @{
-    ViewBag.Title = Model.Title;
+    ViewBag.Title = SharedStrings.Get("Partners_Title");
     ViewBag.Description = Model.Description;
     ViewBag.Keywords = Model.Keywords;
 }
+
+<div class="static_text">
+<article style="padding: 70px 10px 10px 10px;">
 
 @using (Html.BeginForm("Index", "partners", FormMethod.Post, new { id = "search-form" }))
     {
@@ -13,7 +16,6 @@
         <input type="submit" value="Search" />
     }
 
-<div class="content-wrapper">
     
 @*    <input type="text" placeholder="Введите имя партнера" class="form-control" style="
                                       border: 2px;
@@ -48,14 +50,15 @@
         }
         else if (ViewBag.Title == "Найденные партнеры")
         {
-            <a href="http://www.exgo.com/guestservice_design/en/info/partnership">Not found your country in the list? Be the first in your region</a>
+            <a href="http://www.exgo.com/@System.Configuration.ConfigurationManager.AppSettings["AppPath"]en/info/partnership">Not found your country in the list? Be the first in your region</a>
         }
         
-        <h2>@(ViewBag.Title + " Seotext")</h2>
+        <h2>@(ViewBag.Title)</h2>
             <p>
-                @Model.SeoText
+                @SharedStrings.Get("Partners_Text") <a href="/en/info/partnership">@SharedStrings.Get("Partners_Text2")</a>
             </p>
      </div>
+</article>
 </div>
 
 @*<script type="text/javascript">

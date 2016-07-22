@@ -1,11 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Голосование"; // BookingStrings.ResourceManager.Get("Title");
+    ViewBag.Title = SharedStrings.Get("Vote_MainTitle"); // BookingStrings.Get("Title");
 }
 
 <div class="container">      
         @if (ViewBag.NotFound == true)
         {
-            <h1>К сожалению, указанное голосование не найдено</h1>
+            <h1>@SharedStrings.Get("Vote_notfound") </h1>
         }
     
         @if (ViewBag.Invitation != null )
@@ -15,17 +15,17 @@
             {
                 if (invitation.IsSurveyed)
                 {
-                    <h1>Указанное голосование уже было успешно завершено</h1>
+                    <h1>@SharedStrings.Get("Vote_Finished")</h1>
                 }
                 if (invitation.IsExpired)
                 {
-                    <h1>Истек период указанного голосования</h1>
+                    <h1>@SharedStrings.Get("Vote_Expired")</h1>
                 }
         
                 List<GuestService.Data.QuestionnaireGroup> questionnaire =  ViewBag.Questionnaire;
                 if( questionnaire != null )
                 {
-                    <h1>Ваши ответы помогут нам оценить "@invitation.ObjectName"</h1>
+                    <h1>@SharedStrings.Get("Vote_Title") "@invitation.ObjectName"</h1>
                     <form role="form" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="accesscode" value="@invitation.AccessCode" />
@@ -33,8 +33,8 @@
                         <div class="row">
                             <div class="col-sm-4">
                                   <div class="form-group" >
-                                    <label for="guest.name">Укажите Ваше имя</label>
-                                    <input type="text" class="form-control" name="guest.name" required="required" placeholder="Введите Ваше имя">
+                                    <label for="guest.name">@SharedStrings.Get("Vote_YourName")</label>
+                                    <input type="text" class="form-control" name="guest.name" required="required" placeholder="name">
                                   </div>  
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                             <div class="form-group">
                                                 @if(!string.IsNullOrEmpty(question.NoteCaption)) 
                                                 {
-                                                    <label class="control-label" for="questions[@question.Id].note">@question.NoteCaption</label>
+                                                    <label class="control-label" for="questions[@question.Id].note">@SharedStrings.Get("Vote_NoteCaption")</label>
                                                 }
                                                 <input type="text" class="form-control" name="questions[@question.Id].note" maxlength="4000">
                                             </div>
@@ -100,7 +100,7 @@
                                 <hr style="margin-top:0;"/>
 		                    </div>                  
                             <div class="col-lg-12 col-md-12">       
-                                <input type="submit" class="btn btn-large btn-primary" value="Оценить" />
+                                <input type="submit" class="btn btn-large btn-primary" value="@SharedStrings.Get("Vote_VoteButton")" />
                             </div>
                         </div>
 
@@ -112,6 +112,6 @@
         
         @if (ViewBag.Thanks != null)
         {
-            <h1>Спасибо за предоставленный отзыв!</h1>
+            <h1>@SharedStrings.Get("Vote_ThankYou")</h1>
         }
 </div>

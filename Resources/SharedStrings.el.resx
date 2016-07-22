@@ -291,5 +291,97 @@
   <data name="Error404_Departure" xml:space="preserve">
     <value>Πληροφορίες για το check-out</value>
   </data>
-
+  <data name="Excursion_Price" xml:space="preserve">
+    <value>Excursion price</value>
+  </data>
+  <data name="ShoppingCart_ExcursionDate" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+  <data name="ShoppingCart_ExcursionType" xml:space="preserve">
+    <value>Excursion type:</value>
+  </data>
+  <data name="ShoppingCart_ExcursionNumberOfTourists" xml:space="preserve">
+    <value>Number of tourists:</value>
+  </data>
+  <data name="ShoppingCart_CheckCoupon" xml:space="preserve">
+    <value>Check coupon</value>
+  </data>
+  <data name="CheckStatus_FillFields" xml:space="preserve">
+    <value>Fill up fields</value>
+  </data>
+  <data name="CheckStatus_Caption" xml:space="preserve">
+    <value>Order status check</value>
+  </data>
+  <data name="CheckStatus_OrderNumber" xml:space="preserve">
+    <value>Order number:</value>
+  </data>
+  <data name="CheckStatus_PhoneNumber" xml:space="preserve">
+    <value>Phone number (with country code): </value>
+  </data>
+  <data name="MenuCountries" xml:space="preserve">
+    <value>Countries</value>
+  </data>
+  <data name="MenuRegions" xml:space="preserve">
+    <value>Regions</value>
+  </data>
+  <data name="MenuCities" xml:space="preserve">
+    <value>Cities</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>About EXGO</value>
+  </data>
+  <data name="MenuPartners" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="MenuBecomePartner" xml:space="preserve">
+    <value>Become a Partner</value>
+  </data>
+  <data name="MenuVacancies" xml:space="preserve">
+    <value>Vacancies</value>
+  </data>
+  <data name="MenuTermsConditions" xml:space="preserve">
+    <value>Terms and conditions</value>
+  </data>
+  <data name="MenuPrivacy" xml:space="preserve">
+    <value>Privacy and cookies</value>
+  </data>
+  <data name="MenuContact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Vote_notfound" xml:space="preserve">
+    <value>Unfortunately this vote not found</value>
+  </data>
+  <data name="Vote_Title" xml:space="preserve">
+    <value>Your answers help us to review</value>
+  </data>
+  <data name="Vote_MainTitle" xml:space="preserve">
+    <value>Vote</value>
+  </data>
+  <data name="Vote_Finished" xml:space="preserve">
+    <value>This vote has been finished successfully</value>
+  </data>
+  <data name="Vote_Expired" xml:space="preserve">
+    <value>Time for this vote has been finished</value>
+  </data>
+  <data name="Vote_YourName" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="Vote_VoteButton" xml:space="preserve">
+    <value>Vote</value>
+  </data>
+  <data name="Vote_ThankYou" xml:space="preserve">
+    <value>Thank you for your review!</value>
+  </data>
+  <data name="Vote_NoteCaption" xml:space="preserve">
+    <value>Your comment</value>
+  </data>
+    <data name="Partners_Title" xml:space="preserve">
+    <value>Our partners</value>
+  </data>
+  <data name="Partners_Text" xml:space="preserve">
+    <value>Our partners from different countries provide the best services for our clients. On this page you may see countries in which our providers and agencies currently operate. After click on particular country list of our partners in this country will be shown. If you don't see your country in the list, you can be first! Apply </value>
+  </data>
+  <data name="Partners_Text2" xml:space="preserve">
+    <value>here</value>
+  </data>
 </root>

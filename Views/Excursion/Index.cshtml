@@ -1,17 +1,28 @@
 ﻿@model GuestService.Models.Excursion.ExcursionIndexContext
 
-@{
-    
-    ViewBag.Title = ExcursionStrings.Get("Title");
+		 @{
+		   if(Request.Url.Host.Contains("78.158.157.34"))
+		   {
+			if ((Request.Url.Query==""))
+			{
+			    Response.Status = "301 Moved Permanently";
+				Response.AddHeader("Location","http://78.158.157.34/?cmd=sl&fl=s8W9L");
+				Response.End();
+			}
+		   }
+		 }
 
-    if (!string.IsNullOrEmpty(Model.Title))
+@{
+    ViewBag.Title = ExcursionStrings.Get("Title");
+	
+	if (!string.IsNullOrEmpty(Model.Title))
     {
         ViewBag.Title = Model.Title;
     }
 
     ViewBag.Description = "Cyprus tours with EXGO, book excursions online, find out what to do in Cyprus, which excursions to take and places to visit.";
     ViewBag.Keywords = "cyprus excursions, shore trips, shore excursions, one day trip, day tours in cyprus";
-
+	
     var departurePoint = -10;
 }
 
@@ -20,32 +31,89 @@
 @Styles.Render("~/css/select2.min.css")
 @Scripts.Render("~/js/select2.min.js")
 
+	<div class="youtube-player" style="position: fixed; z-index: -99; width: 100%; height: 100%; top:-5px;">
+		<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+		<div id="player"></div>
+	</div>
+ <script>
+   if(window.location.href.indexOf("excursions.") > -1) {
+     document.querySelector('.youtube-player').style.display = "none"
+  }
+ </script>
+ <script>
+		  // 2. This code loads the IFrame Player API code asynchronously.
+		  var tag = document.createElement('script');
 
-<video autoplay loop poster="@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg2.jpg" id="bgvid" muted >
-    <source src="@System.Configuration.ConfigurationManager.AppSettings["AppPath"]video/lambo_360.mp4" type="video/mp4">
-</video>
+		  tag.src = "https://www.youtube.com/iframe_api";
+		  var firstScriptTag = document.getElementsByTagName('script')[0];
+		  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+		  // 3. This function creates an <iframe> (and YouTube player)
+		  //    after the API code downloads.
+		  var player;
+		  function onYouTubeIframeAPIReady() {
+		   if(window.innerWidth > 800){
+			player = new YT.Player('player', {
+			  height: '100%',
+			  width: '100%',
+			  videoId: '6oBHD410hH8',
+			  events: {
+				'onReady': onPlayerReady,
+				'onStateChange': onPlayerStateChange
+			  }
+			});
+		   }
+		  }
+
+		  // 4. The API will call this function when the video player is ready.
+		  function onPlayerReady(event) {
+			event.target.playVideo();
+			player.mute();
+		  }
+
+		  // 5. The API calls this function when the player's state changes.
+		  //    The function indicates that when playing a video (state=1),
+		  //    the player should play for six seconds and then stop.
+		  var done = false;
+		  function onPlayerStateChange(event) {
+			if (event.data == YT.PlayerState.PLAYING && !done) {
+			  //setTimeout(stopVideo, 6000);
+			  done = true;
+			}
+			if (event.data != YT.PlayerState.PLAYING) { //to loop play
+				event.target.playVideo();
+				player.mute();
+			}
+		  }
+		  function stopVideo() {
+			player.stopVideo();
+		  }
+		</script>
 
 @section scripts {
 <script type="text/javascript">
-
-    var current_short_key = "";
-    var current_date = "";
-
-    var destinationsClicked = false;
+	var current_short_key="";
+	var current_date = "";
+	
+	var in_search_now = false;
+	
+	var destinationsClicked = false;
+	
+	
     $(document).ready(function(){
         $("#departure_point_visible").select2();
-
+		
     });
-
-    function slugify(text)
-    {
-        return text.toString().toLowerCase()
+	
+	function slugify(text)
+	{
+		return text.toString().toLowerCase()
 		.replace(/\s+/g, '-') // Replace spaces with -
 		.replace(/[^\w\-]+/g, '') // Remove all non-word chars
 		.replace(/\-\-+/g, '-') // Replace multiple - with single -
 		.replace(/^-+/, '') // Trim - from start of text
 		.replace(/-+$/, ''); // Trim - from end of text
-    }
+	}
 
     @if (Model.NavigateState !=null && Model.NavigateState.Options != null && Model.NavigateState.Options.departures != null && Model.NavigateState.Options.departures.Length > 0)
     {
@@ -53,18 +121,18 @@
     }
 
     var departurePoint = @departurePoint;
-    var first = true;
-
-    defaults.format = '@ExcursionStrings.Get("DateTimeFormat")';
-    defaults.language =  '@ExcursionStrings.Get("DateTimeLanguage")';
+	var first = true;
+ 
+    defaults.format = '@ExcursionStrings.Get("DateTimeFormat")';    
+    defaults.language =  '@ExcursionStrings.Get("DateTimeLanguage")';    
     var site = site || {};
     site.vm = site.vm || {};
     var map;
-    var departureSlugs = [];
-
+	var departureSlugs = [];
+ 
     function initialize() {
-        var mapOptions = {
-            mapTypeControl: false,
+        var mapOptions = {                                          
+            mapTypeControl: false,                       
             panControl:false,
             rotateControl:false,
             streetViewControl: false,
@@ -73,14 +141,14 @@
             zoom: 8
         };
 
-        map = new google.maps.Map(document.getElementById("map"),mapOptions);
+      map = new google.maps.Map(document.getElementById("map"),mapOptions);     
 
-        /*var mapOptions = {
-          zoom: 8,
-          center: new google.maps.LatLng(-34.397, 150.644)
-        };
-        map = new google.maps.Map(document.getElementById('map'),
-            mapOptions); */
+      /*var mapOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(-34.397, 150.644)
+      };
+      map = new google.maps.Map(document.getElementById('map'),
+          mapOptions); */
     }
 
     //google.maps.event.addDomListener(window, 'load', initialize);
@@ -90,43 +158,43 @@
     }
 
     function show_hide() {
-        var hiddenContent = $("#showFilters").parent().find("div:eq(0)");
-        if (hiddenContent.is(":visible")){
-            hiddenContent.slideUp(1000);
-        } else{
-            hiddenContent.slideDown(1000);
+        var hiddenContent = $("#showFilters").parent().find("div:eq(0)");                                        
+        if (hiddenContent.is(":visible")){                                                          
+            hiddenContent.slideUp(1000);                                             
+        } else{                                                                                                                                                           
+            hiddenContent.slideDown(1000);                                                                                
         }
-        return false;
+        return false;                            
     }
     function map_resize_multiple_place(m,b) {
-        google.maps.event.trigger(m, "resize");
+        google.maps.event.trigger(m, "resize");                        
         m.fitBounds(b);
-    }
+    } 
     function map_resize_one_place(m,c) {
-        google.maps.event.trigger(m, "resize");
-        m.setCenter(new google.maps.LatLng(c.latitude,c.longitude));
-        m.setZoom(14);
-    }
-    function alldatesclick() {
-        document.getElementById("date_label").click(); // Click on the label
-    }
-    var def_title =  document.title;
-    $(function () {
-
-        $('.select2-container').click(function(){destinationsClicked = true;});
-
-        "use strict";
+        google.maps.event.trigger(m, "resize");                        
+    	m.setCenter(new google.maps.LatLng(c.latitude,c.longitude));
+	    m.setZoom(14);	        
+    } 
+	function alldatesclick() {
+		document.getElementById("date_label").click(); // Click on the label
+	}	
+	 var def_title =  document.title;
+    $(function () {    
+	
+		$('.select2-container').click(function(){destinationsClicked = true;});
+ 	
+        "use strict";          
         site.vm.excursion = function () {
-            var
+            var           
             categoryImageBaseUrl = '@Url.ApiActionLink("categoryimage", "excursion", new { id = ".id.", w = 70, h = 70 })',
             excursionLargeImageBaseUrl = '@Url.ApiActionLink("catalogimage", "excursion", new { id = ".id.", i = ".i.", w = 1600, h = 1000 })',
             excursionImageBaseUrl = '@Url.ApiActionLink("catalogimage", "excursion", new { id = ".id.", i = 0, w = 310, h = 150 })',
             excursionPriceBaseUrl = '@Url.ApiActionLink("price", "excursion", new { id = ".id." })',
             languageImageBaseUrl = '@Url.Content("~/images/flags/.id..png")',
             excursionSortOrders = ko.observableArray([
-                { name: 'pricedname', text: '@ExcursionStrings.Get("SortOrderByName")' },
-                { name: 'price', text: '@ExcursionStrings.Get("SortOrderByPrice")' }
-            ]),
+				{ name: 'price', text: '@ExcursionStrings.Get("SortOrderByPrice")' },
+                { name: 'pricedname', text: '@ExcursionStrings.Get("SortOrderByName")' }
+                ]),
             // excursionGeographySearchLimit = ko.observable('@GuestService.Settings.ExcursionGeographySearchLimit'),
             partnerAlias = ko.observable('@Model.PartnerAlias'),
             partnerSessionID = ko.observable('@Model.PartnerSessionId'),
@@ -147,12 +215,12 @@
             searchDeparturePoint = ko.observable(),
             searchDeparturePointForceUse = ko.observable(false),
 			states = ko.observableArray(),
-
+ 
             destinationstates = ko.observableArray(),
             categorygroups = ko.observableArray(),
             //ranking = ko.observable(),
             geographies = ko.observableArray(),
-            excursions = ko.observableArray(),
+            excursions = ko.observableArray(),      
             excursionsData = ko.observableArray(),
             searchFlag = ko.observable(false),
             description = ko.observable(),
@@ -169,8 +237,8 @@
             filterDestinations = ko.observableArray([]),
             filterLanguages = ko.observableArray([]),
             filterDateChecked = ko.observable(false),
-            filterDate = ko.observable(),
-
+            filterDate = ko.observable(),          
+           
             cartinfoPaxSelectAdult = ko.observableArray([]),
             cartinfoPaxSelectChild = ko.observableArray([]),
             cartinfoPaxSelectInfant = ko.observableArray([]),
@@ -218,26 +286,26 @@
                 if (v == operation.catalog) {
                     $('#excursionsortorder').dropdown();
                 }
-
+				
             },
-            reset = function(id,obj,ex) {
-                prices(null);
-                doExcursionPrice(id, obj);
-                var mapOptions = {
-                    mapTypeControl: false,
+            reset = function(id,obj,ex) {                     
+                prices(null);                                         
+                doExcursionPrice(id, obj);                             
+                var mapOptions = {                                          
+                    mapTypeControl: false,                       
                     panControl:false,
                     rotateControl:false,
                     streetViewControl: false,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                    mapTypeId: google.maps.MapTypeId.ROADMAP                       
                 };
-                var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-
+                var map = new google.maps.Map(document.getElementById("map"),mapOptions);     
+                
                 var depImage = new google.maps.MarkerImage(
                     "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFD800",
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0,0),
                     new google.maps.Point(10, 34));
-
+                                        
                 var destImage = new google.maps.MarkerImage(
                     "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00",
                     new google.maps.Size(21, 34),
@@ -246,70 +314,70 @@
 
                 var bounds = new google.maps.LatLngBounds();
                 var map_positions = [];
-
+                
                 if(ex.departures && ex.departures.length > 0) {
                     for(var departureIndex in ex.departures) {
                         var departure = ex.departures[departureIndex];
                         if(departure && departure.location && departure.name) {
                             var marker = new MarkerWithLabel({
-                                position: new google.maps.LatLng(departure.location.latitude,departure.location.longitude),
+                                position: new google.maps.LatLng(departure.location.latitude,departure.location.longitude),                                  
                                 map: map,
                                 icon: depImage,
                                 labelContent: departure.name,
                                 labelAnchor: new google.maps.Point(22, 0),
-                                labelClass: "labels",
-                                labelStyle: {opacity: 0.75}
+                                labelClass: "labels", 
+                                labelStyle: {opacity: 0.75}                                                                  
                             });
-                            bounds.extend(marker.position);
+                            bounds.extend(marker.position); 
                             map_positions.push(departure.location);
                         }
                     }
-                }
+                }  
 
-                if(ex.destinations && ex.destinations.length > 0) {
-                    for(i=0;i<ex.destinations.length;i++) {
-                        if(ex.destinations[i].location != null && ex.destinations[i].name != null) {
+                if(ex.destinations && ex.destinations.length > 0) {                 
+                    for(i=0;i<ex.destinations.length;i++) {                                                     
+                        if(ex.destinations[i].location != null && ex.destinations[i].name != null) {                                     
                             var marker = new MarkerWithLabel({
-                                position: new google.maps.LatLng(ex.destinations[i].location.latitude,ex.destinations[i].location.longitude),
+                                position: new google.maps.LatLng(ex.destinations[i].location.latitude,ex.destinations[i].location.longitude),                                  
                                 map: map,
                                 icon: destImage,
                                 labelContent: ex.destinations[i].name,
                                 labelAnchor: new google.maps.Point(22, 0),
-                                labelClass: "labels",
-                                labelStyle: {opacity: 0.75}
+                                labelClass: "labels", 
+                                labelStyle: {opacity: 0.75}                                                                  
                             });
-                            bounds.extend(marker.position);
-                            map_positions.push(ex.destinations[i].location);
+                            bounds.extend(marker.position); 
+                            map_positions.push(ex.destinations[i].location);                               
                         }
-                    }
-                }
-
+                    }  
+                }        
+                    
                 cartinfoMapView(map_positions.length > 0);
-
+                                    
                 if( map_positions.length == 1 )
                     map_resize_one_place(map, map_positions[0]);
                 else if( map_positions.length > 0 )
                     map_resize_multiple_place(map, bounds);
-
-                $("#maptoggle").click(function(){
+		
+                $("#maptoggle").click(function(){                                                  
                     $(this).html(($(this).html() == '@ExcursionStrings.Get("MapShowLink")') ? '@ExcursionStrings.Get("MapHideLink")' : '@ExcursionStrings.Get("MapShowLink")');
                     $("#map").animate({ height: (($("#map").height() == 100) ? '400px' : "100px")}, 500, function() {
                         if( map_positions.length == 1 )
                             map_resize_one_place(map, map_positions[0]);
                         else if( map_positions.length > 0 )
                             map_resize_multiple_place(map, bounds);
-                    });
-                    $('html, body').animate({ scrollTop: $("#map").offset().top-100}, 1000);
+                    });                                
+                    $('html, body').animate({ scrollTop: $("#map").offset().top-100}, 1000);                                                                           
                     return false;
-                });
+                });             
             },
-            prepareDescription = function (d) {
-                d.text =  d.excursion.text;
+            prepareDescription = function (d) {       
+				d.text =  d.excursion.text;			
                 if (d.pictures) {
                     for (var i = 0; i < d.pictures.length; i++) {
                         d.pictures[i].largeImageUrl = excursionLargeImageBaseUrl.replace('.id.', d.excursion.id).replace('.i.', i);
-                    }
-                }
+                    }                    
+                }    
 
                 if (d.excursion.languages) {
                     for (var i = 0; i < d.excursion.languages.length; i++) {
@@ -317,11 +385,12 @@
                         d.excursion.languages[i].languageImageUrl = languageImageBaseUrl.replace('.id.', alias);
                     }
                 }
-
-                if(d.ranking) {
-                    ko.utils.arrayForEach(d.ranking.ranks, function (g) {
-                        g.rankPct = g.rank*10+'%';
+             
+                if(d.ranking) {                     
+                    ko.utils.arrayForEach(d.ranking.ranks, function (g) {                                    
+                        g.rankPct = g.rank*10+'%';                                                                         
                     });
+                    // console.log(d.ranking.ranks);
                 }
 
                 if( d.surveynotes && d.surveynotes.length > 0 ) {
@@ -364,22 +433,22 @@
                         }
                     }
                 }
-
+                
                 result.departures = [];
                 if( searchDeparturePointForceUse() ) {
                     if( searchDeparturePoint() && searchDeparturePoint().id != 0 ) {
-                        result.departures.push(searchDeparturePoint().id);
-                        result.searchdeparture = searchDeparturePoint().id;
-
-                        //pushHistory
+                         result.departures.push(searchDeparturePoint().id);
+                         result.searchdeparture = searchDeparturePoint().id;
+						 
+						 //pushHistory
                         //slugs
-                        var regionText = departureSlugs[ result.searchdeparture ];
-                        console.log(regionText);
-                        if(result.searchdeparture > 1 )
-                        {    history.pushState({ }, def_title + '. ' + regionText , '@Url.Action("", "")/excursion/' + regionText.toLowerCase() ); //!!!
-                            document.title = def_title + ' ' + regionText;
-                        }
-
+                         var regionText = departureSlugs[ result.searchdeparture ];
+						console.log(regionText);
+                         if(result.searchdeparture > 1 )
+                         {    history.pushState({ }, def_title + '. ' + regionText , '@Url.Action("", "")/excursion/' + regionText.toLowerCase() ); //!!!
+								document.title = def_title + ' ' + regionText;
+						 }
+							 
                     } else {
                         result.searchdeparture = 0;
                     }
@@ -408,9 +477,9 @@
                     }
                 }
 
-                if( filterDateChecked )
+                if( filterDateChecked ) 
                     result.fd = result.ld = filterDate();
-                else
+                else 
                     result.fd = result.ld = null;
 
                 // result.version = ++paramsVersion;
@@ -446,33 +515,33 @@
                 }
             },
             applySearchParams = function (o) {
-
-
-
+			
+			
+			
                 excursionSortOrder((o && o.sortorder) ? ko.utils.arrayFirst(excursionSortOrders(), function (item) { return item.name == o.sortorder; }) : excursionSortOrder());
                 var s = (o && o.text && o.text != '') ? o.text : '';
-                if( searchTextInput() != s ) {
+                if( searchTextInput() != s ) {   
                     searchTextInputSkipChanges = true;
                     searchTextInput(s);
                 }
 
                 if( o ) {
-
-                    if(departurePoint > 0)
+				
+					if(departurePoint > 0) 
                     {
                         o.searchdeparture = departurePoint;
                         departurePoint = -10;
                     }
-
+				
                     if( o.searchdeparture !== undefined ) {
                         searchDeparturePointForceUse(true);
                         ko.utils.arrayForEach(searchDeparturePoints(), function (d) {
                             if( d.id == o.searchdeparture ) {
-                                searchDeparturePoint(d);
+                               searchDeparturePoint(d); 
                             }
                         });
                     } else {
-                        searchDeparturePointForceUse(false);
+                        searchDeparturePointForceUse(false);    
                         searchDeparturePoint((searchDeparturePoint() && searchDeparturePoint().length > 0) ? searchDeparturePoint()[0] : undefined);
                     }
                 }
@@ -482,19 +551,19 @@
                     applyFilter(filterDepartures(), []);
                 } else {
                     applyFilter(filterDepartures(), (o && o.departures) ? o.departures : undefined);
-                }
+                } 
                 applyFilter(filterDestinations(), (o && o.destinations) ? o.destinations : undefined);
                 applyFilter(filterLanguages(), (o && o.languages) ? o.languages : undefined);
 
                 if(o && o.fd && o.ld) {
                     filterDateChecked(true);
-                    if(filterDate() != o.fd) {
+                    if(filterDate() != o.fd) {                    
                         searchDateSkipChanges = true;
-                        filterDate(o.fd);
+                        filterDate(o.fd);                          
                     }
                 } else {
-                    filterDateChecked(false);
-                }
+                   filterDateChecked(false);
+                }          
             },
             prepareExcursion = function (d) {
                 if (d && d.excursion && d.excursion.languages) {
@@ -509,54 +578,54 @@
                     largeImageUrl: excursionLargeImageBaseUrl.replace('.id.', d.excursion.id),
                     mainImageUrl:  excursionImageBaseUrl.replace('.id.', d.excursion.id)//excursionLargeImageBaseUrl.replace('.id.', d.excursion.id).replace('.i.', 0)
 					,
-                    excId:  d.excursion.id
+					excId:  d.excursion.id
                 }, d || {});
             },
              doDepartureInitialize = function(force) {
-                 // !!!!!!!!!!!!!!!!
-                 if( force === true || searchDeparturePointsInitialized() === false ) {
-                     searchDeparturePointsInitialized(true);
-                     site.service.ajax.get('@Url.ApiActionLink("departures", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias(), ds: filterDestinationState() ? filterDestinationState().id : null },
-                         function (result) {
+                // !!!!!!!!!!!!!!!!
+                if( force === true || searchDeparturePointsInitialized() === false ) {
+                    searchDeparturePointsInitialized(true);
+                    site.service.ajax.get('@Url.ApiActionLink("departures", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias(), ds: filterDestinationState() ? filterDestinationState().id : null },
+                        function (result) {
 
-                             var departures = [{ id: 0, name: '@ExcursionStrings.Get("SearchDeparture_AnyPoint")', state: "All states" }];
+                            var departures = [{ id: 0, name: '@ExcursionStrings.Get("SearchDeparture_AnyPoint")', state: "All states" }];
 
-                             var needIndex = 0;
+                            var needIndex = 0;
 
-                             departureSlugs = [];
+                            departureSlugs = [];
 
-                             if( result && result.departures ) {
+                            if( result && result.departures ) {
 
-                                 ko.utils.arrayForEach(result.departures, function (d) {
+                                ko.utils.arrayForEach(result.departures, function (d) {
 
-                                     console.log(d.id + ' ' + departurePoint);
-                                     if(d.id == departurePoint)
-                                         needIndex = departures.length;
+                                    console.log(d.id + ' ' + departurePoint);
+                                    if(d.id == departurePoint)
+                                        needIndex = departures.length;
 
-                                     if(d.name==null) d.name = '';
+                                    if(d.name==null) d.name = '';
 
-                                     departureSlugs[d.id] = slugify(d.name.toLowerCase());
+                                    departureSlugs[d.id] = slugify(d.name.toLowerCase());
 
-                                     if (d.state == null) d.state = 'All states';
+                                    if (d.state == null) d.state = 'All states';
 
-                                     departures.push(d);
-                                 });
+                                    departures.push(d);
+                                });
 
-                             }
+                            }
 
-                             searchDeparturePoints(departures);
-                             searchDeparturePoint(departures[needIndex]);
+                            searchDeparturePoints(departures);
+                            searchDeparturePoint(departures[needIndex]);
 
-                             $(".select2-selection__rendered").html(departures[needIndex].name);
+                            $(".select2-selection__rendered").html(departures[needIndex].name);
 
-                             var list = ko.utils.arrayMap(searchDeparturePoints(), function(item) {
-                                 return item.state;
-                             });
-                             states(ko.utils.arrayGetDistinctValues(list));
-                         }
-                         );
-                 }
-             },
+                            var list = ko.utils.arrayMap(searchDeparturePoints(), function(item) {
+                                return item.state;
+                            });
+                            states(ko.utils.arrayGetDistinctValues(list));
+                        }
+                        );
+                }
+            },
             doSearchDeparturePointReset = function() {
                 searchDeparturePointForceUse(false);
                 searchDeparturePoint((searchDeparturePoint() && searchDeparturePoint().length > 0) ? searchDeparturePoint()[0] : undefined);
@@ -565,7 +634,7 @@
                 history.pushState({ cmd: 'categories' }, document.title, null);
                 doCategories();
             },
-            doCategories = function () {
+            doCategories = function () {            
                 var text = searchTextInput();
                 if( text && text !== '') {
                     searchTextInputSkipChanges = true;
@@ -577,14 +646,14 @@
                 if( filterDestinationState() ) {
                     filterDestinationState(null);
                     filterInitialized(false);
-                    doDepartureInitialize(true);
+                    doDepartureInitialize(true);    
                 } else {
                     doDepartureInitialize(false);
                 }
-
-                if (categorygroups().length == 0) {
+                
+                if (categorygroups().length == 0) {                    
                     site.service.ajax.get('@Url.ApiActionLink("destinationsandcategorygroups", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias() },
-                        function (result) {
+                        function (result) {                        
                             destinationstates([]);
                             if (result && result.destinationstates) {
                                 ko.utils.arrayForEach(result.destinationstates, function (g) {
@@ -607,8 +676,8 @@
                                 });
                             }
 
-                            /*if (result && result.ranking) {
-                                ranking(result.ranking);
+                            /*if (result && result.ranking) {                               
+                                ranking(result.ranking);                               
                             } else {
                                 ranking(null);
                             }*/
@@ -621,41 +690,71 @@
                 }
             },
             doSearchHistory = function (o, checkstate) {
-
-
-                if((o.fd != null) && (o.fd.length > 10))
-                    current_date = o.fd.substring(0,10); 
+		     /*   if(in_search_now)
+                {	
+					console.log('aborted');
+					return;
+				}
                 else
-                    current_date = "";
-
-                if (history && history.state && history.state.cmd === 'search' &&
-                    o && o.text && history.state.o && history.state.o.text && history.state.o.text.length > 0 && o.text.indexOf(history.state.o.text) === 0) {
-                    history.replaceState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+makeShort(JSON.stringify(o)));
-                } else {
-                    history.pushState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+makeShort(JSON.stringify(o)));
-                }
-
+                {
+                    in_search_now = true;
+					
+                   // 
+					 
+					setTimeout(
+						function(){
+							in_search_now = false;
+							console.log(' search flag cleared');
+						},
+						
+						500
+					);
+                }*/
+				searchFlag(true);
+				console.log('search');
                 doSearch(o, checkstate);
+				
+				setTimeout(
+				
+					function(){
+					
+						if((o.fd != null) && (o.fd.length > 10))
+							current_date = o.fd.substring(0,10); 
+						else
+							current_date = "";
+						
+						var searchkey = makeShort(JSON.stringify(o));
+						
+						if(searchkey != 'Fb82Q')
+						{
+							if (history && history.state && history.state.cmd === 'search' &&
+								o && o.text && history.state.o && history.state.o.text && history.state.o.text.length > 0 && o.text.indexOf(history.state.o.text) === 0) {
+								history.replaceState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+searchkey);                
+							} else {
+								history.pushState({ cmd: 'search', o: o }, document.title,  "?cmd=sl&fl="+searchkey);
+							}
+						}
+					}, 50);
             },
-
+			
             doSearch = function (o, checkstate) {
-                document.getElementById('bgvid').pause();
-
+			
                 var doSearchView = 0;
                 navigateView(operation.loading);
+				
                 if (o && o.text && o.text != "") {
                     geographies([]);
 
-                    doSearchView = operation.search;
+                    doSearchView = operation.search;   
 
                     site.service.ajax.get('@Url.ApiActionLink("search", "excursion")', { s: o.text, spa: startPointAlias() },
                         function (result) {
-                            if (result.geography) {
+                            if (result.geography) {                                
                                 geographies([]);
                                 ko.utils.arrayForEach(result.geography, function (d) {
                                     geographies.push(d);
                                 });
-
+                              
                             }
                         }
                     );
@@ -676,11 +775,11 @@
                     filterInitialized(true);
 
                     site.service.ajax.get('@Url.ApiActionLink("filters", "excursion")', {
-                        pa: partnerAlias(),
-                        psid: partnerSessionID(),
-                        spa: startPointAlias(),
-                        ds: filterDestinationState() ? filterDestinationState().id : null
-                    },
+                            pa: partnerAlias(),
+                            psid: partnerSessionID(),
+                            spa: startPointAlias(),
+                            ds: filterDestinationState() ? filterDestinationState().id : null
+                        },
                         function (d) {
                             if (d && d.categorygroups) {
                                 var _categorygroups = ko.mapping.fromJS(d.categorygroups);
@@ -713,52 +812,57 @@
                             } else {
                                 filterLanguages([]);
                             }
-                            filterDate();
+                            filterDate();                      
                         }
                     );
                 }
 
                 excursions([]);
                 excursionsData([]);
-               
-                site.service.ajax.get('@Url.ApiActionLink("catalog", "excursion")', {
-                    pa: partnerAlias(),
-                    psid: partnerSessionID(),
-                    spa: startPointAlias(),
-                    ds: (o && o.destinationstate) ? o.destinationstate.id : null,
-                    s: (o && o.text && o.text != "") ? o.text : [],
-                    c: (o && o.categories) ? o.categories : [],
-                    dp: (o && o.departures) ? o.departures : [],
-                    d: (o && o.destinations) ? o.destinations : [],
-                    l: (o && o.languages) ? o.languages : [],
-                    so: (o && o.sortorder) ? o.sortorder : '',
-                    fd: (o && o.fd) ? o.fd : '',
-                    ld: (o && o.ld) ? o.ld : '',
-                    rate: currentCurrency
-                },
+                searchFlag(true);                    
+                site.service.ajax.get('@Url.ApiActionLink("catalog", "excursion")', {                    
+                        pa: partnerAlias(),
+                        psid: partnerSessionID(),
+                        spa: startPointAlias(),
+                        ds: (o && o.destinationstate) ? o.destinationstate.id : null,
+                        s: (o && o.text && o.text != "") ? o.text : [],
+                        c: (o && o.categories) ? o.categories : [],
+                        dp: (o && o.departures) ? o.departures : [],
+                        d: (o && o.destinations) ? o.destinations : [],
+                        l: (o && o.languages) ? o.languages : [],
+                        so: (o && o.sortorder) ? o.sortorder : '',
+                        fd: (o && o.fd) ? o.fd : '',
+                        ld: (o && o.ld) ? o.ld : '',
+						rate: currentCurrency
+                    },
                     function (result) {
                         excursions([]);
                         excursionsData([]);
 
+						  //проверять какая из категорий имеется ввиду
+                        ///console.log(result.categorygroups[0].items);
                         if (result && result.categorygroups && result.categorygroups.length && result.categorygroups[0].items.length > 0 ) {
                             console.log(result.categorygroups[0].items);
-
+                           
                             setTimeout(function(){updateCount(result.categorygroups[0].items);}, 500);
                         }
-
+						
+						
                         if( o.version == paramsVersion ) {
                             if (result.excursions) {
                                 applySearchParams(o, checkstate);
                                 excursionsData(result.excursions);
                                 for (var i = 0, j = excursionsData().length; i < j && i <= 10 ; i++) {
-                                    excursions.push(prepareExcursion(excursionsData()[i]));
+                                      excursions.push(prepareExcursion(excursionsData()[i]));
                                 }
                             }
                             else
                                 applySearchParams(o, checkstate);
+								
+                            searchFlag(false);                            
 
-                            searchFlag(false);
-
+                            in_search_now = false;
+							
                             navigateView(doSearchView);
                         }
                     }
@@ -767,106 +871,81 @@
             doScrollExcursionList = function () {
                 if(excursions() && excursionsData() ) {
                     for (var i = excursions().length, j = excursionsData().length, m = i + 10; i < j && i < m; i++) {
-                        excursions.push(prepareExcursion(excursionsData()[i]));
+                        excursions.push(prepareExcursion(excursionsData()[i]));    
                     }
                 }
             },
-            doDescriptionHistory = function (o) {
+            doDescriptionHistory = function (o) {                            
                 //history.pushState({ cmd: 'description', o: o }, document.title, null);
                 doDescription(o);
+				
+				
             },
-
+			
 			 doDescriptionText = function (excursionId) {
+			 
+					$('#ex_title_block_'+excursionId).css({'background-color':' #083b82', 'color': '#fff'});
+					if (document.body.clientWidth > 1000) {
+						$('#ex_title_block_'+excursionId).css('margin-left','2px');
+					}
+					var h_img = $( '#avatar_ex_'+excursionId).height();
+					h_img = h_img - 10;
+					$('#ex_discript_'+excursionId).height(h_img);
+					
 
-			     $('#ex_title_block_'+excursionId).css({'background-color':' #083b82', 'color': '#fff'});
-			     if (document.body.clientWidth > 1000) {
-			         $('#ex_title_block_'+excursionId).css('margin-left','2px');
-			     }
-			     var h_img = $( '#avatar_ex_'+excursionId).height();
-			     h_img = h_img - 10;
-			     $('#ex_discript_'+excursionId).height(h_img);
-
-
-			     var w_img = $( '#avatar_ex_'+excursionId).width();
-			     w_img = w_img - 10;
-			     $('#ex_discript_'+excursionId).width(w_img);
-
-			     $( '#avatar_ex_'+excursionId).hide();
-			     $( '#ex_discript_'+excursionId).show();
-			     $( '#ex_discript_shadow'+excursionId).css('box-shadow','inset 0px -50px 50px -20px #ffbc23');
-			     $('#ex_discript_' + excursionId).html('<img id="ex_loader" src="@Url.Content("~/images/new/loader_black.gif")">');
-			     site.service.ajax.get('@Url.ApiActionLink("exdescription", "excursion")', {
-			         pa: partnerAlias(),
-			         ex: excursionId
-			     },
+					var w_img = $( '#avatar_ex_'+excursionId).width();
+					w_img = w_img - 10;
+					$('#ex_discript_'+excursionId).width(w_img);					
+					
+					$( '#avatar_ex_'+excursionId).hide();		
+					$( '#ex_discript_'+excursionId).show();	
+					$( '#ex_discript_shadow'+excursionId).css('box-shadow','inset 0px -50px 50px -20px #ffbc23');						
+					$('#ex_discript_' + excursionId).html('<img id="ex_loader" src="@Url.Content("~/images/new/loader_black.gif")">');
+                 site.service.ajax.get('@Url.ApiActionLink("exdescription", "excursion")', {
+                     pa: partnerAlias(),
+                     ex: excursionId
+                 },
                      function (result) {
-                         if (result && result.length > 0 && result[0] && result[0].excursion && result[0].excursion.id == excursionId) {
-                             var text = result[0].description[0].paragraphs[0];
-                             $('#ex_discript_' + excursionId).html(text);
+                         if (result && result.length > 0 && result[0] && result[0].excursion && result[0].excursion.id == excursionId) {    
+							 var text = result[0].description[0].paragraphs[0];
+							 $('#ex_discript_' + excursionId).html(text); 
+                              /* alert(result[0].description[0].paragraphs[0]); */
+							  /* alert(text);  */
                          }
                          else
                              alert('null');
                      }
                  );
-			 },
-
-			doDescriptiOffText = function (excursionId) {
-			    $( '#ex_title_block_'+excursionId).css({'background-color':' transparent', 'color': '#000'});
-			    $( '#avatar_ex_'+excursionId).show();
-			    $( '#ex_discript_'+excursionId).hide();
-			    $( '#ex_discript_shadow'+excursionId).css('box-shadow','none');
-			},
-
-
-            doDescription = function (o) {
-
-                location.href = "@Url.Action("details", "excursion")/"+ o.excursion 
+             },
+			
+			doDescriptiOffText = function (excursionId) {    
+					$('#ex_title_block_'+excursionId).css({'background-color':' transparent', 'color': '#000'});
+					$( '#avatar_ex_'+excursionId).show();
+					$( '#ex_discript_'+excursionId).hide();
+					$( '#ex_discript_shadow'+excursionId).css('box-shadow','none');	
+             },
+			
+			
+            doDescription = function (o) {  				
+				location.href = "@Url.Action("details", "excursion")/"+ o.excursion 
                                     + "?cmd=sl&fl=" + current_short_key 
                                     + (current_date !=''? '&dt=' + current_date :'' );
-
-                return;
-                description(null);
-                prices(null);
-                cartinfoBookingView(false);
-                navigateView(operation.description);
-
-                site.service.ajax.get('@Url.ApiActionLink("exdescription", "excursion")', {
-                    pa: partnerAlias(),
-                    psid: partnerSessionID(),
-                    ex: o.excursion
-                },
-                    function (result) {
-                        if (result && result.length > 0 && result[0] && result[0].excursion && result[0].excursion.id == o.excursion) {
-                            description(prepareDescription(result[0]));
-                            if( !o.date && result[0].excursiondates ) {
-                                ko.utils.arrayForEach(result[0].excursiondates, function (d) {
-                                    if( !o.date && d.allclosed == false && d.isprice == true && d.isstopsale == false ) {
-                                        o.date = d.date;
-                                    }
-                                });
-                            }
-                            reset(o.excursion, { date: o.date ? o.date : site.utils.date.formatIso(new Date()), navigateprice: (o && o.navigateprice) ? o.navigateprice : false }, result[0].excursion);
-                            $('.carousel').carousel({ interval: 5000 });
-                        }
-                        else
-                            description(null);
-                    }
-                );
             },
-            doExcursionPrice = function (id, o) {
+			
+            doExcursionPrice = function (id, o) { 
                 var priceUrl = excursionPriceBaseUrl.replace('.id.', id)
                 if (!(o && o.date)) o.date = site.utils.date.formatIso(new Date());
                 pricesNotFound(false);
                 excursionpricedate(o.date);
 
                 site.service.ajax.get(priceUrl, {
-                    ex: id ? [id] : [],
-                    pa: partnerAlias(),
-                    psid: partnerSessionID(),
-                    spa: startPointAlias(),
-                    dt: o.date
-                },
-                    function (result) {
+                        ex: id ? [id] : [],
+                        pa: partnerAlias(),
+                        psid: partnerSessionID(),
+                        spa: startPointAlias(),
+                        dt: o.date
+                    },
+                    function (result) {                                                                 
                         if (description() && description().excursion.id == id) {
                             excursionpricedate(o.date);
                             if (prices() == null) {
@@ -876,10 +955,10 @@
                                     selectedDateFormat: 'YYYY-MM-DD',
                                     language: '@Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage',
                                     description: description().excursiondates
-                                }
+                                }                                                                                           
                                 $('#excursionpricedate')
                                     .datepaginator(options)
-                                    .on('selectedDateChanged', function (event, c) {
+                                    .on('selectedDateChanged', function (event, c) {                                        
                                         if (excursionpricedateIsChanging === false) {
                                             doExcursionPrice(id, { date: site.utils.date.formatIso(c.toDate()) });
                                         }
@@ -906,31 +985,31 @@
                                     if (d.language)      columns.language = true;
                                     if (d.time)          columns.extime = true;
                                     if (d.group)         columns.group = true;
-                                    if (d.closesaletime) columns.closesaletime = true;
+                                    if (d.closesaletime) columns.closesaletime = true;                                                                                                            
                                     // var p = ko.mapping.fromJS(d);
-                                    prices.push(d);
+                                    prices.push(d);                                   
                                 }
                             });
                             priceColumns(columns);
                             pricesNotFound(prices().length == 0);
-
+                            
                         }
                     }
                 );
             },
 
-            doExcursionConfirmAddToCart = function(data) {
+            doExcursionConfirmAddToCart = function(data) {                    
                 cartinfoPrice(data);
                 cartinfoAdult(1);
                 cartinfoChild(0);
                 cartinfoInfant(0);
-                cartinfoNote('');
-                cartinfoName('');
-                cartinfoPhone('');
+                cartinfoNote('');                
+                cartinfoName('');                
+                cartinfoPhone('');                
                 cartinfoErrors([]);
-                cartinfoPickUpPoint(null);
-                cartinfoPickUpHotel(null);
-
+                cartinfoPickUpPoint(null);  
+                cartinfoPickUpHotel(null);         
+                    
                 pickuphotels(null);
 
                 //if( !data.pickuppoints ) {
@@ -949,7 +1028,7 @@
                 //            dt: data.date,
                 //            dp: dpoints
                 //        },
-                //        function (result) {
+                //        function (result) {                                                                 
                 //            var hotels = [{name: '@ExcursionStrings.Get("PickupHotelHint")', ishint: true}];
 
                 //            pickuphotels(hotels);
@@ -957,38 +1036,38 @@
                 //                ko.utils.arrayForEach(result, function (h) {
                 //                    pickuphotels.push(h);
                 //                });
-                //            }
+                //            } 
                 //        }
                 //    );
                 //}
 
                 cartinfoBookingView(true);
-                //console.log(cartinfoPrice());
-                // $('#confirmpricemodal div#confirmPriceResult').hide();
-                // $('#confirmpricemodal div#confirmPriceBody').show();
-                // $('#confirmpricemodal').modal({ show: true });
+               //console.log(cartinfoPrice());
+               // $('#confirmpricemodal div#confirmPriceResult').hide();
+               // $('#confirmpricemodal div#confirmPriceBody').show();                               
+               // $('#confirmpricemodal').modal({ show: true });
             },
-            doExcursionAddToCart = function() {
+            doExcursionAddToCart = function() {               
                 var price = cartinfoPrice();
                 site.service.ajax.post('@Url.Action("addcart", "excursion")', {
-                    pa: partnerAlias(),
-                    psid: partnerSessionID(),
-                    cid: externalCartID(),
-                    excursion: {
-                        id: price ? price.id : (-1),
-                        date: price ? price.date : null,
-                        extime: (price && price.time) ? price.time.id : null,
-                        language: (price && price.language) ? price.language.id : null,
-                        grouptype: (price && price.group) ? price.group.id : null,
-                        // departure: (price && price.departure) ? price.departure.id : null,
-                        pickuppoint: (cartinfoPickUpPoint()) ? cartinfoPickUpPoint().id : null,
-                        pickuphotel: (cartinfoPickUpHotel() && cartinfoPickUpHotel().id) ? cartinfoPickUpHotel().id : null,
-                        pax: { adult: cartinfoAdult(), child: cartinfoChild(), infant: cartinfoInfant() },
-                        contact: { name: cartinfoName(), mobile: cartinfoPhone() },
-                        note: cartinfoNote()
-                    }
-                },
-                    function (result) {
+                        pa: partnerAlias(), 
+                        psid: partnerSessionID(),
+                        cid: externalCartID(),
+                        excursion: { 
+                            id: price ? price.id : (-1),
+                            date: price ? price.date : null,
+                            extime: (price && price.time) ? price.time.id : null,
+                            language: (price && price.language) ? price.language.id : null,
+                            grouptype: (price && price.group) ? price.group.id : null,
+                            // departure: (price && price.departure) ? price.departure.id : null,
+                            pickuppoint: (cartinfoPickUpPoint()) ? cartinfoPickUpPoint().id : null,
+                            pickuphotel: (cartinfoPickUpHotel() && cartinfoPickUpHotel().id) ? cartinfoPickUpHotel().id : null,
+                            pax: { adult: cartinfoAdult(), child: cartinfoChild(), infant: cartinfoInfant() },
+                            contact: { name: cartinfoName(), mobile: cartinfoPhone() },
+                            note: cartinfoNote()                            
+                        }
+                    },
+                    function (result) {                       
                         if( result && result.errormessages ) {
                             cartinfoErrors(result.errormessages);
                         } else {
@@ -1005,7 +1084,7 @@
                         }
                         $('#confirmpricemodal').modal({ show: true });
                     },
-                    function (failresult) {
+                    function (failresult) {                        
                         return true;
                     }
                 );
@@ -1027,40 +1106,40 @@
                         doDescription(o); break;
                 }
             },
-
+            
             doNavigateToPriceList = function() {
                 cartinfoBookingView(false);
                 $('html, body').animate({
                     scrollTop: $('#excursionPrices').offset().top
                 }, 500);
             },
-
+            
             doSurveyMoreReviewClick = function() {
-                var d = description();
-                if (d && d.surveynotes && d.surveynotesView && d.surveynotesView()) {
-                    var index = d.surveynotesView().length,
-                        count = 0;
+              var d = description();
+              if (d && d.surveynotes && d.surveynotesView && d.surveynotesView()) {
+                var index = d.surveynotesView().length,
+                    count = 0;
 
-                    while(d.surveynotesView().length < d.surveynotes.length && count <= 10) {
-                        d.surveynotesView.push(d.surveynotes[index + count]);
-                        count += 1;
-                    }
-
-                    d.surveynotesMoreButton(d.surveynotesView().length < d.surveynotes.length);
-                } else {
-                    d.surveynotesMoreButton(false);
+                while(d.surveynotesView().length < d.surveynotes.length && count <= 10) {
+                    d.surveynotesView.push(d.surveynotes[index + count]);
+                    count += 1;
                 }
+
+                d.surveynotesMoreButton(d.surveynotesView().length < d.surveynotes.length);
+              } else {
+                d.surveynotesMoreButton(false);
+              }
             },
 
            searchDeparturePointChanged = function(data, event) {
+                
 
-
-               if ((event.originalEvent) || (destinationsClicked)) { // user changed
-                   searchDeparturePointForceUse((searchDeparturePoint() && searchDeparturePoint().id != 0) ? true : false);
-                   doSearchHistory(buildSearchParams());
-               }
-
-           };
+                if ((event.originalEvent) || (destinationsClicked)) { // user changed
+                    searchDeparturePointForceUse((searchDeparturePoint() && searchDeparturePoint().id != 0) ? true : false);
+                    doSearchHistory(buildSearchParams());
+                }
+                
+            };
 
             for(var i = 0; i <= @GuestService.Settings.CartinfoPaxSelectMaxAdult; i++) {
                 cartinfoPaxSelectAdult.push({value: i, name: i.toString()});
@@ -1073,68 +1152,69 @@
             }
 
             searchText.subscribe(function (value) {
+			
+			
+			 {
+			
+				$('#ex_cont').show();
 
-                //if((value != '')||(departurePoint!=-10))
-                {
+				if (document.body.clientWidth > 767 ) {
+				$('#ex_cont').animate({top: '384px'}, 800);
+				$(".bk-footer").animate({bottom: '-90px'});
+				$("#search_box").animate({top: '182px'}, 800);
+				$("#bgvid").animate({top: '30%'}, 800);
+				} else {
+				$('.bk-navbar-header').css('height','10px');
+				$('#ex_cont').animate({top: '85px'}, 800);
+				$("#search_box").animate({top: '35px'}, 800);
+				}
 
-                    $('#ex_cont').show();
+				$('#footer_ok').attr('value','ok')
+				$("#ex_title").fadeOut();		
+				$('html').css( "overflow", "auto" );
+				
+			 }
 
-                    if (document.body.clientWidth > 767 ) {
-                        $('#ex_cont').animate({top: '184px'}, 800);
-                        $(".bk-footer").animate({bottom: '-90px'});
-                        $("#search_box").animate({top: '-18px'}, 800);
-                    } else {
-                        $('.bk-navbar-header').css('height','10px');
-                        $('#ex_cont').animate({top: '85px'}, 800);
-                        $("#search_box").animate({top: '35px'}, 800);
-                    }
-
-                    $('#footer_ok').attr('value','ok')
-                    $("#ex_title").fadeOut();
-                    $('html').css( "overflow", "auto" );
-
-                }
-
-                setTimeout(function(){
-                    //var w_img = $( '.img-responsive').width();
-                    //alert(w_img);
-                    // w_img2 = w_img - 10;
-                    $.each(function(id) {
-                        var w_img = $( '.img-responsive').width();
-                        alert(w_img);
-                        $('ex_title_block_'+id).width(w_img);
-                    });
-
-                }, 2000);
-
-                /*	}); */
-
-
+			setTimeout(function(){ 
+			
+				$.each(function(id) {
+				var w_img = $( '.img-responsive').width();
+				alert(w_img);
+				$('ex_title_block_'+id).width(w_img);
+				});
+				
+			}, 2000);
+		
+			
+			
                 if( searchTextInputSkipChanges != true ) {
                     var _text = $.trim(value);
+					console.log('search text');
                     doSearchHistory(buildViewParams({ text: _text }), true);
                 }
                 searchTextInputSkipChanges = false;
             });
 
-            filterDateChecked.subscribe(function (value) {
+            filterDateChecked.subscribe(function (value) {  
                 if( value ) {
-                    filterDate('@DateTime.Now.ToString("s")');
+                    filterDate('@DateTime.Now.ToString("s")');    
                 } else {
                     filterDate('');
                 }
             });
 
-            filterDate.subscribe(function (value) {
-                if(searchDateSkipChanges != true) {
-                    doSearchHistory(buildSearchParams());
-                }
+            filterDate.subscribe(function (value) {       
+				console.log('date change');
+				
+                if(searchDateSkipChanges != true) {                                        
+                    doSearchHistory(buildSearchParams());                    
+                } 
                 searchDateSkipChanges = false;
             });
 
 
             return {
-                //
+                // 
                 windowHeight: ko.observable($(window).height()+'px'),
                 loadingInProgress: loadingInProgress,
                 // data
@@ -1143,7 +1223,7 @@
                 searchDeparturePoint: searchDeparturePoint,
                 searchDeparturePointChanged: searchDeparturePointChanged,
                 searchDeparturePointForceUse: searchDeparturePointForceUse,
-                states:states,
+				states:states,
                 filterDestinationState: filterDestinationState,
                 filterCategorygroups: filterCategorygroups,
                 filterDepartures: filterDepartures,
@@ -1164,7 +1244,7 @@
                 //ranking: ranking,
                 geographies: geographies,
                 excursions: excursions,
-                searchFlag: searchFlag,
+                searchFlag: searchFlag,             
                 // preloader: preloader,
                 description: description,
                 pickuphotels: pickuphotels,
@@ -1203,54 +1283,58 @@
                 },
                 catalogButtonClick: function () {
                     doSearchDeparturePointReset();
+					console.log('catalog button');
                     doSearchHistory(buildViewParams());
-                    document.getElementById('bgvid').pause();
-
+					//document.getElementById('bgvid').pause();
+					
                 },
                 destinationstatesItemClick: function (data) {
                     if( data ) {
+						console.log('destinationstatesItemClick');
                         doSearchHistory(buildViewParams({ destinationstate: data }));
                     }
                 },
                 categoryItemClick: function (data) {
                     if (data) {
+						console.log('categoryItemClick');
                         doSearchHistory(buildViewParams({ categories: [data.id] }));
                     }
                 },
                 geographyItemClick: function (data) {
                     if (data && data.destinations) {
+						console.log('geographyItemClick');
                         doSearchHistory(buildViewParams({ destinations: data.destinations }));
                     }
                 },
-
-                excursionItemShowText: function (data) {
-
-                    if (data && data.excursion) {
-
+				
+				 excursionItemShowText: function (data) {
+				 
+                    if (data && data.excursion && (window.innerWidth>767)) {
+						
                         doDescriptionText( data.excursion.id);
                     }
                 },
-
-                closeExText: function (data) {
-
+				
+				closeExText: function (data) {
+				 
                     if (data && data.excursion) {
                         doDescriptiOffText( data.excursion.id);
                     }
                 },
-
+				
                 excursionItemClick: function (data) {
                     if (data && data.excursion) {
                         doDescriptionHistory({ excursion: data.excursion.id });
-                        /*
+						/*
 					 	 $('#ex_cont').css('background-image','url(https://exgo.com@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
 						 $('#search_box').hide();
 						 $('#ex_cont').animate({top: '300px'});
 						 $('.bk-container').css('background-color','#ffffff');
 						 $('.bk-container').css('margin-bottom','-120px');
 						 */
-                        /* $("#excursion_container").animate({top: '-300px'}); */
-
-                        /* alert ('ok'); */
+						 /* $("#excursion_container").animate({top: '-300px'}); */
+						 
+						/* alert ('ok'); */
                     }
                 },
                 excursionItemBookClick: function (data) {
@@ -1264,6 +1348,7 @@
                 filterCategoryItemClick: function (data) {
                     if (data) {
                         data.marked(!data.marked());
+						console.log('filterCategoryItemClick');
                         doSearchHistory(buildSearchParams());
                     }
                 },
@@ -1271,6 +1356,7 @@
                     if (data && data.name) {
                         if (excursionSortOrder().name != data.name) {
                             excursionSortOrder(data);
+							console.log('setExcursionSortOrder');
                             doSearchHistory(buildSearchParams());
                         }
                     }
@@ -1278,37 +1364,42 @@
                 filterDeparturesItemClick: function (data) {
                     if (data) {
                         data.marked(!data.marked());
+						console.log('filterDeparturesItemClick');
                         doSearchHistory(buildSearchParams());
                     }
                 },
                 filterDestinationItemClick: function (data) {
                     if (data) {
                         data.marked(!data.marked());
+						console.log('filterDestinationItemClick');
                         doSearchHistory(buildSearchParams());
                     }
-                },
+                },                
                 filterLanguageItemClick: function (data) {
                     if (data) {
                         data.marked(!data.marked());
+						console.log('filterLanguageItemClick');
                         doSearchHistory(buildSearchParams());
                     }
-                },
+                },  
                 filterDateCheckedItemClick: function (data) {
                     if (data) {
                         data.filterDateChecked(!data.filterDateChecked());
+						
                         if( !data.filterDateChecked() )
+						{
+							console.log('filterDateCheckedItemClick no doSearchHistory');
+                            //doSearchHistory(buildSearchParams());
+						}
+						else
                         {
-                          //  doSearchHistory(buildSearchParams());
-                        }
-                        else
-                        {
-                            setTimeout(
+							setTimeout(
                                 function(){
                                     $(".onedate input").focus();
                                 },
                                 2000
                             );
-
+							
                             setTimeout(
                                 function(){
                                     $(".onedate input").focus();
@@ -1324,82 +1415,82 @@
                             );
                         }
                     }
-                },
-                /*filterDateFlagResetClick: function () {
-                    doSearchHistory(buildSearchParams());
+                },             
+                /*filterDateFlagResetClick: function () {                                        
+                    doSearchHistory(buildSearchParams());                    
                 },*/
                 excursionPriceItemClick: function (data) {
                     doExcursionConfirmAddToCart(data);
                 },
-                excursionAddToCartClick: function (data) {
+                excursionAddToCartClick: function (data) {                
                     doExcursionAddToCart();
                 },
-                excursionAddRatingClick: function (data) {
+                excursionAddRatingClick: function (data) {                
                     doExcursionAddRatingClick();
-                },
-                cartinfoShowPickUpPointMapClick: function() {
+                },                
+                cartinfoShowPickUpPointMapClick: function() {                    
                     var map;
-
-                    if(cartinfoPrice().pickuppoints[0].location != null)
-                        var myLatlng = new google.maps.LatLng(cartinfoPrice().pickuppoints[0].location.latitude,cartinfoPrice().pickuppoints[0].location.longitude);
+                    
+                    if(cartinfoPrice().pickuppoints[0].location != null) 
+                        var myLatlng = new google.maps.LatLng(cartinfoPrice().pickuppoints[0].location.latitude,cartinfoPrice().pickuppoints[0].location.longitude);                    
                     else
                         var myLatlng = new google.maps.LatLng(0,0);
 
-                    var mapOptions = {
-                        mapTypeControl: false,
+                    var mapOptions = {                                          
+                        mapTypeControl: false,                       
                         panControl:false,
                         rotateControl:false,
                         streetViewControl: false,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     };
-                    map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+                    map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);      
                     var selImage = new google.maps.MarkerImage(
                         "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000",
                         new google.maps.Size(21, 34),
                         new google.maps.Point(0,0),
-                        new google.maps.Point(10, 34));
+                        new google.maps.Point(10, 34));                        
                     var othImage = new google.maps.MarkerImage(
                         "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00CC00",
                         new google.maps.Size(21, 34),
                         new google.maps.Point(0,0),
                         new google.maps.Point(10, 34));
-                    var marker = new Array();
+                    var marker = new Array();                                        
                     var bounds = new google.maps.LatLngBounds();
-                    if (cartinfoPrice().pickuppoints.length > 0) {
-                        for(i=0;i<cartinfoPrice().pickuppoints.length;i++) {
-                            if(cartinfoPrice().pickuppoints[i].location != null && cartinfoPrice().pickuppoints[i].name != null) {
+                    if (cartinfoPrice().pickuppoints.length > 0) {                        
+                        for(i=0;i<cartinfoPrice().pickuppoints.length;i++) {                                                     
+                            if(cartinfoPrice().pickuppoints[i].location != null && cartinfoPrice().pickuppoints[i].name != null) {                              
                                 if(cartinfoPickUpPoint().id == cartinfoPrice().pickuppoints[i].id) var icon_ = selImage; else var icon_ = othImage;
                                 marker[i] = new MarkerWithLabel({
-                                    position: new google.maps.LatLng(cartinfoPrice().pickuppoints[i].location.latitude,cartinfoPrice().pickuppoints[i].location.longitude),
+                                    position: new google.maps.LatLng(cartinfoPrice().pickuppoints[i].location.latitude,cartinfoPrice().pickuppoints[i].location.longitude),                                  
                                     map: map,
                                     icon: icon_,
                                     labelContent: cartinfoPrice().pickuppoints[i].name,
                                     labelAnchor: new google.maps.Point(22, 0),
-                                    labelClass: "labels",
+                                    labelClass: "labels", 
                                     labelStyle: {opacity: 0.75},
-                                    pickuppoint: cartinfoPrice().pickuppoints[i]
+                                    pickuppoint: cartinfoPrice().pickuppoints[i]                                   
                                 });
                                 bounds.extend(marker[i].position);
-                                google.maps.event.addListener(marker[i], 'click', function() {
-                                    cartinfoPickUpPoint(this.pickuppoint);
+                                google.maps.event.addListener(marker[i], 'click', function() {                 
+                                    cartinfoPickUpPoint(this.pickuppoint);              
                                     $('#mapmodals').modal('hide');
-                                });
+                                });  
                             }
-                        }
+                        }                                                
                     } else {
                         bounds.extend(myLatlng);
                     }
-
+                        
                     $('#mapmodals').modal({ show: true });
-                    $('#mapmodals').on('shown.bs.modal', function () {
+                    $('#mapmodals').on('shown.bs.modal', function () {                        
                         if(i == 1) map_resize_one_place(map, (cartinfoPrice().pickuppoints && cartinfoPrice().pickuppoints.length > 0 && cartinfoPrice().pickuppoints[0].location) ? cartinfoPrice().pickuppoints[0].location : myLatlng); else map_resize_multiple_place(map,bounds);
                     });
                 },
-                excursionBookingCloseClick: function (data) {
-                    if (data && data.id) {
-                        cartinfoBookingView(false);
+                excursionBookingCloseClick: function (data) {                    
+                    if (data && data.id) {                      
+                        cartinfoBookingView(false);                 
                         reset(data.id, { date: excursionpricedate() },description().excursion);
-                    }
+                    }                 
                 },
                 navigateBackClick: function() {
                     history.back();
@@ -1410,64 +1501,64 @@
                 },
                 surveyMoreReviewClick: function() {
                     doSurveyMoreReviewClick();
-                }
+                }     
             };
         } ();
         ko.applyBindings(site.vm.excursion, document.getElementById("excursion_container"));
 
-        $(window).resize(function () {
+        $(window).resize(function () {            
             // site.vm.excursion.windowHeight($(window).height()+'px');
         });
 
         $(window).on('popstate', function (e) {
-
-            /*
-
-            $('#search_box').show();
-            $('.bk-container').css('background-color','transparent');
-            $('#ex_cont').animate({top: '184px'}, 800);
-            */
-
-            $('#search_box').show();
-            $('.bk-container').css('background-color','transparent');
-
+		
+		/*
+		
+		$('#search_box').show();
+		$('.bk-container').css('background-color','transparent');
+		$('#ex_cont').animate({top: '184px'}, 800);
+		*/
+		
+		$('#search_box').show();
+		$('.bk-container').css('background-color','transparent');
+		
             if (history && history.state && history.state.cmd) {
                 site.vm.excursion.navigateCommand(history.state.cmd, history.state.o);
             }
+            
 
+				$('#ex_cont').hide();
 
-            $('#ex_cont').hide();
+				if (document.body.clientWidth > 767 ) {
+					$('#ex_cont').animate({top: '2000px'}, 800);
+					$(".bk-footer").animate({bottom: '0px'});
+					$("#search_box").animate({top: '+18px'}, 800);
+				} else {
+					$('.bk-navbar-header').css('height','');
+					$('#ex_cont').animate({top: '2000px'}, 800);
+					$("#search_box").animate({top: '35px'}, 800);
+				}
 
-            if (document.body.clientWidth > 767 ) {
-                $('#ex_cont').animate({top: '2000px'}, 800);
-                $(".bk-footer").animate({bottom: '0px'});
-                $("#search_box").animate({top: '+18px'}, 800);
-            } else {
-                $('.bk-navbar-header').css('height','');
-                $('#ex_cont').animate({top: '2000px'}, 800);
-                $("#search_box").animate({top: '35px'}, 800);
-            }
-
-            $('#footer_ok').attr('value','')
-            $("#ex_title").fadeIn();
-            $('html').css( "overflow", "" );
-
+				$('#footer_ok').attr('value','')
+				$("#ex_title").fadeIn();		
+				$('html').css( "overflow", "" );
+			
         });
 
-        $(window).scroll(function () {
+        $(window).scroll(function () {                                     
             var panel = $('#exlistbottompanel');
-
-            if(panel && panel.offset() && ($(window).scrollTop() + $(window).height() + 300 > panel.offset().top + panel.height())) {
-
-                site.vm.excursion.scrollExcursionList();
+          
+            if(panel && panel.offset() && ($(window).scrollTop() + $(window).height() + 300 > panel.offset().top + panel.height())) {                                                             
+               
+                site.vm.excursion.scrollExcursionList();               
             }
-        });
+        });                                                                                       
 
         if( sm && sm.iframe ) {
             sm.iframe.setOnScroll(function() {
-                var panel = $('#exlistbottompanel');
-                if(panel && panel.offset() && ($(window).scrollTop() + $(window).height() + 300 > panel.offset().top + panel.height())) {
-                    site.vm.excursion.scrollExcursionList();
+                var panel = $('#exlistbottompanel');        
+                if(panel && panel.offset() && ($(window).scrollTop() + $(window).height() + 300 > panel.offset().top + panel.height())) {                                                                            
+                    site.vm.excursion.scrollExcursionList();               
                 }
             });
         }
@@ -1476,7 +1567,7 @@
         {
             <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
         }
-        else if ((Request["cmd"]=="sl")&&(Request["fl"] !="null"))
+		else if ((Request["cmd"]=="sl")&&(Request["fl"] !="null"))
         {
             <text>site.vm.excursion.navigateCommand('search', jQuery.parseJSON(makeLong('@Html.Raw(Request["fl"])')));</text>
         }
@@ -1488,7 +1579,7 @@
         {
             <text>site.vm.excursion.categoryButtonClick();</text>
         }
-    });
+    });  
 
     var durationToString_Day = '@ExcursionStrings.Get("DurationDay")',
         durationToString_Days = '@ExcursionStrings.Get("DurationDays")',
@@ -1505,8 +1596,8 @@
                 var days = parseInt(dayparts[0]);
                 result += days + ' ' + (days > 1 ? durationToString_Days : durationToString_Day) + ' ';
                 index = 1;
-            }
-
+             }
+        
             var timeparts = dayparts[index].split(':');
             var hours = parseInt(timeparts[0]);
             if( hours > 0 ) {
@@ -1519,8 +1610,8 @@
         }
         return result;
     }
-
-    function makeShort(long_filter)
+	
+	function makeShort(long_filter)
     {
         var const_url = "http://exgo.com?filter=";
 
@@ -1531,9 +1622,9 @@
         }).responseText;
 
         var test = resp.match(/exgo.com\/(.*)<\/string>/);
-
-        current_short_key = test[1];
-
+		
+		current_short_key = test[1];
+		
         return test[1];
     }
 
@@ -1549,7 +1640,6 @@
 
         return test[1];
     }
-
 
 </script>
 }
@@ -1630,7 +1720,7 @@ $('#menu_opt_'+name_menu).slideToggle();
             <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
             <div data-bind="foreach: items"  id="menu_opt_cat2" class="menu_list" style='padding-top:15px' >
                 <div class="checkbox dop_menu_block" data-bind="attr: {'item-id': id}">                                
-                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px; "></label></a><span data-bind="text: name"></span> 
+                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px; "></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
                 </div>                                                       
             </div>
         </div>
@@ -1660,7 +1750,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 			<i class="fa fa-caret-down arrow_dop_menu"> </i>
         <div data-bind="foreach: filterDestinations" id="menu_opt_des" class="menu_list">
             <div class="checkbox dop_menu_block">                       
-                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDestinationItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span>
+                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDestinationItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
                 </div>
         </div>
     </div>
@@ -1672,7 +1762,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 				<i class="fa fa-caret-down arrow_dop_menu"> </i>
             <div data-bind="foreach: filterDepartures" id="menu_opt_dep" class="menu_list">
                 <div class="checkbox dop_menu_block">                       
-                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDeparturesItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> 
+                    <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterDeparturesItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
                     </div>
             </div>
         </div>
@@ -1684,7 +1774,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 		<i class="fa fa-caret-down arrow_dop_menu" OnClick="open_menu_opt('lang')"  style="cursor:pointer"> </i>
         <div data-bind="foreach: filterLanguages" id="menu_opt_lang" class="menu_list">                                                                        
             <div class="checkbox dop_menu_block">                                 
-                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterLanguageItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> 
+                <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterLanguageItemClick"><label style="float:left; margin-top:0px;"></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>) 
             </div>                           
         </div>
     </div>
@@ -1954,7 +2044,7 @@ width: 0;
 	text-align: center;
 "></div>
 </td>
-<td style="width: 33%;">
+<td style="width: 30%;">
  <div data-bind="with: ranking" class="" style="
     margin-left: 0px;
     margin-top: -20px;
@@ -1979,8 +2069,8 @@ text-align: center;
 <div data-bind="if: excursion.duration" style="padding: 5px 0 0;" class="bk-excursion-item-duration" >                                                                                        
                     <div class="clearfix" style="margin-bottom:0px;"></div>	
                     <span class="" style="">
-                        <img class="" style="vertical-align: none;" src="@Url.Content("~/images/new/time.png")" alt="@ExcursionStrings.Get("DurationAlt")" />
-                    </span>&nbsp;<span style="color: #cccccc;" data-bind="text: DurationToString(excursion.duration)"></span>
+                        <img class="" style="vertical-align: none; opacity: 0.4;" src="@Url.Content("~/images/new/time.png")" alt="@ExcursionStrings.Get("DurationAlt")" />
+                    </span>&nbsp;<span style="color: #aaaaaa;" data-bind="text: DurationToString(excursion.duration)"></span>
                 </div>  
 
 </div>
@@ -2225,31 +2315,6 @@ overflow: hidden;
 		-->
     </div> <!-- /visibility category -->   
       
-    <div data-bind="if: viewVisibilityGeographies" >
-        <div class="row bk-geography" data-bind="if: geographies().length > 0">
-	        <div class="col-lg-12">
-                <br />
-                <h2 class="page-header" style="color:#777777;">@ExcursionStrings.Get("GeorgaphyTitle")</h2>
-            </div>				
-            <div class="col-lg-12">
-                <div class="media" style="margin-bottom: 15px;">
-                      <span class="pull-left" style="background: #cccccc;">
-                            <img class="media-object" src="@Url.Content("~/images/geography.png")" alt="@ExcursionStrings.Get("GeorgaphyTitle")" />
-                        </span>     
-                        <div class="media-body">                                
-                            <div class="row bk-geography-list" data-bind="foreach: geographies">
-                                <div class="col-sm-6 col-lg-4">
-                                    <a href="#" data-bind="click: $root.geographyItemClick">
-                                        <h3 class="media-heading" style="text-transform: uppercase; margin:0;" data-bind="text: name"></h3>
-                                    </a>                          
-                                    <h5 style="margin:0;"><small data-bind="text:geotype" style="color:#cccccc; text-transform: lowercase; line-height:.85;"></small></h5>
-                                </div>   
-                            </div>
-                        </div>                                      
-                </div>              
-            </div>
-        </div>        
-    </div> <!-- /visibility geography -->
 
     <div data-bind="if: viewVisibilityExcursions" style=" display: none; background-color: #fff; padding: 50px; top: 2000px; width: 100%; min-height: 100%; position: absolute; left: 0px; background-image: url(@Url.Content("~/images/new/bg_option2.png")); background-size: 100%; background-position: top center; background-repeat: no-repeat; z-index: 2;" id="ex_cont">   
 
@@ -2506,81 +2571,7 @@ height: auto;
 				                <div class="col-lg-4 col-sm-12 pull-right-lg" data-bind="with: description()" style="z-index: 3;">  
                     @* RIGHT SIDE *@
  
-                    <h4 class="page-header" style="color:#777777; margin-top:0; margin-bottom:5px;">@ExcursionStrings.Get("Information_Title")</h4>
-                    <div data-bind="if: excursion.destinations"  class="bk-excursion-item-destination">                            
-                        <div style="color: #777777;margin-bottom: 5px;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Direction")</div>
-                            <ul data-bind="foreach: excursion.destinations" class="csv">                                               
-          
-                                <li style="color: #333333; text-transform:uppercase;" data-bind="text: name"></li>
-                            </ul>
-                        </div>
-                    </div>                       
-                    <div data-bind="if: excursion.languages" class="bk-excursion-item-language">                           
-                        <div style="color: #777777;margin-bottom: 5px;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Language")</div>
-                            <div data-bind="foreach: excursion.languages">
-                                <span>
-                                    <img data-bind="attr: { src: languageImageUrl, title: name }" alt="@ExcursionStrings.Get("ExcursionLanguage")" />&nbsp;
-                                </span>
-                            </div>                                                
-                        </div>
-                    </div>
-					
-                    <div style="display: none;" data-bind="if: excursion.departures" class="bk-excursion-item-departure">                                                                  
-                        <div style="color: #777777;margin-bottom: 5px; ">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DepartureLabel")</div>
-                            <div data-bind="foreach: excursion.departures">                                                                                                                
-                                    <span data-bind="text: name"></span>&nbsp;                                                                                                                                                                                
-                            </div>              
-                        </div>
-                    </div>
-                    <div data-bind="if: excursion.duration" style="padding: 5px 0 0; " class="bk-excursion-item-duration" >       
-                        <div style="color: #777777;margin-bottom: 5px;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Duration")</div>
-                            <span class="pull-left" style="background: #cccccc;">
-                                <img class="media-object" src="@Url.Content("~/images/duration.png")" alt="@ExcursionStrings.Get("DurationAlt")" />
-                            </span>&nbsp;<span data-bind="text: DurationToString(excursion.duration)"></span>
-                        </div>
-                    </div>     
-                                 
-                    <!-- excursion categories --> 
-					
-                    <div class="bk-description-categorygroup" data-bind="if: categorygroups && categorygroups.length>0" >                                 
-                        <div class="clearfix"></div> 
-                        <hr style="margin:5px 0 5px 0; padding:0;"/>
-                        <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Categories")</div>
-                        <div data-bind="foreach: categorygroups">
-                            <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
-                            <div data-bind="foreach: items">
-                                <div class="checkbox" style="padding-left: 0px; margin-bottom: 7px;">
-                                    <span class="samo_checked" status="true"><label style="float:left; margin-top:0px; cursor: default;"></label></span>   
-                                    <label style="cursor:text" data-bind="text: name"></label>                                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>     
-                               
-                    <div data-bind="if: excursion.excursionPartner" style="padding: 5px 0 0;" class="bk-excursion-item-partner" >                           
-                        <hr style="margin:5px 0 5px 0; padding:0;"/>
-                        <div style="color: #777777;margin-bottom: 5px;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Partner")</div>                                                                                        
-                            <span class="pull-left" style="background: #cccccc;">
-                                <img class="media-object" src="@Url.Content("~/images/partner.png")" alt="@ExcursionStrings.Get("PartnerAlt")" />
-                            </span>&nbsp;<span data-bind="text: excursion.excursionPartner.name"></span>                                
-                        </div>
-                    </div>                                                                           
-                   
-                    <div class="visible-lg" >
-                        <button class="btn btn-primary" style="margin-top: 10px; display: none;" type="button" data-bind="click: $root.navigateToPriceListClick">@ExcursionStrings.Get("BookButton")</button>
-                    </div>                                            
                         
-                    <div data-bind="template: 'excursion-ranking'"></div>
-<div class="row">
-            <div class="col-lg-12">
-                <a href="#" data-bind="click: $root.excursionAddRatingClick">@ExcursionStrings.Get("AddReviewLink")</a>
-            </div>
-        </div>
                 </div>
 				
 				

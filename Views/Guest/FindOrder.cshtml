@@ -1,6 +1,6 @@
 ﻿@model GuestService.Models.Guest.FindOrderContext
 @{
-    ViewBag.Title = @GuestStrings.ResourceManager.Get("FindOrderTitle");
+    ViewBag.Title = @GuestStrings.Get("FindOrderTitle");
 }  
 <div class="container">  
    <div class="row bk-main">           
@@ -9,8 +9,8 @@
           @if (GuestService.Settings.IsShowBreadCrumb)
           {
           <ol class="breadcrumb">          
-            <li><a href="@Context.Request.ApplicationPath.ToString()">@GuestStrings.ResourceManager.Get("GuestServiceTitle")</a></li>
-            <li>@Html.ActionLink(GuestStrings.ResourceManager.Get("GuestServicesTitle"), "Order")</li>            
+            <li><a href="@Context.Request.ApplicationPath.ToString()">@GuestStrings.Get("GuestServiceTitle")</a></li>
+            <li>@Html.ActionLink(GuestStrings.Get("GuestServicesTitle"), "Order")</li>            
             <li class="active">@ViewBag.Title</li>
           </ol>
           }
@@ -26,24 +26,24 @@
                 {
                     @Html.Partial("Form/ValidationSummary")                 
                 }   
-                <h3>@GuestStrings.ResourceManager.Get("FindOrderKnow_1")<br />@GuestStrings.ResourceManager.Get("FindOrderKnow_2")</h3>
+                <h3>@GuestStrings.Get("FindOrderKnow_1")<br />@GuestStrings.Get("FindOrderKnow_2")</h3>
                               
                 <div class="form-group">
-                    <label class="control-label" for="@Html.NameFor(m => m.Form.Claim)">@GuestStrings.ResourceManager.Get("FindOrderModel_N_Claim")</label>
+                    <label class="control-label" for="@Html.NameFor(m => m.Form.Claim)">@GuestStrings.Get("FindOrderModel_N_Claim")</label>
                     <div class="controls">     
                         @Html.TextBoxFor(m => m.Form.Claim, new { @class = "form-control", placeholder = Html.DisplayNameFor(m=>m.Form.Claim) })
                         @Html.ValidationMessageFor(m => m.Form.Claim)
                     </div>
                 </div>       
                 <div class="form-group">
-                    <label class="control-label" for="@Html.NameFor(m => m.Form.ClaimName)">@GuestStrings.ResourceManager.Get("FindOrderName") <small style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("FindOrderNameSmall")</small></label>
+                    <label class="control-label" for="@Html.NameFor(m => m.Form.ClaimName)">@GuestStrings.Get("FindOrderName") <small style="color:#b7b7b7;">@GuestStrings.Get("FindOrderNameSmall")</small></label>
                     <div class="controls">     
                         @Html.TextBoxFor(m => m.Form.ClaimName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Form.ClaimName) })
                         @Html.ValidationMessageFor(m => m.Form.ClaimName)
                     </div>
                 </div>                                   
                 <div class="clearfix" style="margin-bottom:10px;"></div>				
-			    <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">@GuestStrings.ResourceManager.Get("FindOrderFindButton")</button>       
+			    <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">@GuestStrings.Get("FindOrderFindButton")</button>       
             }    
         </div>      
         <div class="col-md-6">    
@@ -56,32 +56,32 @@
                 {
                     @Html.Partial("Form/ValidationSummary")                  
                 } 
-                <h3>@GuestStrings.ResourceManager.Get("FindOrderChoose_1")<br />
-                @GuestStrings.ResourceManager.Get("FindOrderChoose_2")</h3>
+                <h3>@GuestStrings.Get("FindOrderChoose_1")<br />
+                @GuestStrings.Get("FindOrderChoose_2")</h3>
                                
                 <div class="form-group">
-                    <label class="control-label" for="@Html.NameFor(m => m.Form.PassportName)">@GuestStrings.ResourceManager.Get("FindOrderName") <small style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("FindOrderNameSmall")</small></label>
+                    <label class="control-label" for="@Html.NameFor(m => m.Form.PassportName)">@GuestStrings.Get("FindOrderName") <small style="color:#b7b7b7;">@GuestStrings.Get("FindOrderNameSmall")</small></label>
                     <div class="controls">     
                         @Html.TextBoxFor(m => m.Form.PassportName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Form.PassportName) })
                         @Html.ValidationMessageFor(m => m.Form.PassportName)
                     </div>
                 </div>               
                 <div class="form-group">
-                    <label class="control-label" for="@Html.NameFor(m => m.Form.Passport)">@GuestStrings.ResourceManager.Get("FindOrderModel_N_Passport") <small style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("FindOrderPassSer")</small></label>
+                    <label class="control-label" for="@Html.NameFor(m => m.Form.Passport)">@GuestStrings.Get("FindOrderModel_N_Passport") <small style="color:#b7b7b7;">@GuestStrings.Get("FindOrderPassSer")</small></label>
                     <div class="controls">     
                         @Html.TextBoxFor(m => m.Form.Passport, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Form.Passport) })
                         @Html.ValidationMessageFor(m => m.Form.Passport)
                     </div>
                 </div>            
                 <div class="clearfix" style="margin-bottom:10px;"></div>				
-			    <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">@GuestStrings.ResourceManager.Get("FindOrderFindButton")</button>           
+			    <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">@GuestStrings.Get("FindOrderFindButton")</button>           
             }
          </div>
     @if (Model.Claims != null && Model.Claims.Count > 0)
     {
         <div class="clearfix" style="margin-bottom:10px;"></div>
 	    <div class="col-lg-12">
-            <h3 class="page-header" style="color:#8c8c8c;">@GuestStrings.ResourceManager.Get("FindOrderFound")</h3>
+            <h3 class="page-header" style="color:#8c8c8c;">@GuestStrings.Get("FindOrderFound")</h3>
         </div>		
 		<div class="col-lg-12">
           @foreach (var claim in Model.Claims)
@@ -107,7 +107,7 @@
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.Link.Claim, claim.claim.ToString())
                         @Html.HiddenFor(m => m.Link.Name, (Model.Form.ClaimName != null ? Model.Form.ClaimName : Model.Form.PassportName))                         
-                        <a href="#" onclick="$(this).closest('form').submit()">@GuestStrings.ResourceManager.Get("FindOrderLinkOrderButton")</a>
+                        <a href="#" onclick="$(this).closest('form').submit()">@GuestStrings.Get("FindOrderLinkOrderButton")</a>
                     }                    
                     </div>
                 </div>     
@@ -120,7 +120,7 @@
      {  
            <div class="clearfix" style="margin-bottom:10px;"></div>
 	       <div class="col-lg-12">
-                <h3 style="color:#8c8c8c;">@GuestStrings.ResourceManager.Get("FindOrderNotFound")</h3>
+                <h3 style="color:#8c8c8c;">@GuestStrings.Get("FindOrderNotFound")</h3>
            </div>		    	
      }           
     </div>

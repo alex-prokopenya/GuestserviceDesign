@@ -1,13 +1,14 @@
 ﻿@model GuestService.Models.Countries.CountriesCatalog
 
 @{
-    ViewBag.Title = Model.Title;
-    ViewBag.Description = Model.Description;
-    ViewBag.Keywords = Model.Keywords;
+    ViewBag.Title = ExcursionStrings.Get("CountriesCatalogTitle");
+    ViewBag.Description = ExcursionStrings.Get("CountriesCatalogDescription");
+    ViewBag.Keywords = ExcursionStrings.Get("CountriesCatalogKeywords");
 }
-<div class="content-wrapper">
-    <hgroup class="title">
-      <h1>@ViewBag.Title</h1>
+<div class="static_text">
+<article style="padding: 70px 10px 10px 10px;">
+    <hgroup class="ex_pay_title">
+      <p>@ExcursionStrings.Get("Countries_List")</p>
     </hgroup>
                 
                 @if (Model.Countries.Length > 0)
@@ -19,8 +20,9 @@
                         }
                     </ul>
                 }
-    <h2>@(ViewBag.Title + " Seotext")</h2>
+    
     <p>
-       @Model.SeoText
+       @ExcursionStrings.Get("Countries_List_seotext")
     </p>
+</article>
 </div>

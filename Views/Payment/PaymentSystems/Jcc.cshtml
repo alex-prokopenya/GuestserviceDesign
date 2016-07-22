@@ -60,8 +60,9 @@
 
             paramsList.Add("Signature", result);
             paramsList.Add("SignatureMethod", "SHA1");
-
+          //  var result_url = new Uri(Request.BaseServerAddress(), Url.Action("processingresult", new { id = "jcc", order = Model.Reservation.claimId.ToString(), invoice = Model.BeforePaymentResult.invoiceNumber })).ToString();
             var result_url = new Uri(Request.BaseServerAddress(), Url.Action("processingresult", new { acc = "jcc", order = Model.Reservation.claimId.ToString(), invoice = Model.BeforePaymentResult.invoiceNumber })).ToString();
+			
             result_url = result_url.Replace("http:","https:");
 
 
@@ -69,7 +70,7 @@
                     <h1 class="page-header">Going to JCC...</h1>
                 </div>
 
-                <form id="payment_form" name="payment_form" action="https://tjccpg.jccsecure.com/EcomPayment/RedirectAuthLink" method="POST">
+                <form id="payment_form" name="payment_form" action="https://jccpg.jccsecure.com/EcomPayment/RedirectAuthLink" method="POST">
 
                     @foreach (string key in paramsList.Keys)
                     {

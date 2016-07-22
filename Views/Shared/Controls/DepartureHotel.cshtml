@@ -12,25 +12,25 @@
             <h3 class="media-heading" style="color: #777777; margin-bottom:0; text-transform: uppercase;">                      
                 @if (t.pickup != null)
                 {
-                    <text>@SharedStrings.ResourceManager.Get("DepartureHotel_TransferTime")</text> @t.pickup.Value.ToString("d MMM yyyy HH:mm")     
+                    <text>@SharedStrings.Get("DepartureHotel_TransferTime")</text> @t.pickup.Value.ToString("d MMM yyyy HH:mm")     
                 }
                 else
                 { 
-                    <text>@SharedStrings.ResourceManager.Get("DepartureHotel_TransferTime")</text> @t.date.ToString("d MMM yyyy")
+                    <text>@SharedStrings.Get("DepartureHotel_TransferTime")</text> @t.date.ToString("d MMM yyyy")
                 }
             </h3>
             <div style="color: #777777;">                             
                 @if (!string.IsNullOrEmpty(t.ident))
                 {
-                    <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_TransferBus")</span>@t.ident
+                    <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_TransferBus")</span>@t.ident
                 }  
                 @if (t.indiviadual)
                 {
-                    <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_TransferIndividual")</span>@t.servicename      
+                    <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_TransferIndividual")</span>@t.servicename      
                 }                                 
                @if (!string.IsNullOrEmpty(t.note))
                {
-                    <br /><span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_TransferNote")</span> @t.note
+                    <br /><span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_TransferNote")</span> @t.note
                }
             </div>
         </div>                                                      
@@ -44,10 +44,10 @@
             </span> 
             <div class="media-body">          
                 <div style="color: #777777;">  
-                    <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_Flight")</span>@t.flight.name
+                    <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_Flight")</span>@t.flight.name
                     @if (t.flight.source != null)
                     {
-                        <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_FlightSource")</span> @t.flight.source.name 
+                        <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_FlightSource")</span> @t.flight.source.name 
                         if (t.flight.source.town != null)
                         {
                             <text>&nbsp;/&nbsp;</text>@t.flight.source.town.name
@@ -56,7 +56,7 @@
                     }   
                     @if (t.flight.target != null)
                     {
-                         <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_FlightSource")</span> @t.flight.target.name 
+                         <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_FlightSource")</span> @t.flight.target.name 
                         if (t.flight.target.town != null)
                         {
                                 <text>&nbsp;/&nbsp;</text>@t.flight.target.town.name
@@ -76,14 +76,14 @@
             </span> 
             <div class="media-body">          
                 <div style="color: #777777;">  
-                    <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_Hotel")</span>@t.hotel.name
+                    <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_Hotel")</span>@t.hotel.name
                     @if (t.hotel.town != null)
                     {
-                        <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_HotelTown")</span>@t.hotel.town.name                       
+                        <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_HotelTown")</span>@t.hotel.town.name                       
                     }   
                     @if (t.hotel.region != null)
                     {
-                         <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_HotelRegion")</span> @t.hotel.region.name              
+                         <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_HotelRegion")</span> @t.hotel.region.name              
                     }       
                 </div>
             </div>
@@ -100,11 +100,11 @@
                 <div style="color: #777777;">  
                      @if (t.guide != null)
                      {                   
-                        <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_Guide")</span>@t.guide.name                      
+                        <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_Guide")</span>@t.guide.name                      
 
                          if (!string.IsNullOrEmpty(t.guide.phone))
                          {
-                             <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_GuidePhone")</span> @t.guide.phone
+                             <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_GuidePhone")</span> @t.guide.phone
                                    
                          }
                      }   
@@ -112,17 +112,17 @@
                        {
                              if (t.guide == null)
                              {
-                                <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_Guide")</span> @t.guide2.name
+                                <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_Guide")</span> @t.guide2.name
                              }
                              else
                              {
-                                <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_Guide2")</span> @t.guide2.name
+                                <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_Guide2")</span> @t.guide2.name
                              }
                            
                        }
                        @if (!string.IsNullOrEmpty(t.guide2.phone))
                 {
-                        <br /> <span style="color:#b7b7b7;">@SharedStrings.ResourceManager.Get("DepartureHotel_GuidePhone")</span>@t.guide2.phone
+                        <br /> <span style="color:#b7b7b7;">@SharedStrings.Get("DepartureHotel_GuidePhone")</span>@t.guide2.phone
             
                 }
               
@@ -141,7 +141,7 @@
             </span> 
             <div class="media-body">          
                 <h3 class="media-heading" style="color: #777777; margin-bottom:0; text-transform: uppercase;">
-                @SharedStrings.ResourceManager.Get("DepartureHotel_GuestList")
+                @SharedStrings.Get("DepartureHotel_GuestList")
                 </h3>
                   @foreach (var people in t.people)
                   {

@@ -144,6 +144,9 @@
   <data name="BookingModel_R_CustomerName" xml:space="preserve">
     <value>Πρέπει να ορίσετε ένα όνομα</value>
   </data>
+  <data name="BookingModel_R_CustomerSecondName" xml:space="preserve">
+    <value>Specify the surname</value>
+  </data>
   <data name="BookingModel_R_UserEmail" xml:space="preserve">
     <value>Πρέπει να καθορίσετε το e-mail σας</value>
   </data>
@@ -230,5 +233,29 @@
   </data>
   <data name="BookingModel_R_CustomerMobile" xml:space="preserve">
     <value>Πρέπει να καθορίσετε το τηλέφωνο</value>
+  </data>
+   <data name="BookingFormNameOnly" xml:space="preserve">
+    <value>Name</value>
+  </data>  
+   <data name="BookingFormSurnameOnly" xml:space="preserve">
+    <value>Surname</value>
+  </data>  
+   <data name="BookingFormNotification1" xml:space="preserve">
+    <value>* Please note that name and surname should should match payer's name name and surname</value>
+  </data>  
+   <data name="OrderVATnotification" xml:space="preserve">
+    <value>All Prices Include VAT</value>
+  </data>  
+  <data name="ShoppingCart_Total" xml:space="preserve">
+    <value>Amount to pay</value>
+  </data>
+  <data name="BookingModel_R_CustomerNameReg" xml:space="preserve">
+    <value>Name is permitted only in Latin letters</value>
+  </data>
+  <data name="BookingModel_R_CustomerSecondNameReg" xml:space="preserve">
+    <value>Surname is permitted only in Latin letters</value>
+  </data>
+  <data name="ExgoComission" xml:space="preserve">
+    <value>Service commission:</value>
   </data>
 </root>

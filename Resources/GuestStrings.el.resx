@@ -328,7 +328,7 @@
     <value>Εμείς δεν θα μπορούσε να βρει το ξενοδοχείο όπου μένετε αυτή τη στιγμή.</value>
   </data>
   <data name="MenuExcursionTitle" xml:space="preserve">
-    <value>БЛЯБЛЯБЛЯ!!!!!</value>
+    <value>Κρατήσεις για περιηγήσεις</value>
   </data>
   <data name="PrintVoucherButton" xml:space="preserve">
     <value>Δημιουργήστε ένα κουπόνι</value>
@@ -379,7 +379,7 @@
     <value>Δημιουργήστε ένα κουπόνι</value>
   </data>
   <data name="MenuOrdersAlt" xml:space="preserve">
-    <value>БЛЯБЛЯБЛЯ</value>
+    <value>Πληροφορίες</value>
   </data>
   <data name="HotelDepartureNoInformation" xml:space="preserve">
     <value>Προς το παρόν δεν υπάρχουν πληροφορίες σχετικά με την αναχώρηση.</value>

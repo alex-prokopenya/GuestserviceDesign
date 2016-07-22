@@ -39,7 +39,7 @@
         hint: 'dd MM yyyy',
         injectStyle: true,
         itemWidth: 35,
-        navItemWidth: 20,
+        navItemWidth: 18,
         offDays: 'Sat,Sun',
         offDaysFormat: 'ddd',
         onSelectedDateChanged: null,
@@ -175,12 +175,14 @@
             var target = $(event.target);
             var classList = target.attr('class');
             if (classList.indexOf('dp-nav-left') != -1) {
-                this._back();
+					this._back();
             }
             else if (classList.indexOf('dp-nav-right') != -1) {
                 this._forward();
             }
-            else if (classList.indexOf('dp-item') != -1) {
+            else if ((classList.indexOf('dp-item') != -1) &&
+				(classList.indexOf('dp-sale-disabled') == -1)) //2016-01-23 SO - no events for disabled date
+			{
                 this._select(target.attr('data-moment'));
             }
         },
@@ -196,8 +198,16 @@
         },
 
         _back: function () {
+			var todaysDate = new Date();
+			if(this.options.selectedDate._d.setHours(0,0,0,0)==todaysDate.setHours(0,0,0,0))
+			{
+				//do nothing
+			}
+			else
+			{
             this._setSelectedDate(this.options.selectedDate.clone().subtract('day', 1));
             this._render();
+			}
         },
 
         _forward: function () {
@@ -293,7 +303,8 @@
                     $a.addClass('dp-selected');
                 }
                 if (item.isToday && self.options.highlightToday && (!item.isStopSale && !item.allClosed)) {
-                    $a.addClass('dp-today');
+                    //$a.addClass('dp-today'); //2016-01-23 SO - not to sale today
+                    $a.addClass('dp-sale-disabled');
                 }
                 if (item.isStartOfWeek && self.options.showStartOfWeek) {
                     $a.addClass('dp-divider');
@@ -314,6 +325,10 @@
                 if( item.saleEnabled ) {
                     $a.addClass('dp-sale-enabled');
                 }
+				else //2015-11-16 to disable all dates, including passed
+				{
+                    $a.addClass('dp-sale-disabled');					
+				}
 
                 if (item.isSelected && self.options.showCalendar) {
                     $a.append(self.$calendar);
@@ -352,7 +367,7 @@
                                             startView: 0, //2
                                             minView: 0, //2
                                             // todayBtn: true,
-                                            todayHighlight: true,
+                                            todayHighlight: false,
                                             startDate: this.options.startDate.toDate(),
                                             endDate: this.options.endDate.toDate()
                                         })

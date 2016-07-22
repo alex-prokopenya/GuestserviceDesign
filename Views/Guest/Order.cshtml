@@ -1,6 +1,6 @@
 ﻿@model GuestService.Models.Guest.OrderContext
 @{
-    ViewBag.Title = GuestStrings.ResourceManager.Get("GuestServicesTitle"); 
+    ViewBag.Title = GuestStrings.Get("GuestServicesTitle"); 
 }
 <div class="container">
    <div class="row bk-main">             
@@ -9,7 +9,7 @@
           @if (GuestService.Settings.IsShowBreadCrumb)
           {
           <ol class="breadcrumb">          
-             <li><a href="@Context.Request.ApplicationPath.ToString()">@GuestStrings.ResourceManager.Get("GuestServicesLink")</a></li>
+             <li><a href="@Context.Request.ApplicationPath.ToString()">@GuestStrings.Get("GuestServicesLink")</a></li>
              <li class="active">@ViewBag.Title</li>
           </ol>
           }
@@ -20,7 +20,7 @@
     {
 	    <div class="row">  
             <div class="col-lg-12">
-                <h3 style="color:#8c8c8c; margin-top:10px;">@GuestStrings.ResourceManager.Get("GuestServicesFindOrder_1")&nbsp;<a href="@Url.Action("login", "account", new { returnUrl = Url.Action("order") })">@GuestStrings.ResourceManager.Get("GuestServicesFindOrder_2")</a>&nbsp;@GuestStrings.ResourceManager.Get("GuestServicesFindOrder_3")</h3>
+                <h3 style="color:#8c8c8c; margin-top:10px;">@GuestStrings.Get("GuestServicesFindOrder_1")&nbsp;<a href="@Url.Action("login", "account", new { returnUrl = Url.Action("order") })">@GuestStrings.Get("GuestServicesFindOrder_2")</a>&nbsp;@GuestStrings.Get("GuestServicesFindOrder_3")</h3>
             </div>
             <div class="col-md-6">               
                 @using (Html.BeginForm())
@@ -31,28 +31,28 @@
                         @Html.Partial("Form/ValidationSummary")                 
                     }   
                     <div class="form-group">
-                        <label class="control-label" for="@Html.NameFor(m => m.OrderFindForm.Claim)">@GuestStrings.ResourceManager.Get("FindOrderClaim")</label>
+                        <label class="control-label" for="@Html.NameFor(m => m.OrderFindForm.Claim)">@GuestStrings.Get("FindOrderClaim")</label>
                         <div class="controls">     
                             @Html.TextBoxFor(m => m.OrderFindForm.Claim, new { @class = "form-control", placeholder = Html.DisplayNameFor(m=>m.OrderFindForm.Claim) })
                             @Html.ValidationMessageFor(m => m.OrderFindForm.Claim)
                         </div>
                     </div>       
                     <div class="form-group">
-                        <label class="control-label" for="@Html.NameFor(m => m.OrderFindForm.ClaimName)">@GuestStrings.ResourceManager.Get("FindOrderName")&nbsp;<small style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("FindOrderNameSmall")</small></label>
+                        <label class="control-label" for="@Html.NameFor(m => m.OrderFindForm.ClaimName)">@GuestStrings.Get("FindOrderName")&nbsp;<small style="color:#b7b7b7;">@GuestStrings.Get("FindOrderNameSmall")</small></label>
                         <div class="controls">     
                             @Html.TextBoxFor(m => m.OrderFindForm.ClaimName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.OrderFindForm.ClaimName) })
                             @Html.ValidationMessageFor(m => m.OrderFindForm.ClaimName)
                         </div>
                     </div>                                   
                     <div class="clearfix" style="margin-bottom:10px;"></div>				
-			        <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">@GuestStrings.ResourceManager.Get("FindOrderFindButton")</button>       
+			        <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary">@GuestStrings.Get("FindOrderFindButton")</button>       
                 }
             </div> 
             @if (Model.OrderFindNotFound)
             {  
                 <div class="clearfix" style="margin-bottom:10px;"></div>
 	            <div class="col-lg-12">
-                    <h3 style="color:#8c8c8c;">@GuestStrings.ResourceManager.Get("FindOrderNotFound")</h3>
+                    <h3 style="color:#8c8c8c;">@GuestStrings.Get("FindOrderNotFound")</h3>
                 </div>		    	
             } 
         </div>   
@@ -62,9 +62,9 @@
         @if (Model.ClaimsNotFound)
         {
             <div class="col-sm-8">
-                <h3 style="color:#8c8c8c;">@GuestStrings.ResourceManager.Get("FindOrderNoLinkedOrders")</h3>
+                <h3 style="color:#8c8c8c;">@GuestStrings.Get("FindOrderNoLinkedOrders")</h3>
                 <div class="clearfix" style="margin-bottom:10px;"></div>	        
-                <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary" onclick="window.location='@Url.Action("findorder")';">@GuestStrings.ResourceManager.Get("FindOrderLinkOrderButton")</button>
+                <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary" onclick="window.location='@Url.Action("findorder")';">@GuestStrings.Get("FindOrderLinkOrderButton")</button>
             </div>
         }
         
@@ -74,7 +74,7 @@
             var claim = Model.Claim;
             <div class="form-inline">
                 <div class="form-group" style="vertical-align: baseline;">
-                    <h4 style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("FindOrderOrderTitle")</h4>
+                    <h4 style="color:#b7b7b7;">@GuestStrings.Get("FindOrderOrderTitle")</h4>
                 </div>
                 <div class="form-group" style="vertical-align: baseline;">
                     <h2 class="media-heading" style="color: #777777;">@claim.claimId</h2> 
@@ -84,7 +84,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.Unlink.Claim, claim.claimId.ToString())  
-                        <small><a href="#" onclick="$(this).closest('form').submit()">@GuestStrings.ResourceManager.Get("FindOrderDeleteButton")</a></small>                                            
+                        <small><a href="#" onclick="$(this).closest('form').submit()">@GuestStrings.Get("FindOrderDeleteButton")</a></small>                                            
                     }
                 </div>                                    
             </div>
@@ -103,14 +103,14 @@
             {
                 <div style="margin-left:80px; margin-bottom:10px; margin-top:10px;">               
                     <h3 class="panel-title price" style="font-size: 2em;">
-                        <span style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("OrderTotal")</span>        
+                        <span style="color:#b7b7b7;">@GuestStrings.Get("OrderTotal")</span>        
                         <span style="color:#777777;">@claim.price.total.ToString("# ##0.00") @claim.price.currency</span>
                     </h3>
    
                     @if( claim.action != null && claim.action.canpay == true )
                     {
                         <h3 class="panel-title price" style="font-size: 2em;">
-                            <span style="color:#b7b7b7;">@GuestStrings.ResourceManager.Get("OrderToPay")</span>       
+                            <span style="color:#b7b7b7;">@GuestStrings.Get("OrderToPay")</span>       
                             <span style="color:#777777;">@claim.price.topay.ToString("# ##0.00") @claim.price.currency</span>
                         </h3>  
     
@@ -121,13 +121,13 @@
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="claimId" value="@claim.claimId.ToString()" />       
                                 <div class="clearfix" style="margin-bottom:10px;"></div>	                     
-                                <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary" onclick="$(this).closest('form').submit();">@GuestStrings.ResourceManager.Get("OrderDoPaymentButton")</button>                             
+                                <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary" onclick="$(this).closest('form').submit();">@GuestStrings.Get("OrderDoPaymentButton")</button>                             
                             }
                         }
                     }
                 </div>                    
             }
-            
+			
             <script>
                 function ShowAnnButton() {
                     $("#reason").show();
@@ -164,12 +164,12 @@
                     <button id="showAnnSetiing" type="submit" class="btn btn-large btn-primary" onclick="ShowAnnButton()">Send cancellation for order</button>
                 </div>  
             }
-
+			
             //if (claim != null && claim.confirmation != null && claim.confirmation.id == 2 && claim.status != null && claim.status.id == 1) // Confirmed && Paid
             if(claim.action != null && claim.action.canprintvoucher == true)
             {
                 <div>
-                    <a class="btn btn-large btn-primary" href="@Url.Action("printorder", "guest", new { id = claim.claimId })">@GuestStrings.ResourceManager.Get("PrintVoucherButton")</a>
+                    <a class="btn btn-large btn-primary" href="@Url.Action("printorder", "guest", new { id = claim.claimId })">@GuestStrings.Get("PrintVoucherButton")</a>
                 </div>  
             }
         }
@@ -178,7 +178,7 @@
         {
             <div>
                 <br /><br />
-                <h1 class="page-header">@GuestStrings.ResourceManager.Get("GuestServicesExcursionDepartureTitle")</h1>
+                <h1 class="page-header">@GuestStrings.Get("GuestServicesExcursionDepartureTitle")</h1>
                 @foreach (var transfer in Model.ExcursionTransfers)
                 {
                     Html.RenderPartial("Controls\\ExcursionTransfer", transfer);
@@ -195,17 +195,17 @@
             {
                 <div class="media">
                     <a class="pull-left visible-xs" href="#" style="background: #777777;">
-                        <img class="media-object" src="@Url.Content("~/images/reservlist.png")" alt="@GuestStrings.ResourceManager.Get("MoreOrderAlt")" />
+                        <img class="media-object" src="@Url.Content("~/images/reservlist.png")" alt="@GuestStrings.Get("MoreOrderAlt")" />
                     </a>
                     <div class="media-body">
-                        <h3 class="media-heading" style="color: #777777;">@GuestStrings.ResourceManager.Get("MoreOrderAlt")</h3>             
+                        <h3 class="media-heading" style="color: #777777;">@GuestStrings.Get("MoreOrderAlt")</h3>             
                         @foreach (var claim in Model.OtherClaims)
                         {
                             foreach (var order in claim.orders)
                             {                        
                                 <div class="media" style="margin-bottom: 15px;">
                                     <span class="pull-left">
-                                        <img class="media-object" src="@Url.Content("~/images/reserv_small.png")" alt="@GuestStrings.ResourceManager.Get("MoreOrdersListOrderAlt")" />
+                                        <img class="media-object" src="@Url.Content("~/images/reserv_small.png")" alt="@GuestStrings.Get("MoreOrdersListOrderAlt")" />
                                     </span> 
                                     <div class="media-body">                                
                                         <a href="@Url.Action("order", new { id = claim.claim })">
@@ -223,9 +223,9 @@
         
             @if (!Model.ClaimsNotFound)
             {
-                <h5 style="color:#8c8c8c;">@GuestStrings.ResourceManager.Get("MoreOrdersInstruction")</h5>
+                <h5 style="color:#8c8c8c;">@GuestStrings.Get("MoreOrdersInstruction")</h5>
                 <div class="clearfix" style="margin-bottom:10px;"></div>	        
-                <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary" onclick="window.location='@Url.Action("findorder")';">@GuestStrings.ResourceManager.Get("MoreOrdersFindButton")</button> 
+                <button name="submit" id="submit" value="" type="submit" class="btn btn-large btn-primary" onclick="window.location='@Url.Action("findorder")';">@GuestStrings.Get("MoreOrdersFindButton")</button> 
             }
         </div>
         }

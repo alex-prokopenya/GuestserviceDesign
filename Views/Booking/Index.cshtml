@@ -160,31 +160,7 @@
                         </div>
                     </div>
                 </div>
-                <!--
-                               <div class="modal fade" id="promocodeInputForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel" style="color:#777777;">@BookingStrings.Get("Promo_FormTitle")</h4>
-                                            </div>
-                                            <div>
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label class="control-label" for="@Html.NameFor(m => m.Form.CustomerMobile)">@BookingStrings.Get("Promo_FormLabel")</label>
-                                                        <div class="controls">
-                                                            @Html.TextBoxFor(m => m.Form.PromoCode, new { @class = "form-control", placeholder = "" })
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer" id="modal-footer">
-                                                    <button type="button" class="btn btn-primary" id="check-promo-code">@BookingStrings.Get("Promo_FormButton")</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                 -->
+              
                 for (int index = 0; index < Model.Form.Orders.Count; index++)
                 {
                     var order = Model.Form.Orders[index].BookingOrder;
@@ -222,9 +198,10 @@
                         </div>
                     </div>
                 }
+				<div class="col-lg-12">
                 <table style="width: 100%;">
                     <tr>
-                        <td style="width: 33%;"></td>
+                        <td style="width: 1%;"></td>
                         <td style="width: 34%;">
                             <div style="text-align: left;">
                                 <span class="ex_pay_title"> @SharedStrings.Get("ShoppingCart_HaveCoupon") </span> <br>
@@ -272,12 +249,12 @@
                                         <span class="ex_pay_title"> @BookingStrings.Get("ShoppingCart_Total") </span>
                                     </div>
 
-                                    <div style="text-align: right;" class="exgo_comission_block">
-                                        <span style="color:#b7b7b7; ">@BookingStrings.Get("ExgoComission")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_comission"></span> @Model.Reservation.price.currency</span>
+                                    <div style="text-align: right; display:none" class="exgo_comission_block">
+                                        <span style="color:#b7b7b7; ">@BookingStrings.Get("ExgoComission")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_comission"></span> <span class="exgo_currency">@Model.Reservation.price.currency</span></span>
                                     </div>
 
                                     <div style="text-align: right;">
-                                        <span style="color:#b7b7b7; font-weight:bold;">@BookingStrings.Get("OrderTotalLabel")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_total_summ">@Model.Reservation.price.total.ToString("# ##0.00")</span> @Model.Reservation.price.currency</span>
+                                        <span style="color:#b7b7b7; font-weight:bold;">@BookingStrings.Get("OrderTotalLabel")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_total_summ">@Model.Reservation.price.total.ToString("# ##0.00")</span> <span class="exgo_currency">@Model.Reservation.price.currency</span></span>
                                     </div>
 					<!-- </div> -->
                                 }
@@ -288,6 +265,7 @@
                         </td>
                     </tr>
                 </table>
+				</div>
 
                 <div class="clearfix"></div>
                 <div style="width: 100%; background-color: #083b82; position: absolute;margin-bottom: 20px;left: 0px;color: #fff; padding-top: 20px; padding-bottom: 20px; margin-top: 20px;">
@@ -352,7 +330,7 @@
 
                     <table style="width: 100%;">
                         <tr>
-                            <td style="width: 33%; vertical-align: top;">
+                            <td style="width: 33%; vertical-align: top;" id="pay_descr">
                                 <div style="padding-right: 30px;">
                                     <span class="ex_pay_title">@PaymentStrings.Get("PayOptions")</span><br><br>
                                     @PaymentStrings.Get("PayOption1")<br>
@@ -360,8 +338,13 @@
                                     @PaymentStrings.Get("PayOption3")
                                 </div>
                             </td>
+				<script>
+					if (document.body.clientWidth < 767 ) {
+						document.getElementById("pay_descr").style.display = "none";
+					}
+				</script>
                             <td style="width: 33%; vertical-align: top;">
-                                <span class="ex_pay_title"> @PaymentStrings.Get("PaymentMethod")</span>
+                                <span class="ex_pay_title" style="padding-right: 8px;"> @PaymentStrings.Get("PaymentMethod")</span>
 
 
                                 @foreach (var paymentMode in Model.PaymentModes)
@@ -373,8 +356,8 @@
                                             <div class="media" style="margin-bottom: 15px;">
                                                 <br>
                                                 <div class="media-body" style="display: inline-table;">
-                                                    <input data-total="@paymentMode.payrest.total" data-comission="@paymentMode.comission.total" type="radio" name="Form.paymentMethod" id="@paymentMode.id" value="@paymentMode.id" class="ex_pay_checkbox" required>
-														<label for="@paymentMode.id" class="css-label radGroup2">@paymentMode.name</label>
+                                                    <input data-currency="@paymentMode.payrest.currency" data-total="@paymentMode.payrest.total" data-comission="@paymentMode.comission.total" type="radio" name="Form.paymentMethod" id="@paymentMode.id" value="@paymentMode.id" class="ex_pay_checkbox" required>
+														<label for="@paymentMode.id" class="css-label radGroup2">@paymentMode.name (@paymentMode.payrest.currency)</label>
                                                 </div>
                                             </div>
                                         </div>           
@@ -390,6 +373,8 @@
 
                                             $('.exgo_total_summ').html($(this).attr('data-total'));
 
+                                            $('.exgo_currency').html($(this).attr('data-currency'));
+
                                             if ($(this).attr('data-comission') != '0.00')
                                                 $('.exgo_comission_block').show();
                                             else
@@ -399,21 +384,21 @@
                                    });
                                 </script>
                             </td>
-                            <td style="text-align: right; width: 34%; vertical-align: top;">
+                            <td style="text-align: right; width: 34%; vertical-align: top;padding-left:3px;">
 								<span class="ex_pay_title">@PaymentStrings.Get("AmountToPay")</span><br><br>
 
-                                <div style="text-align: right;" class="exgo_comission_block">
-                                    <span style="color:#b7b7b7; ">@BookingStrings.Get("ExgoComission")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_comission"></span> @Model.Reservation.price.currency</span>
+                                <div style="text-align: right;display:none" class="exgo_comission_block" >
+                                    <span style="color:#b7b7b7; ">@BookingStrings.Get("ExgoComission")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_comission"></span> <span class="exgo_currency">@Model.Reservation.price.currency</span></span>
                                 </div>
 
                                     <div style="text-align: right;">
-                                        <span style="color:#b7b7b7; font-weight:bold;">@BookingStrings.Get("OrderTotalLabel")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_total_summ">@Model.Reservation.price.total.ToString("# ##0.00")</span> @Model.Reservation.price.currency</span>
+                                        <span style="color:#b7b7b7; font-weight:bold;">@BookingStrings.Get("OrderTotalLabel")</span> <span style="font-size:1.2em; font-weight:bold; text-transform: uppercase;  padding: 0 0.333333em;"><span class="exgo_total_summ">@Model.Reservation.price.total.ToString("# ##0.00")</span> <span class="exgo_currency">@Model.Reservation.price.currency</span></span>
                                     </div>
 									<div style="text-align: right;">
 										@BookingStrings.Get("OrderVATnotification")
 									</div>
 								<div class="col-lg-6" style="padding-left:0; width: auto; float: none; padding-top: 25px;">
-									@Html.CheckBoxFor(m => m.Form.RulesAccepted, new { @style = "margin-right:5px;", @class = "ex_pay_checkbox" })<label class="css-label radGroup2" style="font-size: 16px;" for="Form_RulesAccepted"></label>@BookingStrings.ResourceManager.Get("BookingAgreementConfirmMessage_1")&nbsp;<a href="@Context.Request.ApplicationPath.ToString()/@Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage/info/terms-and-conditions">@BookingStrings.ResourceManager.Get("BookingAgreementConfirmMessage_2")</a>
+									@Html.CheckBoxFor(m => m.Form.RulesAccepted, new { @style = "margin-right:5px;", @class = "ex_pay_checkbox" })<label class="css-label radGroup2" style="font-size: 16px;" for="Form_RulesAccepted"></label>@BookingStrings.Get("BookingAgreementConfirmMessage_1")&nbsp;<a href="@Context.Request.ApplicationPath.ToString()/@Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage/info/terms-and-conditions">@BookingStrings.Get("BookingAgreementConfirmMessage_2")</a>
 									<br />
 									@Html.ValidationMessageFor(m => m.Form.RulesAccepted)
 								</div>

@@ -6,20 +6,20 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
     {
-        @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()      
     }
 }
 
-
-<div class="modal fade" id="searchclaim" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  
+ <div class="modal fade" id="searchclaim" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                @{  var langg = Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage;
+				@{  var langg = Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage;
 
-                }
-                <h4 class="modal-title" id="myModalLabel" style="color:#777777;">@SharedStrings.Get("CheckStatus_Caption")</h4>
+				}
+				<h4 class="modal-title" id="myModalLabel" style="color:#777777;">@SharedStrings.Get("CheckStatus_Caption")</h4>
             </div>
             <div class='notification-warnings' data-bind="visible: cartinfoErrors().length > 0">
                 <div class="bs-callout bs-callout-danger" style="margin: 15px;">
@@ -29,17 +29,17 @@
                     </ul>
                 </div>
             </div>
-            <div style="padding-left:30px">
-
-                <form method="get" action="@Url.Action("index", "payment")">
-                    <label>@SharedStrings.Get("CheckStatus_OrderNumber")</label>
-                    <input id='claim-id' class="form-control" name="claim" maxlength="250" style="width: 400px; display:block" type="text">
-                    <br>
-                    <label>@SharedStrings.Get("CheckStatus_PhoneNumber")</label>
-                    <input id='phone' class="form-control" name="phone" maxlength="250" style="width: 400px; display:block" type="text">
-                    <br>
-                    <div class="modal-footer" data-bind="visible: cartinfoErrors().length == 0" style="margin-top:0px;">
-                        @{
+            <div  style="padding-left:30px">
+                
+					  <form method="get" action="@Url.Action("index", "payment")">
+							<label >@SharedStrings.Get("CheckStatus_OrderNumber")</label>
+							<input id='claim-id'  class="form-control" name="claim" maxlength="250" style="width: 400px; display:block" type="text">
+							<br>
+							<label >@SharedStrings.Get("CheckStatus_PhoneNumber")</label>
+							<input id='phone'  class="form-control" name="phone" maxlength="250" style="width: 400px; display:block" type="text">
+							<br>
+                     <div class="modal-footer" data-bind="visible: cartinfoErrors().length == 0" style="margin-top:0px;">
+						@{  
 
                             switch (langg)
                             {
@@ -48,12 +48,12 @@
                                         check status
                                     </button>
                                     break;
-                                case "fr":
+								case "fr":
                                     <button type="submit" style="display:inline" class="btn btn-primary">
                                         check status fr
                                     </button>
                                     break;
-                                case "es":
+								case "es":
                                     <button type="submit" style="display:inline" class="btn btn-primary">
                                         check status es
                                     </button>
@@ -73,121 +73,139 @@
                                         ελέγξετε την κατάσταση
                                     </button>
                                     break;
-                                    //		*/
+							//		*/
                             }
-                        }
-
+						}
+						
                         <button type="button" class="btn btn-primary" data-dismiss="modal">
                             @ExcursionStrings.ResourceManager.Get("OrderCloseButton")
                         </button>
                     </div>
-                </form>
+                 </form>
 
+                </div>
             </div>
-        </div>
-    </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 
 <nav role="navigation" class="navbar navbar-inverse" id="navnav" style="z-index:8;">
 
     <div class="container123">
+	
+	@{
+		var content = GuestService.Data.PartnerContentProvider.GetPartnerContent(Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage);
+		if (content.Header == "")
+        {
 
-        @{
-            var content = GuestService.Data.PartnerContentProvider.GetPartnerContent(Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage);
-            if (content.Header == "")
-            {
-
-            }
-            else
-            {
-                WriteLiteral(content.Header);
-            }
         }
+        else
+        {
+            WriteLiteral(content.Header);
+        }
+	}
+	
+	            @{
+	
 
-        @{
+                var languages = Sm.System.Mvc.Language.UrlLanguage.SupportedLanguages;
+                var language = Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage;
+                var values = Sm.System.Mvc.HttpRequestBaseExtensions.QueryStringAsRouteValues(Request);  
+				
+                var languagesDict = new System.Collections.Generic.Dictionary<string, string>();
+                languagesDict.Add("ru", "Русский");
+                languagesDict.Add("en", "English");
+                languagesDict.Add("el", "Ελληνικά");
+                languagesDict.Add("de", "Deutsche");
+                languagesDict.Add("fr", "Français");
+				languagesDict.Add("es", "Español");
+                if (languages != null && languages.Length > 1)
+                {
+						<div style="
+						  position: absolute;
+						  display: inline-table;
+						  width: 100%;
+						  background-color: #fff;
+						  left: 0px;
+						  top: 50px;
+						  padding-right: 10px;
+						  padding-left: 2px;
+						  display: none;
+						  "
+						  class="dropdown-menu"
+						>
 
-            var languages = Sm.System.Mvc.Language.UrlLanguage.SupportedLanguages;
-            var language = Sm.System.Mvc.Language.UrlLanguage.CurrentLanguage;
-            var values = Sm.System.Mvc.HttpRequestBaseExtensions.QueryStringAsRouteValues(Request);
+						<style>
+							.a123 {
+							  width: 100%;
+							  padding: 10px;
+							  background-color: grey;
+							  margin: 5px;
+							  border-radius: 5px;
+							  margin-bottom: 10px;
+							}
+						</style>
+						
+							@foreach (var lang in languages.Where(m => m != language))
+                            {
+                                values["language"] = lang;
+                                <div class="a123">
+                                    <a href="@Url.RouteUrl(values)">
+                                        @languagesDict[lang]
+                                    </a>
+                                </div>
 
-            var languagesDict = new System.Collections.Generic.Dictionary<string, string>();
-            languagesDict.Add("ru", "Русский");
-            languagesDict.Add("en", "English");
-            languagesDict.Add("el", "Ελληνικά");
-            languagesDict.Add("de", "Deutsche");
-            languagesDict.Add("fr", "Français");
-            languagesDict.Add("es", "Español");
-
-            if (languages != null && languages.Length > 1)
-            {
-                <div style="position: absolute; display: inline-table; width: 100%; background-color: #fff; left: 0px; top: 50px; padding-right: 10px; padding-left: 2px; display: none; " class="dropdown-menu">
-
-                    <style>
-                        .a123 {
-                            width: 100%;
-                            padding: 10px;
-                            background-color: grey;
-                            margin: 5px;
-                            border-radius: 5px;
-                            margin-bottom: 10px;
-                        }
-                    </style>
-
-                    @foreach (var lang in languages.Where(m => m != language))
-                    {
-                        values["language"] = lang;
-                        <div class="a123">
-                            <a href="@Url.RouteUrl(values)">
-                                @languagesDict[lang]
-                            </a>
-                        </div>
-
-                    }
-
-                </div>
-
-                        <script>
+                            }
+						
+						</div>		
+					
+						<script>
+						
 							function open_mobile_menu() {
 								if (document.body.clientWidth < 767 ) {
 									$('#ex_lang_menu').hide();
+									$('#ex_curr_menu').hide();
+                                    $('#curr_mobile_menu').hide();
 									$('#lang_mobile_menu').slideToggle();
 								}
 							}
-                        </script>
 
-                        <i class="fa fa-globe nav-globe"></i>
-                        <li class="dropdown bk-navbar-language open_sans_c_bold">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" OnClick="open_mobile_menu()">@languagesDict[language] &nbsp;<b class="caret"></b></a>
-                            <ul class="dropdown-menu" style="min-width:0;" id="ex_lang_menu">
-                                @foreach (var lang in languages.Where(m => m != language))
-                                {
-                                    values["language"] = lang;
-                                    <li>
-                                        <a href="@Url.RouteUrl(values)">
-                                            @languagesDict[lang]
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </li>
-            }
-        }
+						</script>
+				
+				<i class="fa fa-globe nav-globe" ></i>
+                    <li class="dropdown bk-navbar-language open_sans_c_bold">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" OnClick="open_mobile_menu()">@languagesDict[language] &nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="min-width:0;" id="ex_lang_menu">
+                            @foreach (var lang in languages.Where(m => m != language))
+                            {
+                                values["language"] = lang;
+                                <li>
+                                    <a href="@Url.RouteUrl(values)">
+                                        @languagesDict[lang]
+                                    </a>
+                                </li>
+                            }
+                        </ul>
 
-        <div class="open_sans_c_bold" style="display: none;" id="lang_mobile_menu">
-            <ul class="" style="min-width:0;" id="ex_lang_menu">
-                @foreach (var lang in languages.Where(m => m != language))
-                {
-                    values["language"] = lang;
-                    <li>
-                        <a href="@Url.RouteUrl(values)">
-                            @languagesDict[lang]
-                        </a>
                     </li>
-                }
-            </ul>
-        </div>
+                }        
+            }
+			
+			<div class="open_sans_c_bold" style="display: none;" id="lang_mobile_menu">
+						<ul class="" style="min-width:0;" id="ex_lang_menu">
+                            @foreach (var lang in languages.Where(m => m != language))
+                            {
+                                values["language"] = lang;
+                                <li>
+                                    <a href="@Url.RouteUrl(values)">
+                                        @languagesDict[lang]
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+				</div>
+	
+	
 
-      
         @{
             var currency = "EUR";
 
@@ -196,9 +214,11 @@
                 currency = HttpContext.Current.Session["currency"].ToString();
             }
 
+
             var currencyDict = new System.Collections.Generic.Dictionary<string, string>();
             currencyDict.Add("EUR", "€");
             currencyDict.Add("USD", "$");
+			currencyDict.Add("BYN", "BYN");
 
             if (currency != null && currency.Length > 1)
             {
@@ -240,29 +260,28 @@
                             </ul>
                         </li>
             }
+			
+		<script>
+			var currentCurrency = '@currency';
+            var setCurrency = function (curr)
+            {
+                $.ajax({
+                    url: '@Url.Action("setcurrency", "guest")',
+                    data: { code: curr },
+                    type: 'GET',
+                    success: function (data) {
 
-            <script>
-                var currentCurrency = '@currency';
-
-                var setCurrency = function (curr)
-                {
-                    currentCurrency = curr;
-                    $.ajax({
-                        url: '@Url.Action("setcurrency", "guest")',
-                        data: { code: curr },
-                        type: 'GET',
-                        success: function (data) {
-
-                            console.log(data);
-                            if (data == "ok") {
-                                location.reload();
-                            }
+                        console.log(data);
+                        if (data == "ok") {
+                        //    alert('reload');
+                            location.reload();
                         }
-                    });
+                    }
+                });
 
-                }
+            }
 
-            </script>
+        </script>
         }
 
         <div class="open_sans_c_bold" style="display: none;" id="curr_mobile_menu">
@@ -278,14 +297,24 @@
                 }
             </ul>
         </div>
+	
+        <div class="navbar-header bk-navbar-header"
+		style="
+		
+    left: 50%;
+    position: absolute;
+    margin-left: -69px;
+    margin-top: -15px
 
+	
 
-        <div class="navbar-header bk-navbar-header"  style=" left: 50%;position: absolute;margin-left: -69px; margin-top: -15px">
+">
             <!-- @{ Html.RenderAction("PageLogo", "customization"); } -->
-            @if(true)
-            {
-            <a href="@System.Configuration.ConfigurationManager.AppSettings["AppPath"]"><img id="img_logo" src="@Url.Content("~/images/new/logo.png")" style="height: 49px;"></a>}
-<button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button" style="
+			@if(!ViewBag.Whitelabel)
+			{
+				<a href="@System.Configuration.ConfigurationManager.AppSettings["AppPath"]"> <img id="img_logo" src="@Url.Content("~/images/new/logo.png")" style="height: 49px;"></a>
+			}
+            <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button" style="
 
     position: relative;
     left: 55%;
@@ -297,55 +326,55 @@
 	border-radius: 5px;
 
 ">
-    <span class="sr-only">@SharedStrings.Get("NavigatorTitle")</span>
-
-    <img src="@Url.Content("~/images/menu.png")" />
-
-</button>
-</div>
-<div class="collapse navbar-collapse navbar-ex1-collapse" id="mobile_menu">
-
-    <ul class="nav navbar-nav navbar-right open_sans_c_bold" style="
+                <span class="sr-only">@SharedStrings.Get("NavigatorTitle")</span>
+				
+                <img src="@Url.Content("~/images/menu.png")" />
+				
+            </button> 
+        </div>  
+        <div class="collapse navbar-collapse navbar-ex1-collapse" id="mobile_menu"> 
+        
+            <ul class="nav navbar-nav navbar-right open_sans_c_bold" style="
     margin-top: -26px;
 ">
-        @{ Html.RenderAction("PageNavigation", "customization"); }
-
-        @if (User.Identity.IsAuthenticated)
-        {
+            @{ Html.RenderAction("PageNavigation", "customization"); }
+			
+            @if (User.Identity.IsAuthenticated)
+            {        
             <li class="dropdown bk-navbar-user">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">@User.Identity.Name <b class="caret"></b></a>
+                <a data-toggle="dropdown" class="dropdown-toggle"  href="#">@User.Identity.Name <b class="caret"></b></a>                                                         
                 <ul class="dropdown-menu" style="min-width:0;">
                     <li><a href="@Url.Action("order", "guest")">@SharedStrings.Get("ToolbarGuestOrderLink")</a></li>
                 </ul>
             </li>
             <li class="dropdown bk-navbar-user">
-                <a href="javascript: $('#logoutForm').submit();">@SharedStrings.ResourceManager.Get("NavigatorLogout")</a>
+				<a href="javascript: $('#logoutForm').submit();">@SharedStrings.ResourceManager.Get("NavigatorLogout")</a>
             </li>
-        }
-
-
-        <script type="text/javascript">
-                @{
-                    var cart = GuestService.Models.Booking.ShoppingCart.CreateFromSession(Session);
+            }
+			
+              
+            <script type="text/javascript">
+                @{ 
+                    var cart = GuestService.Models.Booking.ShoppingCart.CreateFromSession(Session);  
                 }
                 $(function () {
                     if(site && site.vm && site.vm.shoppingcart) {
                         site.vm.shoppingcart.setOrderCount(@cart.Orders.Count);
                     }
-                });
-
-
-        </script>
-
-        <li id="shoppingcart_container" class="bk-navbar-shopping-cart" style="background-color: #ffbc23; ">
-            @if (cart.Orders.Count != 0)
-            {
-                <a href="@Url.Action("index", "booking")" style="color: #000;">@SharedStrings.Get("NavigatorMyOrders") <span data-bind="if: showOrderCount"><span class="badge" data-bind="text: orderCount"></span></span></a>
-            }
-        </li>
-    </ul>
-</div>
-</div>
+                });  
+		
+			
+            </script>
+  	
+				<li id="shoppingcart_container" class="bk-navbar-shopping-cart" style="background-color: #ffbc23; ">
+					@if (cart.Orders.Count!=0)
+					{
+						<a href="@Url.Action("index", "booking")" style="color: #000;">@SharedStrings.Get("NavigatorMyOrders") <span data-bind="if: showOrderCount"><span class="badge" data-bind="text: orderCount"></span></span></a>
+					}
+				</li>  
+            </ul>
+        </div>
+    </div>
 </nav>
 <script>
 //if((window.location.href.indexOf("exgo") > -1)||(window.location.href.indexOf("78.158.157.34") > -1)){
@@ -356,3 +385,4 @@ if((window.location.href.indexOf("excursions.") > -1)){
 
 
 
+    

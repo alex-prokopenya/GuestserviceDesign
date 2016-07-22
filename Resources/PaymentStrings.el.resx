@@ -138,6 +138,9 @@
   <data name="PaymentResultError" xml:space="preserve">
     <value>Δεν είναι δυνατή η ολοκλήρωση της πληρωμής. Όταν τα σφάλματα στην επεξεργασία των συναλλαγών.</value>
   </data>
+  <data name="PaymentResultErrorJCC" xml:space="preserve">
+    <value>Transaction has been declined. Please try with another card.</value>
+  </data>
   <data name="PaymentComission" xml:space="preserve">
     <value>Η Επιτροπή:</value>
   </data>
@@ -183,5 +186,61 @@
   <data name="PaymentTotal" xml:space="preserve">
     <value>Μόνο</value>
   </data>
-
+  <data name="Excursion_Price" xml:space="preserve">
+    <value>Excursion price</value>
+  </data>
+  <data name="PayNowButton" xml:space="preserve">
+    <value>Pay Now</value>
+  </data>
+  <data name="PayOptions" xml:space="preserve">
+    <value>Pay options</value>
+  </data>
+  <data name="PayOption1" xml:space="preserve">
+    <value>PayPal - popular payment system without exposing your bank card details (once account created)</value>
+  </data>
+  <data name="PayOption2" xml:space="preserve">
+    <value>Choose cash payment to pay in the hotel or partner's office</value>
+  </data>
+  <data name="PayOption3" xml:space="preserve">
+    <value>Payments with bank cards are done using JCC paying system</value>
+  </data>
+  <data name="StatusPaymentTitle" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="StatusBookingNo" xml:space="preserve">
+    <value>Booking #:</value>
+  </data>
+  <data name="StatusCustomerName" xml:space="preserve">
+    <value>Customer name:</value>
+  </data>
+  <data name="StatusCustomerAddress" xml:space="preserve">
+    <value>Customer address:</value>
+  </data>
+  <data name="StatusAgency" xml:space="preserve">
+    <value>Agent:</value>
+  </data>
+  <data name="StatusTimelimit" xml:space="preserve">
+    <value>Timelimit to pay:</value>
+  </data>
+  <data name="StatusNotification" xml:space="preserve">
+    <value>Please note that order is cancelled if not payed until date and time mentioned above.</value>
+  </data>
+  <data name="JccPaymentFailText" xml:space="preserve">
+    <value>If you have problems paying please contact us (+357) 7000-5557</value>
+  </data>
+  <data name="JccPaymentSuccessText" xml:space="preserve">
+    <value>A purchase with the description www.exgo.com will appear into your bank statement</value>
+  </data>
+  <data name="AmountToPay" xml:space="preserve">
+    <value>Amount to pay</value>
+  </data>
+  <data name="SendCancellationRequestButton" xml:space="preserve">
+    <value>Send cancellation request for this booking</value>
+  </data>
+  <data name="CancellationReasonPrompt" xml:space="preserve">
+    <value>The reason for cancellation is..</value>
+  </data>
+  <data name="CancellationRequestSent" xml:space="preserve">
+    <value>The request for cancellation has been sent.</value>
+  </data>
 </root>

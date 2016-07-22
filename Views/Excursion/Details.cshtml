@@ -12,7 +12,9 @@
 
     body {
         padding-bottom: 0px !important;
+		background-image: none !important;
     }
+	#ex_footer{z-index:100}
 </style>
 <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
 @Scripts.Render("~/js/markerwithlabel.js")
@@ -31,42 +33,24 @@
 		$('#ex_cont').show();
 
 			if (document.body.clientWidth > 767 ) {
-		//	$('#ex_cont').animate({top: '184px'}, 800);
-			$(".bk-footer").animate({bottom: '-90px'});
-			$("#search_box").animate({top: '-18px'}, 800);
+			    $(".bk-footer").animate({bottom: '-90px'});
+			    $("#search_box").animate({top: '-18px'}, 800);
 			} else {
-			$('.bk-navbar-header').css('height','10px');
-		//	$('#ex_cont').animate({top: '85px'}, 800);
-			$("#search_box").animate({top: '35px'}, 800);
+			    $('.bk-navbar-header').css('height','10px');
+			    $("#search_box").animate({top: '35px'}, 800);
 			}
 
 			$('#footer_ok').attr('value','ok')
 			$("#ex_title").fadeOut();
 			$('html').css( "overflow", "auto" );
-			//$('body').css( "paddin", "auto" );
-
 
 			setTimeout(function(){
-			//var w_img = $( '.img-responsive').width();
-			//alert(w_img);
-			// w_img2 = w_img - 10;
 				$.each(function(id) {
 				var w_img = $( '.img-responsive').width();
 				alert(w_img);
 				$('ex_title_block_'+id).width(w_img);
 				});
-
 			}, 2000);
-
-		/*	}); */
-
-
-           //     if( searchTextInputSkipChanges != true ) {
-           //         var _text = $.trim(value);
-          //          doSearchHistory(buildViewParams({ text: _text }), true);
-           //     }
-           //     searchTextInputSkipChanges = false;
-
     });
 
     defaults.format = '@ExcursionStrings.Get("DateTimeFormat")';
@@ -86,16 +70,7 @@
         };
 
       map = new google.maps.Map(document.getElementById("map"),mapOptions);
-
-      /*var mapOptions = {
-        zoom: 8,
-        center: new google.maps.LatLng(-34.397, 150.644)
-      };
-      map = new google.maps.Map(document.getElementById('map'),
-          mapOptions); */
     }
-
-    //google.maps.event.addDomListener(window, 'load', initialize);
 
     function formatHotelStar(strstar, star) {
         return star;
@@ -120,11 +95,21 @@
 	    m.setZoom(14);
     }
     $(function () {
+	
+		var imageUrl = '@Url.ApiActionLink("catalogimage", "excursion", new { id = ".id.", i = ".i.", w = "width", h = "height" })';
+		
+		if(document.body.clientWidth<1600)
+			imageUrl = imageUrl.replace('width',document.body.clientWidth);
+		else
+			imageUrl = imageUrl.replace('width','1600');
+			
+		imageUrl = imageUrl.replace('height',document.body.clientWidth/1.6);
+		
         "use strict";
         site.vm.excursion = function () {
             var
             categoryImageBaseUrl = '@Url.ApiActionLink("categoryimage", "excursion", new { id = ".id.", w = 70, h = 70 })',
-            excursionLargeImageBaseUrl = '@Url.ApiActionLink("catalogimage", "excursion", new { id = ".id.", i = ".i.", w = 1600, h = 1000 })',
+            excursionLargeImageBaseUrl = imageUrl,
             excursionImageBaseUrl = '@Url.ApiActionLink("catalogimage", "excursion", new { id = ".id.", i = 0, w = 310, h = 150 })',
             excursionPriceBaseUrl = '@Url.ApiActionLink("price", "excursion", new { id = ".id." })',
             languageImageBaseUrl = '@Url.Content("~/images/flags/.id..png")',
@@ -132,7 +117,6 @@
                 { name: 'pricedname', text: '@ExcursionStrings.Get("SortOrderByName")' },
                 { name: 'price', text: '@ExcursionStrings.Get("SortOrderByPrice")' }
                 ]),
-            // excursionGeographySearchLimit = ko.observable('@GuestService.Settings.ExcursionGeographySearchLimit'),
             partnerAlias = ko.observable('@Model.PartnerAlias'),
             partnerSessionID = ko.observable('@Model.PartnerSessionId'),
             startPointAlias = ko.observable('@Model.StartPointAlias'),
@@ -155,7 +139,6 @@
 
             destinationstates = ko.observableArray(),
             categorygroups = ko.observableArray(),
-            //ranking = ko.observable(),
             geographies = ko.observableArray(),
             excursions = ko.observableArray(),
             excursionsData = ko.observableArray(),
@@ -327,7 +310,6 @@
                     ko.utils.arrayForEach(d.ranking.ranks, function (g) {
                         g.rankPct = g.rank*10+'%';
                     });
-                    // console.log(d.ranking.ranks);
                 }
 
                 if( d.surveynotes && d.surveynotes.length > 0 ) {
@@ -409,7 +391,6 @@
                 else
                     result.fd = result.ld = null;
 
-                // result.version = ++paramsVersion;
                 return result;
             },
             applyFilterCategories = function (array, filter) {
@@ -499,7 +480,6 @@
                 }, d || {});
             },
             doDepartureInitialize = function(force) {
-                // !!!!!!!!!!!!!!!!
                 if( force === true || searchDeparturePointsInitialized() === false ) {
                     searchDeparturePointsInitialized(true);
                     site.service.ajax.get('@Url.ApiActionLink("departures", "excursion")', { pa: partnerAlias(), psid: partnerSessionID(), spa: startPointAlias(), ds: filterDestinationState() ? filterDestinationState().id : null },
@@ -566,12 +546,6 @@
                                 });
                             }
 
-                            /*if (result && result.ranking) {
-                                ranking(result.ranking);
-                            } else {
-                                ranking(null);
-                            }*/
-
                             navigateView(operation.category);
                         }
                     );
@@ -580,18 +554,16 @@
                 }
             },
             doSearchHistory = function (o, checkstate) {
-
                 if (history && history.state && history.state.cmd === 'search' &&
                     o && o.text && history.state.o && history.state.o.text && history.state.o.text.length > 0 && o.text.indexOf(history.state.o.text) === 0) {
-                    history.replaceState({ cmd: 'search', o: o }, document.title, null);
-                } else {
-                    history.pushState({ cmd: 'search', o: o }, document.title, null);
+                }
+                else
+                {
                 }
                 doSearch(o, checkstate);
             },
 
-
-            doSearch = function (o, checkstate) {
+               doSearch = function (o, checkstate) {
 
                 excursions([]);
                 excursionsData([]);
@@ -609,7 +581,7 @@
                         so: (o && o.sortorder) ? o.sortorder : '',
                         fd: (o && o.fd) ? o.fd : '',
                         ld: (o && o.ld) ? o.ld : '',
-                        rate:currentCurrency
+						rate: currentCurrency
                     },
                     function (result) {
                         excursions([]);
@@ -664,8 +636,6 @@
             doDescriptionHistory = function (o) {
                 history.pushState({ cmd: 'description', o: o }, document.title, null);
                 doDescription(o);
-
-
             },
 
 			 doDescriptionText = function (excursionId) {
@@ -694,8 +664,6 @@
                          if (result && result.length > 0 && result[0] && result[0].excursion && result[0].excursion.id == excursionId) {
 							 var text = result[0].description[0].paragraphs[0];
 							 $('#ex_discript_' + excursionId).html(text);
-                              /* alert(result[0].description[0].paragraphs[0]); */
-							  /* alert(text);  */
                          }
                          else
                              alert('null');
@@ -713,8 +681,6 @@
 
             doDescription = function (o) {
 
-				//location.href +="/details/"+o.excursion;
-                console.log(o);
                 description(null);
                 prices(null);
                 cartinfoBookingView(false);
@@ -744,8 +710,6 @@
                 );
             },
             doExcursionPrice = function (id, o) {
-                console.log(o);
-                console.log(o.date);
                 var priceUrl = excursionPriceBaseUrl.replace('.id.', id)
                 if (!(o && o.date)) o.date = site.utils.date.formatIso(new Date());
                 pricesNotFound(false);
@@ -757,7 +721,7 @@
                         psid: partnerSessionID(),
                         spa: startPointAlias(),
                         dt: o.date,
-                        rate:currentCurrency
+						rate: currentCurrency
                     },
                     function (result) {
                         if (description() && description().excursion.id == id) {
@@ -791,7 +755,6 @@
                             if( o && o.navigateprice && o.navigateprice === true ) {
                                 doNavigateToPriceList();
                             }
-                            //console.log(prices());
                             var columns = priceColumnsCreate();
                             ko.utils.arrayForEach(result, function (d) {
                                 if (d.id == id) {
@@ -800,7 +763,6 @@
                                     if (d.time)          columns.extime = true;
                                     if (d.group)         columns.group = true;
                                     if (d.closesaletime) columns.closesaletime = true;
-                                    // var p = ko.mapping.fromJS(d);
                                     prices.push(d);
                                 }
                             });
@@ -814,7 +776,7 @@
 
             doExcursionConfirmAddToCart = function(data) {
                 cartinfoPrice(data);
-                //cartinfoAdult(1);
+                cartinfoAdult(1);
                 cartinfoChild(0);
                 cartinfoInfant(0);
                 cartinfoNote('');
@@ -826,46 +788,11 @@
 
                 pickuphotels(null);
 
-                //if( !data.pickuppoints ) {
-                //    var dpoints = [];
-                //    if (data && data.departures) {
-                //        ko.utils.arrayForEach(data.departures, function (d) {
-                //            dpoints.push(d.id);
-                //        });
-                //    }
-                //    site.service.ajax.get('@Url.ApiActionLink("excursionpickuphotels", "excursion")', {
-                //            ex: data.id,
-                //            et: (data.time ? data.time.id : null),
-                //            pa: partnerAlias(),
-                //            psid: partnerSessionID(),
-                //            spa: startPointAlias(),
-                //            dt: data.date,
-                //            dp: dpoints
-                //        },
-                //        function (result) {
-                //            var hotels = [{name: '@ExcursionStrings.Get("PickupHotelHint")', ishint: true}];
-
-                //            pickuphotels(hotels);
-                //            if( result ) {
-                //                ko.utils.arrayForEach(result, function (h) {
-                //                    pickuphotels.push(h);
-                //                });
-                //            }
-                //        }
-                //    );
-                //}
-
                 cartinfoBookingView(true);
-
-                var minCount =parseInt( $("#min_cnt").html());
+				var minCount =parseInt( $("#min_cnt").html());
                 cartinfoAdult(minCount > 0 ? minCount : 1);
-
                 checkNmen();
                 hideNmen();
-               //console.log(cartinfoPrice());
-               // $('#confirmpricemodal div#confirmPriceResult').hide();
-               // $('#confirmpricemodal div#confirmPriceBody').show();
-               // $('#confirmpricemodal').modal({ show: true });
             },
             doExcursionAddToCart = function() {
                 var price = cartinfoPrice();
@@ -879,9 +806,8 @@
                             extime: (price && price.time) ? price.time.id : null,
                             language: (price && price.language) ? price.language.id : null,
                             grouptype: (price && price.group) ? price.group.id : null,
-                            price_id: (price && price.price_id) ? price.price_id : null,
-                            pickuptime:  (cartinfoPickUpPoint()) ? cartinfoPickUpPoint().pickuptime : null,
-                            // departure: (price && price.departure) ? price.departure.id : null,
+							price_id: (price && price.price_id) ? price.price_id : null,
+							pickuptime:  (cartinfoPickUpPoint()) ? cartinfoPickUpPoint().pickuptime : null,
                             pickuppoint: (cartinfoPickUpPoint()) ? cartinfoPickUpPoint().id : null,
                             pickuphotel: (cartinfoPickUpHotel() && cartinfoPickUpHotel().id) ? cartinfoPickUpHotel().id : null,
                             pax: { adult: cartinfoAdult(), child: cartinfoChild(), infant: cartinfoInfant() },
@@ -900,6 +826,7 @@
                             if(site && site.vm && site.vm.shoppingcart && result && result.ordercount) {
                                 site.vm.shoppingcart.setOrderCount(result.ordercount);
                             }
+                           
                         }
                         $('#confirmpricemodal').modal({ show: true });
                     },
@@ -967,46 +894,7 @@
                 cartinfoPaxSelectInfant.push({value: i, name: i.toString()});
             }
 
-            searchText.subscribe(function (value) {
-			$('#ex_cont').show();
-
-			if (document.body.clientWidth > 767 ) {
-			//$('#ex_cont').animate({top: '184px'}, 800);
-			$(".bk-footer").animate({bottom: '-90px'});
-			$("#search_box").animate({top: '-18px'}, 800);
-			} else {
-			$('.bk-navbar-header').css('height','10px');
-			$('#ex_cont').animate({top: '85px'}, 800);
-			$("#search_box").animate({top: '35px'}, 800);
-			}
-
-			$('#footer_ok').attr('value','ok')
-			$("#ex_title").fadeOut();
-			$('html').css( "overflow", "auto" );
-
-
-
-			setTimeout(function(){
-			//var w_img = $( '.img-responsive').width();
-			//alert(w_img);
-			// w_img2 = w_img - 10;
-				$.each(function(id) {
-				var w_img = $( '.img-responsive').width();
-				alert(w_img);
-				$('ex_title_block_'+id).width(w_img);
-				});
-
-			}, 2000);
-
-		/*	}); */
-
-
-                if( searchTextInputSkipChanges != true ) {
-                    var _text = $.trim(value);
-                    doSearchHistory(buildViewParams({ text: _text }), true);
-                }
-                searchTextInputSkipChanges = false;
-            });
+         
 
             filterDateChecked.subscribe(function (value) {
                 if( value ) {
@@ -1132,21 +1020,17 @@
                 excursionItemClick: function (data) {
                     if (data && data.excursion) {
                         doDescriptionHistory({ excursion: data.excursion.id });
-
+						
 						@if ((Request["cmd"] == "search") && (Request["filter"] != "null"))
                         {
                             <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
                         }
-
-
+						
 						 $('#ex_cont').css('background-image','url(https://exgo.com@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
 						 $('#search_box').hide();
 						 $('#ex_cont').animate({top: '300px'});
 						 $('.bk-container').css('background-color','#ffffff');
 						 $('.bk-container').css('margin-bottom','-120px');
-						 /* $("#excursion_container").animate({top: '-300px'}); */
-
-						/* alert ('ok'); */
                     }
                 },
                 excursionItemBookClick: function (data) {
@@ -1155,7 +1039,6 @@
                     }
                 },
                 scrollExcursionList: function() {
-                    //doScrollExcursionList();
                 },
                 leftExcursionList: function() {
                     doNextExcursionList(-3);
@@ -1202,9 +1085,6 @@
                             doSearchHistory(buildSearchParams());
                     }
                 },
-                /*filterDateFlagResetClick: function () {
-                    doSearchHistory(buildSearchParams());
-                },*/
                 excursionPriceItemClick: function (data) {
                     doExcursionConfirmAddToCart(data);
                 },
@@ -1293,14 +1173,12 @@
         ko.applyBindings(site.vm.excursion, document.getElementById("excursion_container"));
 
         $(window).resize(function () {
-            // site.vm.excursion.windowHeight($(window).height()+'px');
         });
 
         $(window).on('popstate', function (e) {
 		$('#search_box').show();
 		$('.bk-container').css('background-color','transparent');
-		//$('#ex_cont').animate({top: '184px'}, 800);
-		/* $("#excursion_container").animate({top: 'none'}); */
+		$('#ex_cont').animate({top: '184px'}, 800);
             if (history && history.state && history.state.cmd) {
                 site.vm.excursion.navigateCommand(history.state.cmd, history.state.o);
             }
@@ -1329,7 +1207,7 @@
             <text>site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));</text>
             <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
         }
-        else if ((Request["cmd"] == "sl") && (Request["fl"] != "null"))
+		else if ((Request["cmd"] == "sl") && (Request["fl"] != "null"))
         {
               <text>site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));</text>
               <text>site.vm.excursion.navigateCommand('search', jQuery.parseJSON(makeLong('@Html.Raw(Request["fl"])')));</text>
@@ -1373,8 +1251,7 @@
         }
         return result;
     }
-
-    function makeLong(short_id)
+	function makeLong(short_id)
     {
         var resp = $.ajax({
             type: "GET",
@@ -1382,11 +1259,12 @@
             async: false
         }).responseText;
 
-        alert(short_id);
-        alert(resp);
-        var test = resp.match(/filter=(.*)<\/string>/);
 
-        return test[1];
+        var test = resp.match(/filter=(.*)<\/string>/);
+		if((test != null) &&(test.length > 0))
+			return test[1];
+		else
+			return "{}";
     }
     </script>
 }
@@ -1445,9 +1323,6 @@ $('#menu_opt_'+name_menu).slideToggle();
             <div data-bind="foreach: items" id="menu_opt_cat" class="menu_list">
                 <div class="checkbox dop_menu_block">
                     <a class="samo_checked" data-bind="attr: { 'status': marked }, click: $root.filterCategoryItemClick"><label style="float:left; margin-top:0px; "></label></a><span data-bind="text: name"></span> (<span data-bind="text: count"></span>)
-
-
-
                 </div>
             </div>
         </div>
@@ -1515,10 +1390,7 @@ $('#menu_opt_'+name_menu).slideToggle();
     <div class="onedate input-group date" style="padding-left:20px;   display: inline-block;" data-bind="visible: filterDateChecked() == true">
         <input style="border: none; cursor: pointer; background: none; color: #ffbc23;height: 15px;margin: 0px;padding: 0px;margin-top: -4px;margin-left: -15px; box-shadow: none; outline: none;" type="text" class="form-control" readonly maxlength="10" value="" data-bind="sm.datepickergroup: filterDate">
         <span class="input-group-addon" style="border: none; background: none; display: none; ">
-
             <i class="fa fa-caret-down arrow_dop_menu"> </i>
-
-            <!-- <i class="glyphicon glyphicon-calendar"></i> -->
         </span>
     </div>
 </div>
@@ -1622,41 +1494,7 @@ $('#menu_opt_'+name_menu).slideToggle();
                 </div>
             </div>
         </div>
-        <!--
-        @if( GuestService.Settings.IsAddRankingEnabled )
-        {
-        <div class="row">
-            <div class="col-lg-12">
-                <a href="#" data-bind="click: $root.excursionAddRatingClick">@ExcursionStrings.Get("AddReviewLink")</a>
-            </div>
-        </div>
-        }
-        -->
     </div>
-
-
-
-    <!--
-    @if( GuestService.Settings.IsAddRankingEnabled )
-    {
-    <div data-bind="ifnot: ranking" >
-        <div class="bk-ranking">
-            <div class="clearfix">
-                <div class="page-header" style="color:#777777; margin:0; padding:0;">
-                    <table style="width:100%;">
-                    <tr>
-                        <td style="vertical-align: baseline;"><h4>@ExcursionStrings.Get("ReviewNoRanking")</h4></td>
-                        <td style="vertical-align: baseline;text-align:right;">
-                            <a href="#" data-bind="click: $root.excursionAddRatingClick">@ExcursionStrings.Get("AddReviewLink")</a>
-                        </td>
-                    </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    }
-    -->
 </script>
 
 <script id="excursion-survey" type="text/html">
@@ -1716,21 +1554,13 @@ $('#menu_opt_'+name_menu).slideToggle();
 <script id="excursion-description" type="text/html">
     <div data-bind="attr: {id: 'excursion_'+excId }" class="ex_block " style="width: -moz-available; margin: auto; width: 100%; cursor: pointer; ">
 
-        <!-- <a href="#" data-bind="click: $root.excursionItemClick" style="color: #333; font-weight:bold;"> -->
-        <div class="media-heading ex_titile_class" style="text-transform: uppercase;font-weight: bolder;padding: 3px;margin: 0px;margin-bottom: -15px; text-align: left; white-space: nowrap; overflow: hidden; letter-spacing: 1px; text-overflow: ellipsis; -moz-binding: url('ellipsis.xml#ellipsis'); -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; " data-bind="text: excursion.name, event: { mouseover: $root.excursionItemShowText, mouseout: $root.closeExText }, attr: {id: 'ex_title_block_'+excId}, click: $root.excursionItemClick">
-
-        </div>
+        <div class="media-heading ex_titile_class" style="text-transform: uppercase;font-weight: bolder;padding: 3px;margin: 0px;margin-bottom: -15px; text-align: left; white-space: nowrap; overflow: hidden; letter-spacing: 1px; text-overflow: ellipsis; -moz-binding: url('ellipsis.xml#ellipsis'); -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; " data-bind="text: excursion.name, event: { mouseover: $root.excursionItemShowText, mouseout: $root.closeExText }, attr: {id: 'ex_title_block_'+excId}, click: $root.excursionItemClick"></div>
         <div></div>
-        <!-- </a> -->
-        <!-- <a href="#" data-bind="click: $root.excursionItemShowText" style="color: #333; font-weight:bold;" >txt </a>
-        <a href="#" data-bind="event: { mouseover: $root.excursionItemShowText }" style="color: #333; font-weight:bold;" > txt2</a> -->
         <br>
         <div style="position: relative; cursor: pointer; " class="ex_dic_shad" data-bind="attr: {id: 'ex_discript_shadow'+excId} , event: { mouseover: $root.excursionItemShowText, mouseout: $root.closeExText }, click: $root.excursionItemClick">
             <div class="ex_ugol" style=""></div>
             <img class="img-responsive" style=" background:#cccccc; margin-bottom: 5px;" data-bind="attr: { src: imageUrl, title: name, id: 'avatar_ex_'+excId } " />
-            <div class="text_discript" style=" overflow: hidden;  display: none; margin-bottom: 5px;  background-color: #ffbc23; color: #000;  padding:	5px; text-align: left; position: relative; z-index: -1; " data-bind="attr: {id: 'ex_discript_'+excId}">
-
-            </div>
+            <div class="text_discript" style=" overflow: hidden;  display: none; margin-bottom: 5px;  background-color: #ffbc23; color: #000;  padding:	5px; text-align: left; position: relative; z-index: -1; " data-bind="attr: {id: 'ex_discript_'+excId}"></div>
         </div>
         <br>
         <table style="width: 100%;">
@@ -1778,118 +1608,19 @@ text-align: center;
                 </td>
             </tr>
         </table>
-
     </div>
-    <!--
-        <div class="col-sm-3">
-            <div style="position:relative;">
-                <div data-bind="with: ranking" class="visible-xs" style=" position:absolute; width:100%;">
-                    <div style="text-align:right; float:right; background: rgba(0, 0, 0, 0.6); margin:3px; padding: 10px 15px; color:#ffffff;">
-                        <div style="font-weight:bold;"><span data-bind="ifnot:title.length > 0">@ExcursionStrings.Get("ExcursionReviewCountTitle") </span><span data-bind="if:title.length > 0"><span data-bind="text:title"></span>, </span><span data-bind="if:average"><span data-bind="text:average"></span></span></div>
-                        <div><span style="font-size:80%;" data-bind="if:average">@ExcursionStrings.Get("ExcursionReviewNote1")  <span><span data-bind="text:count"></span> @ExcursionStrings.Get("ExcursionReviewNote2")</span></span></div>
-                    </div>
-                </div>
-                <a href="#" data-bind="click: $root.excursionItemClick">
-                    <img class="img-responsive" style="background:#cccccc; margin-bottom: 5px;"  data-bind="attr: { src: mainImageUrl, title: name }"/>
-                </a>
-            </div>
-
-            <div data-bind="with: ranking" class="hidden-xs">
-                <div style="text-align:right; padding: 0; color: #777;">
-                    <div style="font-weight:bold; text-transform: lowercase;"><span data-bind="ifnot:title.length > 0">@ExcursionStrings.Get("ExcursionReviewCountTitle") </span><span data-bind="if:title.length > 0"><span data-bind="text:title"></span>, </span><span data-bind="if:average"> <span data-bind="text:average"></span></span></div>
-                    <div style="margin:0; padding:0; line-height:14px;"><span style="font-size:80%;" data-bind="if:average">@ExcursionStrings.Get("ExcursionReviewNote1") <span><span data-bind="text:count"></span> @ExcursionStrings.Get("ExcursionReviewNote2")</span></span></div>
-                </div>
-            </div>
-        </div>
-    @*                    <div class="col-sm-3 visible-xs">
-            <a href="#" data-bind="click: $root.excursionItemClick">
-                <img class="img-responsive" style="background:#cccccc; margin-bottom: 5px;" data-bind="attr: { src: mainImageUrl, title: name }"/>
-            </a>
-        </div>*@
-        <div class="col-sm-9 bk-excursion-item">
-            <div class="row">
-                <div class="col-sm-7 col-md-8" style="min-height:95px;">
-                    <div class="col-xs-5 pull-right visible-xs" data-bind="template: 'excursion-price-box'"> </div>
-                    <a href="#" data-bind="click: $root.excursionItemClick" style="color: #333; font-weight:bold;">
-                        <h3 class="media-heading" style="font-weight:bold;"  data-bind="text: excursion.name"></h3>
-                    </a>
-                    <div data-bind="if: excursion.categories" class="bk-excursion-item-category">
-                        <div style="margin-bottom:5px;">
-                            <ul class="list-inline samo_categories" data-bind="foreach: excursion.categories">
-                                <li>
-                                    <span data-bind="text: name"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div data-bind="if: excursion.destinations" class="bk-excursion-item-destination">
-                        <ul data-bind="foreach: excursion.destinations" class="csv">
-
-
-
-
-
-                            <li class="pull-left" style="color: #333333; font-weight:bold; text-transform:uppercase;" data-bind="text: name"></li>
-                        </ul>
-                    </div>
-                    <div data-bind="if: excursion.languages" class="bk-excursion-item-language">
-                        <div class="clearfix" style="margin-bottom:0px;"></div>
-                        <div data-bind="foreach: excursion.languages">
-                            <span class="pull-left">
-                                <img data-bind="attr: { src: languageImageUrl, title: name }" alt="@ExcursionStrings.Get("ExcursionLanguage")" />&nbsp;
-                            </span>
-                        </div>
-                    </div>
-                    <div data-bind="if: excursion.departures" class="bk-excursion-item-departure">
-                        <div class="clearfix" style="margin-bottom:0px;"></div>
-                        <span class="pull-left" style="color: #777777;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DepartureLabel")</div>
-                            <div data-bind="foreach: excursion.departures">
-                                    <span data-bind="text: name"></span>&nbsp;
-                            </div>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-sm-5 col-md-4  hidden-xs bk-excursion-item-price" data-bind="template: 'excursion-price-box'"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8 ">
-                    <div data-bind="if: excursion.duration" style="padding: 5px 0 0;" class="bk-excursion-item-duration" >
-                        <div class="clearfix" style="margin-bottom:0px;"></div>
-                        <span class="pull-left" style="background: #cccccc;">
-                            <img class="media-object" src="@Url.Content("~/images/duration.png")" alt="@ExcursionStrings.Get("DurationAlt")" />
-                        </span>&nbsp;<span style="color: #cccccc;" data-bind="text: DurationToString(excursion.duration)"></span>
-                    </div>
-                    <div data-bind="if: excursion.excursionPartner" style="padding: 5px 0 0;" class="bk-excursion-item-partner" >
-                        <span class="pull-left" style="background: #cccccc;">
-                            <img class="media-object" src="@Url.Content("~/images/partner.png")" alt="@ExcursionStrings.Get("PartnerAlt")" />
-                        </span>&nbsp;<span style="color: #cccccc;" data-bind="text: excursion.excursionPartner.name"></span>
-                    </div>
-                </div>
-                <div class="clearfix visible-xs" style="margin-bottom:5px;"></div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="col-lg-12">
-            <hr style="border-style: dashed none none; border-width: 1px 0 0; margin-bottom: 35px;  margin-top: 15px;" />
-        </div>
-    -->
 </script>
 
 <script type="text/javascript">
 
 $(document).ready(function () {
-win_w = $(window).width();
-win_h = $(window).height();
-body_w = $('body').width();
-body_h = $('body').height();
-if (win_h > win_w) {
-//alert('ok');
- // alert (' ОКНО: Высота: '+win_h+', Ширина: '+win_w+'  BODY: Высота: '+body_h+', Ширина: '+body_w+'');
-$(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-background-size': 'auto '+win_h+'px', 'background-size':'auto '+win_h+'', '-khtml-background-size':'auto', 'min-height':''+win_h+'px'});
-
-}
-
+    win_w = $(window).width();
+    win_h = $(window).height();
+    body_w = $('body').width();
+    body_h = $('body').height();
+    if (win_h > win_w) {
+        $(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-background-size': 'auto '+win_h+'px', 'background-size':'auto '+win_h+'', '-khtml-background-size':'auto', 'min-height':''+win_h+'px'});
+    }
 });
 </script>
 
@@ -1918,17 +1649,9 @@ $(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-backgro
 </div>
 
 <div class="container" style="" id="excursion_container">
-
     <div class="row bk-main">
         <div class="col-lg-12">
 
-            <!--
-                      <h1 class="open_sans_c_bold" id="ex_title" class="page-header" style="
-                border: none;
-                text-align: center;
-                color: #fff;
-            ">@ViewBag.Title</h1>
-            -->
             @if (GuestService.Settings.IsShowBreadCrumb)
             {
             <ol class="breadcrumb" style="display: none;">
@@ -1993,32 +1716,6 @@ $(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-backgro
         -->
 </div> <!-- /visibility category -->
 
-<div data-bind="if: viewVisibilityGeographies">
-    <div class="row bk-geography" data-bind="if: geographies().length > 0">
-        <div class="col-lg-12">
-            <br />
-            <h2 class="page-header" style="color:#777777;">@ExcursionStrings.Get("GeorgaphyTitle")</h2>
-        </div>
-        <div class="col-lg-12">
-            <div class="media" style="margin-bottom: 15px;">
-                <span class="pull-left" style="background: #cccccc;">
-                    <img class="media-object" src="@Url.Content("~/images/geography.png")" alt="@ExcursionStrings.Get("GeorgaphyTitle")" />
-                </span>
-                <div class="media-body">
-                    <div class="row bk-geography-list" data-bind="foreach: geographies">
-                        <div class="col-sm-6 col-lg-4">
-                            <a href="#" data-bind="click: $root.geographyItemClick">
-                                <h3 class="media-heading" style="text-transform: uppercase; margin:0;" data-bind="text: name"></h3>
-                            </a>
-                            <h5 style="margin:0;"><small data-bind="text:geotype" style="color:#cccccc; text-transform: lowercase; line-height:.85;"></small></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- /visibility geography -->
-
 <div style=" height:64px; background-color: #fff; padding: 50px; top: 2000px; width: 100%; min-height: 100%; position: absolute; left: 0px; background-image: url(@Url.Content("~/images/new/bg_option2.png")); background-size: 100%; background-position: top center; background-repeat: no-repeat; z-index: 2;" id="ex_cont">
 
     <div style="width: 100%; background-image: url(@Url.Content("~/images/new/logos_footer.png")); background-size: auto 100%; background-position: top center;">
@@ -2032,21 +1729,22 @@ $(document.body).css({'-webkit-background-size':'auto '+win_h+'px',  '-o-backgro
 <div data-bind="if: viewVisibilityDescription">
 
     <script>
-        $("#ex_cont").ready(function(){
+$("#ex_cont").ready(function(){
 
-        });
+})
 
-            function back_page() {
-                history.back();
-	            if (document.body.clientWidth < 767 ) {
+function back_page() {
+history.back();
+	if (document.body.clientWidth < 767 ) {
 
-	            setTimeout(function(){
-		            $('#ex_cont').animate({top: '135px'}, 400);
-	            }, 500);
+	setTimeout(function(){
+		$('#ex_cont').animate({top: '135px'}, 400);
+	}, 500);
 
-		             /* $('#ex_cont').css('top','85px !important');  */
-	            }
-            }
+		 /* $('#ex_cont').css('top','85px !important');  */
+	}
+
+}
     </script>
 
     <img OnClick="back_page();" src="@Url.Content("~/images/new/back.png")" " id=" button_back" style="position: absolute; top: 100px; left: 20px;width: 35px;height: auto;z-index: 9; cursor: pointer;">
@@ -2086,6 +1784,7 @@ height: auto;
     top: -150px;
 	width: 70%;
   margin: auto;
+   overflow: hidden; white-space: nowrap;
 ">
                 <span data-bind="text:description().excursion.name" style="line-height: normal;display: block;text-shadow: #000 1px 0px, #000 1px 1px, #000 0px 1px, #000 -1px 1px, #000 -1px 0px, #000 -1px -1px, #000 0px -1px, #000 1px -1px;font-weight: bolder;"></span><br>
                 <span data-bind="text:description().excursion.text" style="color: #ffbc23;font-size: 17px;line-height: normal;display: block;text-shadow: #000 1px 0px, #000 1px 1px, #000 0px 1px, #000 -1px 1px, #000 -1px 0px, #000 -1px -1px, #000 0px -1px, #000 1px -1px;font-weight: bolder;"></span>
@@ -2109,6 +1808,14 @@ height: auto;
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
 
 
             <!--   <div class="col-lg-12">
@@ -2154,10 +1861,10 @@ height: auto;
                         </div>
                     </div>
                     <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                        <span class="icon-prev" style="position: absolute; left: 100%; color: #ffbc23;font-size: 70px;"</span>
+                        <span class="icon-prev" style="position: absolute; left: 100%; color: #ffbc23;font-size: 70px; cursor:pointer"></span>
                     </a>
                     <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                        <span class="icon-next" style="position: absolute; right: 100%; color: #ffbc23;font-size: 70px;"></span>
+                        <span class="icon-next" style="position: absolute; right: 100%; color: #ffbc23;font-size: 70px; cursor:pointer"></span>
                     </a>
                 </div>
 
@@ -2171,10 +1878,32 @@ height: auto;
             <!-- /ko -->
 
 
-            <div class="col-lg-4 col-sm-12 pull-right-lg" data-bind="with: description()" style="z-index: 3;">
+
+            <div style="z-index: 3;margin-top:20px;" class="col-lg-8 col-xs-12" data-bind="if: description().description && description().description.length>0">
+                <div class="clearfix " style="margin-top:15px;"></div>
+                <div data-bind="foreach: description().description" class="bk-description-block">
+                    <h3 style="text-transform: uppercase; margin-top: 0px;" data-bind="text: title"></h3>
+                    <div data-bind="if: paragraphs" style="color: #000; font-size: 16px;" class="bk-description-text">
+                        <div data-bind="text: paragraphs"></div>
+                    </div>
+                    <div data-bind="foreach: sections">
+                        <div class="col-md-12" style="padding-left:0;">
+                            <div class="clearfix" style="margin-bottom:40px;"></div>
+                            <h4 data-bind="text: title" style="text-transform: uppercase;"></h4>
+                            <div class="media bk-description-sectiontext" style="margin-bottom: 15px; color: #777777;" data-bind="text: paragraphs"></div>
+                        </div>
+                        <!--ko if:$index()%2 !=0 -->
+                        <div class="clearfix" style="margin-bottom:15px;"></div>
+                        <!--/ko-->
+                    </div>
+                </div>
+            </div> <!-- if description -->
+
+            <div class="col-lg-4 col-sm-12 pull-right-lg" data-bind="with: description()" style="z-index: 3;margin-top:20px;">
                 @* RIGHT SIDE *@
 
-                <div id="LightBoxVideo" data-bind="visible: excursion.video_url != null">
+				<div id="LightBoxVideo" data-bind="visible: excursion.video_url != null" style="margin-bottom:10px;">
+                <h4 class="page-header" style="color:#777777; margin-top:0; margin-bottom:5px;">@ExcursionStrings.Get("Video_Title")</h4>
 
                     <script type="text/javascript">
                         function youtube_parser(url){
@@ -2190,10 +1919,12 @@ height: auto;
                     </script>
 
                     <a data-bind="attr: { href: 'JavaScript:html5Lightbox.showLightbox(3, &quot;' + excursion.video_url + '&quot;);' }">
-                            <img data-bind="attr: { src: 'http://img.youtube.com/vi/' + youtube_parser(excursion.video_url) + '/mqdefault.jpg'}">
+                            <img data-bind="attr: { src: 'https://img.youtube.com/vi/' + youtube_parser(excursion.video_url) + '/mqdefault.jpg'}">
                     </a>
                 </div>
-
+				
+				
+				
                 <h4 class="page-header" style="color:#777777; margin-top:0; margin-bottom:5px;">@ExcursionStrings.Get("Information_Title")</h4>
                 <div data-bind="if: excursion.destinations" class="bk-excursion-item-destination">
                     <div style="color: #777777;margin-bottom: 5px;">
@@ -2251,7 +1982,7 @@ height: auto;
 
                 <div data-bind="if: excursion.excursionPartner" style="padding: 5px 0 0;" class="bk-excursion-item-partner">
                     <hr style="margin:5px 0 5px 0; padding:0;" />
-                    <div style="color: #777777;margin-bottom: 5px;">
+                    <div style="color: #777777;margin-bottom: 5px;display:none;">
                         <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Partner")</div>
                         <span class="pull-left" style="background: #cccccc;">
                             <img class="media-object" src="@Url.Content("~/images/partner.png")" alt="@ExcursionStrings.Get("PartnerAlt")" />
@@ -2385,27 +2116,6 @@ height: auto;
 
 
             </div>
-
-            <div style="z-index: 3;" class="col-lg-8 col-xs-12" data-bind="if: description().description && description().description.length>0">
-                <div class="clearfix " style="margin-top:15px;"></div>
-                <div data-bind="foreach: description().description" class="bk-description-block">
-                    <h3 style="text-transform: uppercase; margin-top: 40px;" data-bind="text: title"></h3>
-                    <div data-bind="if: paragraphs" style="color: #000; font-size: 16px;" class="bk-description-text">
-                        <div data-bind="text: paragraphs"></div>
-                    </div>
-                    <div data-bind="foreach: sections">
-                        <div class="col-md-12" style="padding-left:0;">
-                            <div class="clearfix" style="margin-bottom:40px;"></div>
-                            <h4 data-bind="text: title" style="text-transform: uppercase;"></h4>
-                            <div class="media bk-description-sectiontext" style="margin-bottom: 15px; color: #777777;" data-bind="text: paragraphs"></div>
-                        </div>
-                        <!--ko if:$index()%2 !=0 -->
-                        <div class="clearfix" style="margin-bottom:15px;"></div>
-                        <!--/ko-->
-                    </div>
-                </div>
-            </div> <!-- if description -->
-
 
 
 
@@ -2599,7 +2309,7 @@ height: auto;
                         <!--ko if:language --><span data-bind="text:language.name"></span>,<!--/ko-->
                         <!--ko if:time --><span data-bind="text:time.name"></span>,<!--/ko-->
                         <!--ko if:group --><span data-bind="text:group.name"></span><!--/ko-->
-                        <!--ko if:price_id --><span data-bind="text:price_id"></span><!--/ko-->
+                        
                     </h4>
                     <h4>
                         <!--ko if:departures -->
@@ -2612,7 +2322,6 @@ height: auto;
                     </h4>
                     <!-- <h5 style="color:#777777;"></h5> -->
                     <div class="bs-callout-i bs-callout-info">
-                        <h4 style="margin-bottom:5px;">@ExcursionStrings.Get("HelpPlease")</h4>
                         <ul style="list-style-type: none; padding-left: 0px;">
                             <li><small style="color: #8c8c8c;">@ExcursionStrings.Get("OrderFormHelp")</small></li>
                         </ul>
@@ -2668,7 +2377,8 @@ height: auto;
                             </td>
                             <td>
                                 <span id="max_cnt" style='display:none' data-bind="text:price.maxGroup"></span>
-                                <span id="min_cnt" style='display:none' data-bind="text:price.minGroup"></span>
+								<span id="min_cnt" style='display:none' data-bind="text:price.minGroup"></span>
+								
                                 <select onchange="checkNmen()" data-bind="options: $root.cartinfoPaxSelectAdult, optionsText: 'name', optionsValue: 'value', value: $root.cartinfoAdult" class="form-control turist_cnt" style="padding: 6px;"></select>
                             </td>
                             <td>
@@ -2728,8 +2438,8 @@ height: auto;
 
                         <tr>
                             <td style="vertical-align:bottom; text-align:right;" colspan="5">
-                                <span class="error_text" id="error_text_min" style="color:red; display:none">В заказе должно быть не менее <span id="min_cnt_text"></span> человек</span>
-                                <span class="error_text" id="error_text_max" style="color:red; display:none">В заказе должно быть не более <span id="max_cnt_text"></span> человек</span>
+								<span class="error_text" id="error_text_min" style="color:red; display:none">@ExcursionStrings.Get("OrderMinPeople") <span id="min_cnt_text"></span> @ExcursionStrings.Get("OrderNPeople")</span>
+                                <span class="error_text" id="error_text_max" style="color:red; display:none">@ExcursionStrings.Get("OrderMaxPeople") <span id="max_cnt_text"></span> @ExcursionStrings.Get("OrderNPeople")</span>
                                 <a href="#" class="bk-book-add-to-cart" data-bind="click:$root.excursionBookingCloseClick">@ExcursionStrings.Get("DetailReturnToExcursionDate")</a>
                                 <button id="add_to_cart_btn" type="button" class="btn btn-primary" data-bind="click: $root.excursionAddToCartClick">
                                     @ExcursionStrings.Get("OrderAddShopCartButton")
@@ -2821,9 +2531,13 @@ height: auto;
         try
         {
             var maxCnt = 0;
+			var minCnt = 0;
 
             if($("#max_cnt") != null)
                 maxCnt = parseInt( $("#max_cnt").html());
+
+			if($("#min_cnt") != null)
+                  minCnt = parseInt( $("#min_cnt").html());
 
             $('.turist_cnt option').each(function(){
             
@@ -2846,23 +2560,22 @@ height: auto;
             try
             {
                 var maxCnt = 0;
-                var minCnt = 0;
-
+				var minCnt = 0;
+				
                 if($("#max_cnt") != null)
                     maxCnt = parseInt( $("#max_cnt").html());
 
-                if($("#min_cnt") != null)
+				if($("#min_cnt") != null)
                     minCnt = parseInt( $("#min_cnt").html());
-
+					
                 var arr = $('.turist_cnt').toArray();
 
                 var totalCnt = 0;
 
                 for(var i=0; i< arr.length; i++)
-                    totalCnt += parseInt($(arr[i]).val());
-
-			//	alert(maxCnt);alert(totalCnt);
-                if(totalCnt > maxCnt)
+                    totalCnt += parseInt($(arr[i]).val());		
+				
+				if(totalCnt > maxCnt)
                 {
                     $('#error_text_max').show();
                     $('.turist_cnt').addClass("error");
@@ -2876,19 +2589,17 @@ height: auto;
                     $("#min_cnt_text").html($("#min_cnt").html());
                     $("#add_to_cart_btn").attr("disabled","true");
                 }
-                else
-                {
+				else
+				{
                     $('#error_text_max').hide();
                     $('#error_text_min').hide();
-                    $('.turist_cnt').removeClass("error");
-                    $("#add_to_cart_btn").removeAttr("disabled");
-                }
+					$('.turist_cnt').removeClass("error");
+					$("#add_to_cart_btn").removeAttr("disabled");
+				}
 				showTotal();
             }
             catch (err)
-            {
-			//	alert(err);
-			}
+            {}
         };
 </script>
 
@@ -2988,4 +2699,3 @@ height: auto;
 </div><!-- /.modal -->
 </div>
 
-<div id="gradient"> </div>
