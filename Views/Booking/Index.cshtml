@@ -160,7 +160,14 @@
                         </div>
                     </div>
                 </div>
-              
+
+                var currency = "EUR";
+
+                if ((HttpContext.Current.Session["currency"] != null) && (!string.IsNullOrEmpty(HttpContext.Current.Session["currency"].ToString())))
+                {
+                    currency = HttpContext.Current.Session["currency"].ToString();
+                }
+
                 for (int index = 0; index < Model.Form.Orders.Count; index++)
                 {
                     var order = Model.Form.Orders[index].BookingOrder;
@@ -181,6 +188,7 @@
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.contact.name, order.excursion.contact != null ? order.excursion.contact.name : "")
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.contact.mobile, order.excursion.contact != null ? order.excursion.contact.mobile : "")
                         @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.note, order.excursion.note)
+                        @Html.HiddenFor(m => m.Form.Orders[index].BookingOrder.excursion.curr, currency)
                     }
                 }
 
