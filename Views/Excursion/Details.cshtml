@@ -1703,27 +1703,12 @@ $(document).ready(function () {
 </div>
 
 <div class="bk-category" data-bind="if: viewVisibilityCategorygroups">
-    <!--
-        <h4 style="color:#777777;">@ExcursionStrings.Get("SearchTitle")</h4>
-
-        <div></div>
-
-        <div class="row" data-bind="if: destinationstates && destinationstates().length > 1">
-            <div class="col-lg-12" data-bind="template: 'excursion-destination-geography'"></div>
-        </div>
-
-        <div data-bind="template: 'excursion-categorygroups'"></div>
-        -->
 </div> <!-- /visibility category -->
 
 <div style=" height:64px; background-color: #fff; padding: 50px; top: 2000px; width: 100%; min-height: 100%; position: absolute; left: 0px; background-image: url(@Url.Content("~/images/new/bg_option2.png")); background-size: 100%; background-position: top center; background-repeat: no-repeat; z-index: 2;" id="ex_cont">
 
     <div style="width: 100%; background-image: url(@Url.Content("~/images/new/logos_footer.png")); background-size: auto 100%; background-position: top center;">
-
     </div>
-
-
-
 </div> <!-- /excursion -->
 
 <div data-bind="if: viewVisibilityDescription">
@@ -1768,13 +1753,6 @@ height: auto;
     margin-top: 150px;
 ">
         <div data-bind="if: description()">
-
-
-            <!-- вывод заголовка -->
-
-
-
-
             <div class="" id="ex_page" style="
     text-align: center;
     font-size: 30px;
@@ -1790,15 +1768,7 @@ height: auto;
                 <span data-bind="text:description().excursion.text" style="color: #ffbc23;font-size: 17px;line-height: normal;display: block;text-shadow: #000 1px 0px, #000 1px 1px, #000 0px 1px, #000 -1px 1px, #000 -1px 0px, #000 -1px -1px, #000 0px -1px, #000 1px -1px;font-weight: bolder;"></span>
             </div>
 
-
-
-
-
             <div data-bind="with: description()" style="z-index: 3;position: relative;top: -140px;text-align: center;font-size: 21px;padding: 0 25% 0 25%; display: none;">
-
-
-
-
                 <div data-bind="if: excursion.departures" class="bk-excursion-item-departure">
                     <div style="color: #ffbc23;margin-bottom: 5px;">
 
@@ -1808,20 +1778,6 @@ height: auto;
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-            <!--   <div class="col-lg-12">
-                  <hr style="margin-top:0;"/>
-              </div>
-              -->
             <!-- ko if: description().pictures && description().pictures.length == 1 -->
             <div class="col-lg-8 bk-description-image" style=" padding-right:0;position: absolute;top: 0px; z-index: 1;width: 100%; padding-left: 0px; right: 0px;">
                 <!-- ko foreach: description().pictures -->
@@ -1876,9 +1832,6 @@ height: auto;
                 <div style="width:100%; height:400px; background-color:#cccccc;"></div>
             </div>
             <!-- /ko -->
-
-
-
             <div style="z-index: 3;margin-top:20px;" class="col-lg-8 col-xs-12" data-bind="if: description().description && description().description.length>0">
                 <div class="clearfix " style="margin-top:15px;"></div>
                 <div data-bind="foreach: description().description" class="bk-description-block">
@@ -2001,207 +1954,14 @@ height: auto;
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div class="col-lg-4 col-sm-12 pull-right-lg" data-bind="with: description()" style="z-index: 3;">
                 @* RIGHT SIDE *@
-
-
-
-                <!--
-                <div style="" data-bind="if: excursion.departures" class="bk-excursion-item-departure">
-                    <div style="color: #777777;margin-bottom: 5px; ">
-                        <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DepartureLabel")</div>
-                        <div data-bind="foreach: excursion.departures">
-                                <span data-bind="text: name"></span>&nbsp;
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-sm-12" data-bind="with: description()" style="z-index: 3;">
-                        <span class="ex_pay_title"> Reviews </span>
-                        <div data-bind="template: 'excursion-ranking'" style="margin-bottom: 20px;"></div>
-
-                    </div>
-
-
-
-                </div>
-                -->
-                <!--
-
-                        <div class="visible-lg" >
-                            <button class="btn btn-primary" style="margin-top: 10px; display: none;" type="button" data-bind="click: $root.navigateToPriceListClick">@ExcursionStrings.Get("BookButton")</button>
-                        </div>
-
-                        <span class="ex_pay_title"> Rating  </span>
-                        <div id="rating_now_1" class="ex_pay_title">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <span>23</span> <span>оценки </span>
-                        </div>
-
-                        <div id="rating_now_2" class="ex_pay_title">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <span>59</span> <span>оценки </span>
-                        </div>
-
-                        <div id="rating_now_3" class="ex_pay_title">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <span>84</span> <span>оценки </span>
-                        </div>
-
-                        <div id="rating_now_4" class="ex_pay_title">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <span>59</span> <span>оценки </span>
-                        </div>
-
-                        <div id="rating_now_5" class="ex_pay_title">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span>45</span> <span>оценки </span>
-                        </div>
-
-                        <div id="rating_now_5" class="ex_pay_title">
-                        <span>Всего</span>
-                        <span style="color:red;">42</span> <span> отзыва </span>
-                        <i class="fa fa-caret-down arrow_dop_menu"> </i>
-                        </div>
-
-                        <hr>
-                        <span class="ex_pay_title">Вам есть что сказать?</span><br>
-                        <textarea style="width: 87%;border: solid 1px blue;border-radius: 7px;height: 90px;"></textarea>
-
-                        <button style="background-color: #ffbc23; margin: 10px; padding: 10px; width: 88%; color: #083b82; border-radius: 7px; border: none; margin-left: 0px;"> Отправить </button>
-
-                        -->
-
-
-
-
-
-
-
-
             </div>
-
-
-
             <br>
 
             <div class="col-lg-8 col-xs-12" data-bind="with: description()" style="z-index: 3;">
-                <!--
-                                 <h4 class="page-header" style="color:#777777; margin-top:0; margin-bottom:5px;">Информация</h4>
-                                    <div data-bind="if: excursion.destinations"  class="bk-excursion-item-destination">
-                                        <div style="color: #777777;margin-bottom: 5px;">
-                                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Direction")</div>
-                                            <ul data-bind="foreach: excursion.destinations" class="csv">
-                                            <!-- css content after -->
-                <!--
-                                <li style="color: #333333; text-transform:uppercase;" data-bind="text: name"></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div data-bind="if: excursion.languages" class="bk-excursion-item-language">
-                        <div style="color: #777777;margin-bottom: 5px;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Language")</div>
-                            <div data-bind="foreach: excursion.languages">
-                                <span>
-                                    <img data-bind="attr: { src: languageImageUrl, title: name }" alt="@ExcursionStrings.Get("ExcursionLanguage")" />&nbsp;
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-bind="if: excursion.duration" style="padding: 5px 0 0; " class="bk-excursion-item-duration" >
-                        <div style="color: #777777;margin-bottom: 5px;">
-                            <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Duration")</div>
-                            <span class="pull-left" style="background: #cccccc;">
-                                <img class="media-object" src="@Url.Content("~/images/duration.png")" alt="@ExcursionStrings.Get("DurationAlt")" />
-                            </span>&nbsp;<span data-bind="text: DurationToString(excursion.duration)"></span>
-                        </div>
-                    </div>
-                -->
-                <!-- excursion categories -->
-                <!--
-                <div class="bk-description-categorygroup" data-bind="if: categorygroups && categorygroups.length>0" >
-                    <div class="clearfix"></div>
-                    <hr style="margin:5px 0 5px 0; padding:0;"/>
-                    <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Categories")</div>
-                    <div data-bind="foreach: categorygroups">
-                        <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
-                        <div data-bind="foreach: items">
-                            <div class="checkbox dop_menu_block" style="padding-left: 0px; margin-bottom: 7px; background-color: transparent;">
-                                <span class="samo_checked" status="true" style="background-color: transparent;"><label style="float:left; margin-top:0px; cursor: default; background-color: transparent;"></label></span>
-                                <label style="cursor:text" data-bind="text: name"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-bind="if: excursion.excursionPartner" style="padding: 5px 0 0;" class="bk-excursion-item-partner" >
-                    <hr style="margin:5px 0 5px 0; padding:0;"/>
-                    <div style="color: #777777;margin-bottom: 5px;">
-                        <div style="font-size:12px; color:#cccccc;">@ExcursionStrings.Get("DescriptionInfo_Partner")</div>
-                        <span class="pull-left" style="background: #cccccc;">
-                            <img class="media-object" src="@Url.Content("~/images/partner.png")" alt="@ExcursionStrings.Get("PartnerAlt")" />
-                        </span>&nbsp;<span data-bind="text: excursion.excursionPartner.name"></span>
-                    </div>
-                </div>
-
-                -->
-
-
-
-
-
-
-
-
-
+        
             </div>
-
-
-
-
-
-
-
-
-
 
             <!--ko if:cartinfoBookingView() == false -->
             <div class="col-lg-8 col-xs-12" id="excursionPrices" data-bind="if: prices()" style="padding-right:0; z-index: 3;">
@@ -2389,17 +2149,7 @@ height: auto;
                             </td>
                         </tr>
 
-                        @* <tr>
-                                <td colspan="2" style="color:#cccccc;">
-                                    @ExcursionStrings.Get("OrderName")<br />
-                                    <input data-bind="value: $root.cartinfoName" class="form-control" maxlength="250" type="text" style="width: 100%;" />
-                                </td>
-                                <td colspan="2" style="color:#cccccc;">
-                                    @ExcursionStrings.Get("OrderPhone")<br />
-                                    <input data-bind="value: $root.cartinfoPhone" class="form-control" maxlength="250" type="text" style="width: 100%;" />
-                                </td>
-                            </tr> *@
-
+        
                         <!--ko if: pickuppoints -->
                         <tr>
                             <td style="vertical-align:middle; color:#cccccc;" colspan="5">
@@ -2698,4 +2448,3 @@ height: auto;
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 </div>
-

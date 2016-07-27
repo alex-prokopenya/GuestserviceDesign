@@ -16,13 +16,16 @@
 
         @if (Model.PaymentMode != null && Model.BeforePaymentResult != null && Model.PaymentMode.payrest != null)
         {
+            var curCodes = new Dictionary<string, int>();
+            curCodes.Add("EUR", 978);
+            curCodes.Add("USD", 840);
+
             var summ = Model.PaymentMode.payrest.total.ToString("#0.00", System.Globalization.NumberFormatInfo.InvariantInfo);
 
             summ = summ.Replace(".","");
             summ = "000000000000".Substring(0, 12 - summ.Length) + summ;
 
             string secretKey = System.Configuration.ConfigurationManager.AppSettings["jccPassword"];
-            //$toEncrypt = $password.$merchantID.$acquirerID.$orderID.$formattedPurchaseAmt.$currency;
 
             #region addParams
             var paramsList = new Dictionary<string, string>();
@@ -34,7 +37,7 @@
             paramsList.Add("OrderID", Model.Reservation.claimId + "/" + Model.BeforePaymentResult.invoiceNumber);
 
             paramsList.Add("PurchaseAmt", summ);
-            paramsList.Add("PurchaseCurrency", "" + 978);
+            paramsList.Add("PurchaseCurrency", "" + curCodes[Model.PaymentMode.payrest.currency]);
             paramsList.Add("PurchaseCurrencyExponent", "" + 2);
 
             paramsList.Add("CaptureFlag", System.Configuration.ConfigurationManager.AppSettings["jccCaptureFlag"]);
@@ -60,9 +63,9 @@
 
             paramsList.Add("Signature", result);
             paramsList.Add("SignatureMethod", "SHA1");
-          //  var result_url = new Uri(Request.BaseServerAddress(), Url.Action("processingresult", new { id = "jcc", order = Model.Reservation.claimId.ToString(), invoice = Model.BeforePaymentResult.invoiceNumber })).ToString();
+            //  var result_url = new Uri(Request.BaseServerAddress(), Url.Action("processingresult", new { id = "jcc", order = Model.Reservation.claimId.ToString(), invoice = Model.BeforePaymentResult.invoiceNumber })).ToString();
             var result_url = new Uri(Request.BaseServerAddress(), Url.Action("processingresult", new { acc = "jcc", order = Model.Reservation.claimId.ToString(), invoice = Model.BeforePaymentResult.invoiceNumber })).ToString();
-			
+
             result_url = result_url.Replace("http:","https:");
 
 
