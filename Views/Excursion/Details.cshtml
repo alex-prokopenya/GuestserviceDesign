@@ -2247,11 +2247,11 @@ height: auto;
     {
         var arr = $('.turist_cnt').toArray();
 
-        var ad_price  = parseInt($('#ad_price').html());
-        var ch_price  = parseInt($('#ch_price').html());
-        var inf_price = parseInt($('#inf_price').html());
+        var ad_price  = parseFloat($('#ad_price').html());
+        var ch_price  = parseFloat($('#ch_price').html());
+        var inf_price = parseFloat($('#inf_price').html());
 
-        var total_price = parseInt($('#tour_price').html());
+        var total_price = parseFloat($('#tour_price').html());
 
         var rate = $('#price_rate').html();
 
@@ -2266,16 +2266,15 @@ height: auto;
             summ =  ad_price * parseInt($(arr[0]).val()) + 
                     ch_price * parseInt($(arr[1]).val()) + 
                     inf_price * parseInt($(arr[2]).val()); 
-
         }
+
+        summ = Math.round(summ * 100) / 100;
 
         //draw
         $('#total_price').html(summ);
         $('#total_rate').html(rate);
     }
-
-
-
+    
     var hideNmen = function(el){
 
         try
