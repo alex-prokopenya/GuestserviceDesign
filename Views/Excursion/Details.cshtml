@@ -1017,20 +1017,16 @@
                     }
                 },
 
-                excursionItemClick: function (data) {
-                    if (data && data.excursion) {
-                        doDescriptionHistory({ excursion: data.excursion.id });
-						
-						@if ((Request["cmd"] == "search") && (Request["filter"] != "null"))
-                        {
-                            <text>site.vm.excursion.navigateCommand('search',@Html.Raw(Request["filter"]));</text>
-                        }
-						
-						 $('#ex_cont').css('background-image','url(https://exgo.com@System.Configuration.ConfigurationManager.AppSettings["AppPath"]images/new/bg_option2.png)');
-						 $('#search_box').hide();
-						 $('#ex_cont').animate({top: '300px'});
-						 $('.bk-container').css('background-color','#ffffff');
-						 $('.bk-container').css('margin-bottom','-120px');
+				excursionItemClick: function (data) {
+
+
+				    if (data && data.excursion) {
+
+				        location.href = "@Url.Action("", "")/excursion/details/"+ data.excursion.id
+                                        + "?cmd=sl&fl=" + '@Html.Raw(Request["fl"])';
+                                    
+				        return;
+
                     }
                 },
                 excursionItemBookClick: function (data) {
@@ -1314,9 +1310,7 @@ $('#menu_opt_'+name_menu).slideToggle();
 <script id="excursion-filter-categorygroup" type="text/o">
     <div data-bind="if: filterCategorygroups().length > 0" class="bk-filter-categorygroup">
         <span style="color: #fff; cursor: pointer;" OnClick="open_menu_opt('cat')">@ExcursionStrings.Get("ExtraFiltersCategory")</span>
-
         <i class="fa fa-caret-down arrow_dop_menu"> </i>
-
         <br>
         <div data-bind="foreach: filterCategorygroups">
             <div data-bind="text: name, style: { marginLeft: name != null ? '20px' : '' }" style="color:#777777; font-weight:bold; text-transform: uppercase;"></div>
@@ -1326,7 +1320,6 @@ $('#menu_opt_'+name_menu).slideToggle();
                 </div>
             </div>
         </div>
-
     </div>
 
 </script>
@@ -1377,14 +1370,9 @@ $('#menu_opt_'+name_menu).slideToggle();
                 <i class="fa fa-caret-down arrow_dop_menu"> </i>
             </span>
         </span>
-
-
-
     </div>
     <div class="alldates" style="padding-left:20px; color:#ffbc23; margin-left: -15px; display: inline;position: relative;top: 1px; " data-bind="visible: filterDateChecked() == false">
         @ExcursionStrings.Get("ExtraFiltersAllDates")
-
-
 
     </div>
     <div class="onedate input-group date" style="padding-left:20px;   display: inline-block;" data-bind="visible: filterDateChecked() == true">
