@@ -95,16 +95,16 @@
 	    m.setZoom(14);
     }
     $(function () {
-	
+
 		var imageUrl = '@Url.ApiActionLink("catalogimage", "excursion", new { id = ".id.", i = ".i.", w = "width", h = "height" })';
-		
+
 		if(document.body.clientWidth<1600)
 			imageUrl = imageUrl.replace('width',document.body.clientWidth);
 		else
 			imageUrl = imageUrl.replace('width','1600');
-			
+
 		imageUrl = imageUrl.replace('height',document.body.clientWidth/1.6);
-		
+
         "use strict";
         site.vm.excursion = function () {
             var
@@ -581,6 +581,7 @@
                         so: (o && o.sortorder) ? o.sortorder : '',
                         fd: (o && o.fd) ? o.fd : '',
                         ld: (o && o.ld) ? o.ld : '',
+                        ex: @Model.NavigateState.Options.excursion,
 						rate: currentCurrency
                     },
                     function (result) {
@@ -826,7 +827,7 @@
                             if(site && site.vm && site.vm.shoppingcart && result && result.ordercount) {
                                 site.vm.shoppingcart.setOrderCount(result.ordercount);
                             }
-                           
+
                         }
                         $('#confirmpricemodal').modal({ show: true });
                     },
@@ -894,7 +895,7 @@
                 cartinfoPaxSelectInfant.push({value: i, name: i.toString()});
             }
 
-         
+
 
             filterDateChecked.subscribe(function (value) {
                 if( value ) {
@@ -1024,7 +1025,7 @@
 
 				        location.href = "@Url.Action("", "")/excursion/details/"+ data.excursion.id
                                         + "?cmd=sl&fl=" + '@Html.Raw(Request["fl"])';
-                                    
+
 				        return;
 
                     }
