@@ -40,8 +40,7 @@
    if(window.location.href.indexOf("excursions.") > -1) {
      document.querySelector('.youtube-player').style.display = "none"
   }
- </script>
- <script>
+
 		  // 2. This code loads the IFrame Player API code asynchronously.
 		  var tag = document.createElement('script');
 
@@ -131,7 +130,7 @@
 
     var departurePoint = @departurePoint;
     var provider = @partnerId;
-
+    var initDepartures = false;
     var first = true;
 
     defaults.format = '@ExcursionStrings.Get("DateTimeFormat")';
@@ -458,7 +457,9 @@
                 var regionText = departureSlugs[ result.searchdeparture ];
                 console.log(regionText);
                 if(result.searchdeparture > 1 )
-                {    history.pushState({ }, def_title + '. ' + regionText , '@Url.Action("", "")/excursion/' + regionText.toLowerCase() ); //!!!
+                {
+                    initDepartures = false;
+                    history.pushState({ }, def_title + '. ' + regionText , '@Url.Action("", "")/excursion/' + regionText.toLowerCase() ); //!!!
                     document.title = def_title + ' ' + regionText;
                 }
 
@@ -840,7 +841,7 @@
                     ds: (o && o.destinationstate) ? o.destinationstate.id : null,
                     s: (o && o.text && o.text != "") ? o.text : [],
                     c: (o && o.categories) ? o.categories : [],
-                    dp: (o && o.departures) ? o.departures : [],
+                    dp:  initDepartures && initDepartures.length > 0? initDepartures :( (o && o.departures) ? o.departures : [] ),
                     d: (o && o.destinations) ? o.destinations : [],
                     l: (o && o.languages) ? o.languages : [],
                     so: (o && o.sortorder) ? o.sortorder : '',
@@ -1587,7 +1588,14 @@
         }
         else if (Model.NavigateState != null)
         {
-            <text>site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));</text>
+            <text>
+                  site.vm.excursion.navigateCommand('@Model.NavigateState.Cmd', @Html.ToJson(Model.NavigateState.Options));                    
+
+                  if (@Model.NavigateState.Options.departures.Length > 0)
+                  {
+                      initDepartures = @Html.ToJson(Model.NavigateState.Options.departures);
+                  }
+            </text>
         }
         else
         {
