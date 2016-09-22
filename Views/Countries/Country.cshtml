@@ -12,6 +12,8 @@
         <p>@ViewBag.Title</p>
     </hgroup>
 
+    @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.CountryName);
+
     @if (Model.Regions.Length > 0)
     {
         <ul>
